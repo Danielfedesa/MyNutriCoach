@@ -52,6 +52,9 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
 
+    // Material Icons
+    implementation("androidx.compose.material:material-icons-extended:1.5.0")
+
     // Navigation
     implementation(libs.androidx.navigation.compose)
 
@@ -67,6 +70,7 @@ dependencies {
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
     implementation(libs.google.firebase.firestore.ktx)
+    implementation(libs.androidx.espresso.core)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
