@@ -12,6 +12,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -23,70 +25,45 @@ import androidx.navigation.NavHostController
 import com.google.firebase.firestore.FirebaseFirestore
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.daniel.mynutricoach.viewmodel.UserProfileViewModel
 
 
 @Composable
-    fun InitialProfile(navController: NavHostController, db: FirebaseFirestore, userId: String) {
-        var nombre by remember { mutableStateOf("") }
-        var apellidos by remember { mutableStateOf("") }
-        var fechaNacimiento by remember { mutableStateOf("") }
-        var sexo by remember { mutableStateOf("") }
-        var estatura by remember { mutableStateOf("") }
-        val context = LocalContext.current
+    fun InitialProfile(navController: NavHostController, userProfileViewModel: UserProfileViewModel = viewModel()) {
+    val context = LocalContext.current
+    val userData by userProfileViewModel.userData.collectAsState()
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 32.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+    LaunchedEffect(Unit) {
+        userProfileViewModel.fetchUserData()
+    }
+
+    Column(
+        modifier = Modifier.fillMaxSize().padding(32.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text("Configura tu Perfil", fontSize = 24.sp)
+
+        Spacer(Modifier.height(16.dp))
+
+        userData?.let { data ->
+            Text("Bienvenido, ${data["email"] ?: "Usuario"}")
+        } ?: run {
+            Text("Cargando datos...")
+        }
+
+        Spacer(Modifier.height(16.dp))
+
+        Button(
+            onClick = {
+                Toast.makeText(context, "Perfil Guardado", Toast.LENGTH_SHORT).show()
+                navController.navigate("Progress") {
+                    popUpTo("InitialProfile") { inclusive = true }
+                }
+            },
+            modifier = Modifier.fillMaxWidth()
         ) {
-            Text(text = "Nombre", fontSize = 20.sp)
-            TextField(value = nombre, onValueChange = { nombre = it }, modifier = Modifier.fillMaxWidth())
-
-            Spacer(Modifier.height(8.dp))
-
-            Text(text = "Apellido", fontSize = 20.sp)
-            TextField(value = apellidos, onValueChange = { apellidos = it }, modifier = Modifier.fillMaxWidth())
-
-            Spacer(Modifier.height(8.dp))
-
-            Text(text = "Fecha de Nacimiento", fontSize = 20.sp)
-            TextField(value = fechaNacimiento, onValueChange = { fechaNacimiento = it }, modifier = Modifier.fillMaxWidth())
-
-            Spacer(Modifier.height(8.dp))
-
-            Text(text = "Sexo", fontSize = 20.sp)
-            TextField(value = sexo, onValueChange = { sexo = it }, modifier = Modifier.fillMaxWidth())
-
-            Spacer(Modifier.height(8.dp))
-
-            Text(text = "Estatura (cm)", fontSize = 20.sp)
-            TextField(value = estatura, onValueChange = { estatura = it }, modifier = Modifier.fillMaxWidth())
-
-            Spacer(Modifier.height(16.dp))
-
-            Button(onClick = {
-                val userProfile = hashMapOf(
-                    "nombre" to nombre,
-                    "apellido" to apellidos,
-                    "fechaNacimiento" to fechaNacimiento,
-                    "sexo" to sexo,
-                    "estatura" to estatura
-                )
-
-                db.collection("users").document(userId)
-                    .set(userProfile)
-                    .addOnSuccessListener {
-                        navController.navigate("progress") {
-                            popUpTo("perfilInicial") { inclusive = true }
-                        }
-                    }
-                    .addOnFailureListener {
-                        Toast.makeText(context, "Error al guardar datos", Toast.LENGTH_SHORT).show()
-                    }
-            }) {
-                Text(text = "Guardar")
-            }
+            Text("Continuar")
         }
     }
+}

@@ -2,23 +2,40 @@ package com.daniel.mynutricoach.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.daniel.mynutricoach.screens.*
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
+import com.daniel.mynutricoach.viewmodel.HomeViewModel
+import com.daniel.mynutricoach.viewmodel.RegisterViewModel
+import com.daniel.mynutricoach.viewmodel.UserProfileViewModel
 
 @Composable
-fun AppNavigation (auth: FirebaseAuth, db: FirebaseFirestore, userId: String) {
-    val navigationController = rememberNavController()
-    NavHost(navController = navigationController, startDestination = AppScreens.Login.ruta)
-    {
-        composable(AppScreens.Login.ruta) { LoginScreen(navigationController) }
-        composable(AppScreens.Home.ruta){ Home(navigationController, auth) }
-        composable(AppScreens.UsuariosAlta.ruta){ UsuarioAlta(navigationController, auth, viewModel()) }
-        composable(AppScreens.Progress.ruta){ Progress() }
-        composable(AppScreens.Register.ruta) { Register(navigationController, auth, db) }
-        composable(AppScreens.InitialProfile.ruta) { InitialProfile(navigationController, db, userId) }
+fun AppNavigation() {
+    val navController = rememberNavController()
+
+    NavHost(navController = navController, startDestination = AppScreens.Login.ruta) {
+        composable(AppScreens.Login.ruta) { LoginScreen(navController) }
+        composable(AppScreens.Home.ruta) { Home(navController) }
+        composable(AppScreens.Progress.ruta) { Progress() }
+
+        // Pantalla de Registro con su ViewModel asociado
+        composable(AppScreens.Register.ruta) {
+            val registerViewModel: RegisterViewModel = viewModel()
+            Register(navController, registerViewModel)
+        }
+
+        // Pantalla de Perfil Inicial con su propio ViewModel
+        composable(AppScreens.InitialProfile.ruta) {
+            val userProfileViewModel: UserProfileViewModel = viewModel()
+            InitialProfile(navController, userProfileViewModel)
+        }
+
+        // Pantalla Home con su ViewModel asociado
+        composable(AppScreens.Home.ruta) {
+            val homeViewModel: HomeViewModel = viewModel()
+            Home(navController, homeViewModel)
+        }
     }
 }

@@ -19,15 +19,10 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        auth = Firebase.auth
-        db = FirebaseFirestore.getInstance()
-
-        val userId = auth.currentUser?.uid ?: ""
-
         enableEdgeToEdge()
         setContent {
             MyNutriCoachTheme {
-                AppNavigation (auth, db, userId)
+                AppNavigation ()
 
             }
         }

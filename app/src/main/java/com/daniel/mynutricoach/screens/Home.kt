@@ -8,33 +8,23 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.google.firebase.auth.FirebaseAuth
+import com.daniel.mynutricoach.viewmodel.HomeViewModel
 
 @Composable
-fun Home(navController: NavHostController, auth: FirebaseAuth) {
-    Column(modifier = Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
-        Spacer(modifier = Modifier.weight(1f))
-        Text(text = "Menu Principal", fontSize = 24.sp)
+fun Home(navController: NavHostController, homeViewModel: HomeViewModel = viewModel()) {
+    val userEmail = homeViewModel.getCurrentUserEmail()
 
-        Spacer(modifier = Modifier.weight(1f))
-        Button(onClick = { navController.navigate("UsuariosAlta") }) {
-            Text(text = "Alta Usuario")
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = "Bienvenido a la Home")
+        Text(text = "Usuario: ${userEmail ?: "No autenticado"}")
+
+        Button(onClick = { navController.navigate("Progress") }) {
+            Text(text = "Ir a Progress")
         }
-
-        Spacer(modifier = Modifier.weight(1f))
-        Button(onClick = { navController.navigate("usuarioEliminar") }) {
-            Text(text = "Eliminar Usuario")
-        }
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        Button(onClick = { navController.navigate("usuarioModificar") }) {
-            Text(text = "Modificar Usuario")
-        }
-
-        Spacer(modifier = Modifier.weight(1f))
-
     }
 }

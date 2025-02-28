@@ -14,8 +14,9 @@ import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,18 +31,35 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.daniel.mynutricoach.ui.components.CustomTextField
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
+import com.daniel.mynutricoach.viewmodel.RegisterViewModel
 
 @Composable
-fun Register(navController: NavHostController, auth: FirebaseAuth, db: FirebaseFirestore) {
+fun Register(navController: NavHostController, registerViewModel: RegisterViewModel = viewModel()) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
+    var role by remember { mutableStateOf("cliente") }
     var termsAndConditions by remember { mutableStateOf(false) }
     val context = LocalContext.current
+
+    val registerState by registerViewModel.registerState.collectAsState()
+
+    // Manejo de resultado del registro
+    LaunchedEffect(registerState) {
+        registerState?.let { result ->
+            result.onSuccess { userId ->
+                Toast.makeText(context, "Registro exitoso. UID: $userId", Toast.LENGTH_SHORT).show()
+                navController.navigate("InitialProfile") {
+                    popUpTo("Register") { inclusive = true }
+                }
+            }.onFailure { error ->
+                Toast.makeText(context, error.message, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -157,44 +175,12 @@ fun Register(navController: NavHostController, auth: FirebaseAuth, db: FirebaseF
 
         Button(
             onClick = {
-                if (email.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-                    Toast.makeText(context, "Completa todos los campos", Toast.LENGTH_SHORT).show()
-                    return@Button
-                }
-
-                if (password != confirmPassword) {
-                    Toast.makeText(context, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show()
-                    return@Button
-                }
-
-                if (!termsAndConditions) {
-                    Toast.makeText(context, "Debes aceptar los términos y condiciones", Toast.LENGTH_SHORT).show()
-                    return@Button
-                }
-
-                auth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            val userId = auth.currentUser?.uid ?: return@addOnCompleteListener
-
-                            val user = hashMapOf("email" to email, "userId" to userId)
-
-                            db.collection("users").document(userId)
-                                .set(user)
-                                .addOnSuccessListener {
-                                    navController.navigate("InitialProfile") {
-                                        popUpTo("Register") { inclusive = true }
-                                    }
-                                }
-                        } else {
-                            Toast.makeText(context, "Error: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
-                        }
-                    }
+                registerViewModel.register(email, password, confirmPassword, role)
             },
             enabled = termsAndConditions,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(text = "Crear Cuenta")
+            Text("Crear Cuenta")
         }
     }
 }

@@ -3,10 +3,9 @@ package com.daniel.mynutricoach.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.daniel.mynutricoach.models.Usuario
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-
+/*
 class UsuarioViewModel: ViewModel(){
 
     private val _dni = MutableLiveData<String>()
@@ -63,3 +62,5 @@ class UsuarioViewModel: ViewModel(){
     = dni.isNotEmpty() && nombre.isNotEmpty() && apellido1.isNotEmpty() && apellido2.isNotEmpty() && email.isNotEmpty() && telefono != 0 && edad != 0 && peso != 0.0 && estatura != 0.0 && sexo.isNotEmpty()
 
 }
+
+*/
