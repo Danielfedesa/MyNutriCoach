@@ -14,7 +14,7 @@ fun AppNavigation (auth: FirebaseAuth, db: FirebaseFirestore, userId: String) {
     val navigationController = rememberNavController()
     NavHost(navController = navigationController, startDestination = AppScreens.Login.ruta)
     {
-        composable(AppScreens.Login.ruta) { Login(navigationController, auth) }
+        composable(AppScreens.Login.ruta) { LoginScreen(navigationController) }
         composable(AppScreens.Home.ruta){ Home(navigationController, auth) }
         composable(AppScreens.UsuariosAlta.ruta){ UsuarioAlta(navigationController, auth, viewModel()) }
         composable(AppScreens.Progress.ruta){ Progress() }

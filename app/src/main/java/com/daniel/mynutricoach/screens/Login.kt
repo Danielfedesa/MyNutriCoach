@@ -1,6 +1,5 @@
 package com.daniel.mynutricoach.screens
 
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -19,6 +18,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,30 +32,35 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.daniel.mynutricoach.R
 import com.daniel.mynutricoach.ui.components.CustomTextField
-import com.google.firebase.auth.FirebaseAuth
-
-
-/*
-    // Si el usuario ya está autenticado, navegamos a la pantalla Progress
-    LaunchedEffect(currentUser) {
-        if (currentUser != null) {
-            navController.navigate("Progress") {
-                popUpTo("Login") { inclusive = true }
-            }
-        }
-    }
- */
+import com.daniel.mynutricoach.viewmodel.LoginViewModel
 
     // Login Screen
     @Composable
-    fun Login(navController: NavHostController, auth: FirebaseAuth) {
+    fun LoginScreen(navController: NavHostController, loginViewModel: LoginViewModel = viewModel()) {
         var email by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
         val context = LocalContext.current
 
+        // Estados del ViewModel
+        val isAuthenticated by loginViewModel.isAuthenticated.collectAsState()
+        val errorMessage by loginViewModel.errorMessage.collectAsState()
+
+        /*
+        // Verifica si hay una sesión activa al abrir la app
+        LaunchedEffect(key1 = Unit) {
+            if (isAuthenticated == null) { // Evita ejecutar checkSession múltiples veces
+                loginViewModel.checkSession { route ->
+                    navController.navigate(route) {
+                        popUpTo("Login") { inclusive = true }
+                    }
+                }
+            }
+        }
+*/
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
@@ -120,22 +125,11 @@ import com.google.firebase.auth.FirebaseAuth
 
                 Button(
                     onClick = {
-                        if (email.isEmpty() || password.isEmpty()) {
-                            Toast.makeText(context, "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show()
-                            return@Button
-                        }
-
-                        auth.signInWithEmailAndPassword(email, password)
-                            .addOnCompleteListener { task ->
-                                if (task.isSuccessful) {
-                                    navController.navigate("Home")
-                                    Log.i("Login", "Inicio de sesión correcto")
-                                } else {
-                                    val errorMsg = task.exception?.message ?: "Error desconocido"
-                                    Toast.makeText(context, "Error: $errorMsg", Toast.LENGTH_SHORT).show()
-                                    Log.i("Login", errorMsg)
-                                }
+                        loginViewModel.signIn(email, password) { route ->
+                            navController.navigate(route) {
+                                popUpTo("Login") { inclusive = true }
                             }
+                        }
                     },
                     modifier = Modifier
                         .fillMaxWidth()
@@ -159,6 +153,11 @@ import com.google.firebase.auth.FirebaseAuth
                             navController.navigate("Register")
                         }
                     )
+                }
+
+                // Muestra un mensaje de error si hay problemas con el login
+                errorMessage?.let {
+                    Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
                 }
             }
         }
