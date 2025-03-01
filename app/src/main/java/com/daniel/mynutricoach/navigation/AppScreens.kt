@@ -6,4 +6,6 @@ sealed class AppScreens (val ruta:String){
     object Progress: AppScreens("Progress")
     object Register: AppScreens("Register")
     object InitialProfile : AppScreens("InitialProfile")
+    object Terms : AppScreens("Terms")
+    object Privacy : AppScreens("Privacy")
 }

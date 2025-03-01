@@ -1,5 +1,7 @@
 package com.daniel.mynutricoach.viewmodel
 
+import android.content.Context
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -77,6 +79,20 @@ class LoginViewModel : ViewModel() {
             }
             .addOnFailureListener { e ->
                 _errorMessage.value = "Error al obtener datos del usuario: ${e.message}"
+            }
+    }
+
+    // Recuperar la contraseña
+    fun resetPassword(email: String, context: Context) {
+        if (email.isEmpty()) {
+            return
+        }
+
+        auth.sendPasswordResetEmail(email)
+            .addOnSuccessListener {
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(context, "Error: ${e.message}", Toast.LENGTH_LONG).show()
             }
     }
 }

@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.daniel.mynutricoach.screens.*
 import com.daniel.mynutricoach.viewmodel.HomeViewModel
+import com.daniel.mynutricoach.viewmodel.InitialProfileViewModel
 import com.daniel.mynutricoach.viewmodel.RegisterViewModel
 import com.daniel.mynutricoach.viewmodel.UserProfileViewModel
 
@@ -28,8 +29,8 @@ fun AppNavigation() {
 
         // Pantalla de Perfil Inicial con su propio ViewModel
         composable(AppScreens.InitialProfile.ruta) {
-            val userProfileViewModel: UserProfileViewModel = viewModel()
-            InitialProfile(navController, userProfileViewModel)
+            val initialProfileViewModel: InitialProfileViewModel = viewModel()
+            InitialProfile(navController, initialProfileViewModel)
         }
 
         // Pantalla Home con su ViewModel asociado
@@ -37,5 +38,10 @@ fun AppNavigation() {
             val homeViewModel: HomeViewModel = viewModel()
             Home(navController, homeViewModel)
         }
+
+        // Terminos y Condiciones
+        composable(AppScreens.Terms.ruta) { TermsScreen(navController) }
+        composable(AppScreens.Privacy.ruta) { PrivacyScreen(navController) }
+
     }
 }

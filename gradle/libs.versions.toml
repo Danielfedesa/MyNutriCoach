@@ -10,6 +10,7 @@ activityCompose = "1.10.0"
 composeBom = "2024.04.01"
 
 # Navigation Compose
+material = "1.7.8"
 navigationCompose = "2.7.7"
 
 # Firebase
@@ -27,6 +28,7 @@ firebaseFirestoreKtxVersion = "25.1.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-material = { module = "androidx.compose.material:material", version.ref = "material" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }

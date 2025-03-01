@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.daniel.mynutricoach.navigation.AppScreens
 import com.daniel.mynutricoach.ui.components.CustomTextField
 import com.daniel.mynutricoach.viewmodel.RegisterViewModel
 
@@ -99,7 +100,11 @@ fun Register(navController: NavHostController, registerViewModel: RegisterViewMo
         )
 
         // Campo correo con la función CustomTextField
-        CustomTextField(value = email, onValueChange = { email = it }, placeholder = "ejemplo@ejemplo.com")
+        CustomTextField(
+            value = email,
+            onValueChange = { email = it },
+            placeholder = "ejemplo@ejemplo.com"
+        )
 
         Spacer(Modifier.height(12.dp))
 
@@ -113,12 +118,22 @@ fun Register(navController: NavHostController, registerViewModel: RegisterViewMo
         )
 
         // Campo contraseña con la función CustomTextField
-        CustomTextField(value = password, onValueChange = { password = it }, placeholder = "Crear contraseña", isPassword = true)
+        CustomTextField(
+            value = password,
+            onValueChange = { password = it },
+            placeholder = "Crear contraseña",
+            isPassword = true
+        )
 
         Spacer(Modifier.height(12.dp))
 
         // Campo contraseña con la función CustomTextField
-        CustomTextField(value = confirmPassword, onValueChange = { confirmPassword = it }, placeholder = "Confirmar contraseña", isPassword = true)
+        CustomTextField(
+            value = confirmPassword,
+            onValueChange = { confirmPassword = it },
+            placeholder = "Confirmar contraseña",
+            isPassword = true
+        )
 
         Spacer(Modifier.height(16.dp))
 
@@ -138,49 +153,51 @@ fun Register(navController: NavHostController, registerViewModel: RegisterViewMo
             val annotatedString = buildAnnotatedString {
                 append("He leído y estoy de acuerdo con los ")
 
-                // Términos y Condiciones CLICKEABLES
                 pushStringAnnotation(tag = "terms", annotation = "terms")
-                withStyle(style = SpanStyle(color = Color.Blue)) {
-                    append("Términos y Condiciones")
-                }
+                withStyle(style = SpanStyle(color = Color.Blue)) { append("Términos y Condiciones") }
                 pop()
 
                 append(" y la ")
 
-                // Política de Privacidad CLICKEABLE
                 pushStringAnnotation(tag = "privacy", annotation = "privacy")
-                withStyle(style = SpanStyle(color = Color.Blue)) {
-                    append("Política de Privacidad")
-                }
+                withStyle(style = SpanStyle(color = Color.Blue)) { append("Política de Privacidad") }
                 pop()
             }
 
             ClickableText(
                 text = annotatedString,
                 onClick = { offset ->
-                    annotatedString.getStringAnnotations(tag = "terms", start = offset, end = offset)
+                    annotatedString.getStringAnnotations(
+                        tag = "terms",
+                        start = offset,
+                        end = offset
+                    )
                         .firstOrNull()?.let {
-                            navController.navigate("TermsScreen") // Navega a la pantalla de términos
+                            navController.navigate(AppScreens.Terms.ruta)
                         }
 
-                    annotatedString.getStringAnnotations(tag = "privacy", start = offset, end = offset)
+                    annotatedString.getStringAnnotations(
+                        tag = "privacy",
+                        start = offset,
+                        end = offset
+                    )
                         .firstOrNull()?.let {
-                            navController.navigate("PrivacyScreen") // Navega a la pantalla de privacidad
+                            navController.navigate(AppScreens.Privacy.ruta)
                         }
                 }
             )
         }
 
-        Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.height(16.dp))
 
-        Button(
-            onClick = {
-                registerViewModel.register(email, password, confirmPassword, role)
-            },
-            enabled = termsAndConditions,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text("Crear Cuenta")
+            Button(
+                onClick = {
+                    registerViewModel.register(email, password, confirmPassword, role)
+                },
+                enabled = termsAndConditions,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text("Crear Cuenta")
+            }
         }
     }
-}

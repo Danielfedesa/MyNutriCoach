@@ -73,6 +73,9 @@ dependencies {
     implementation(libs.google.firebase.firestore.ktx)
     implementation(libs.androidx.espresso.core)
 
+    // Material2
+    implementation(libs.androidx.material)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
