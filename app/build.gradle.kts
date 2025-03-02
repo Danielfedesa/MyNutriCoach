@@ -51,6 +51,8 @@ dependencies {
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
+
+    // Material3
     implementation(libs.androidx.material3)
 
     // Material Icons
@@ -66,15 +68,14 @@ dependencies {
     implementation(libs.firebase.auth)
 
     // LiveData
-    implementation("androidx.compose.runtime:runtime-livedata:1.3.2")
+    implementation(libs.androidx.livedata)
 
     // ViewModel
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
-    implementation(libs.google.firebase.firestore.ktx)
+    implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.firebase.firestore.ktx)
     implementation(libs.androidx.espresso.core)
+    implementation(libs.androidx.viewmodel.compose)
 
-    // Material2
-    implementation(libs.androidx.material)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

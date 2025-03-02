@@ -1,36 +1,18 @@
 package com.daniel.mynutricoach.screens
 
 import android.widget.Toast
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.ClickableText
-import androidx.compose.material3.Button
-import androidx.compose.material3.Checkbox
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.unit.*
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.daniel.mynutricoach.navigation.AppScreens
@@ -42,7 +24,6 @@ fun Register(navController: NavHostController, registerViewModel: RegisterViewMo
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }
-    var role by remember { mutableStateOf("cliente") }
     var termsAndConditions by remember { mutableStateOf(false) }
     val context = LocalContext.current
 
@@ -52,7 +33,7 @@ fun Register(navController: NavHostController, registerViewModel: RegisterViewMo
     LaunchedEffect(registerState) {
         registerState?.let { result ->
             result.onSuccess { userId ->
-                Toast.makeText(context, "Registro exitoso. UID: $userId", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Se registró correctamente", Toast.LENGTH_SHORT).show()
                 navController.navigate("InitialProfile") {
                     popUpTo("Register") { inclusive = true }
                 }
@@ -73,8 +54,7 @@ fun Register(navController: NavHostController, registerViewModel: RegisterViewMo
             text = "Crear una cuenta",
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .align(Alignment.Start)
+            modifier = Modifier.align(Alignment.Start)
         )
 
         Spacer(Modifier.height(12.dp))
@@ -149,38 +129,34 @@ fun Register(navController: NavHostController, registerViewModel: RegisterViewMo
 
             Spacer(Modifier.width(8.dp))
 
-            // Texto con enlaces clickeables
             val annotatedString = buildAnnotatedString {
                 append("He leído y estoy de acuerdo con los ")
 
                 pushStringAnnotation(tag = "terms", annotation = "terms")
-                withStyle(style = SpanStyle(color = Color.Blue)) { append("Términos y Condiciones") }
+                withStyle(style = SpanStyle(color = Color.Blue, fontWeight = FontWeight.Bold)) {
+                    append("Términos y Condiciones")
+                }
                 pop()
 
                 append(" y la ")
 
                 pushStringAnnotation(tag = "privacy", annotation = "privacy")
-                withStyle(style = SpanStyle(color = Color.Blue)) { append("Política de Privacidad") }
+                withStyle(style = SpanStyle(color = Color.Blue, fontWeight = FontWeight.Bold)) {
+                    append("Política de Privacidad")
+                }
                 pop()
             }
 
             ClickableText(
                 text = annotatedString,
+                style = TextStyle(fontSize = 14.sp),
                 onClick = { offset ->
-                    annotatedString.getStringAnnotations(
-                        tag = "terms",
-                        start = offset,
-                        end = offset
-                    )
+                    annotatedString.getStringAnnotations(tag = "terms", start = offset, end = offset)
                         .firstOrNull()?.let {
                             navController.navigate(AppScreens.Terms.ruta)
                         }
 
-                    annotatedString.getStringAnnotations(
-                        tag = "privacy",
-                        start = offset,
-                        end = offset
-                    )
+                    annotatedString.getStringAnnotations(tag = "privacy", start = offset, end = offset)
                         .firstOrNull()?.let {
                             navController.navigate(AppScreens.Privacy.ruta)
                         }
@@ -188,16 +164,17 @@ fun Register(navController: NavHostController, registerViewModel: RegisterViewMo
             )
         }
 
-            Spacer(Modifier.height(16.dp))
+        Spacer(Modifier.height(16.dp))
 
-            Button(
-                onClick = {
-                    registerViewModel.register(email, password, confirmPassword, role)
-                },
-                enabled = termsAndConditions,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Crear Cuenta")
-            }
+        // Botón de registro
+        Button(
+            onClick = {
+                registerViewModel.register(email, password, confirmPassword)
+            },
+            enabled = termsAndConditions,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Text("Crear Cuenta")
         }
     }
+}

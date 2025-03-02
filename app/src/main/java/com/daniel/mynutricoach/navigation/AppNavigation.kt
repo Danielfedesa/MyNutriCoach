@@ -1,5 +1,6 @@
 package com.daniel.mynutricoach.navigation
 
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -10,8 +11,8 @@ import com.daniel.mynutricoach.screens.*
 import com.daniel.mynutricoach.viewmodel.HomeViewModel
 import com.daniel.mynutricoach.viewmodel.InitialProfileViewModel
 import com.daniel.mynutricoach.viewmodel.RegisterViewModel
-import com.daniel.mynutricoach.viewmodel.UserProfileViewModel
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppNavigation() {
     val navController = rememberNavController()

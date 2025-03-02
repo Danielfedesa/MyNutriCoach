@@ -58,10 +58,10 @@ import kotlinx.coroutines.launch
         val snackbarHostState = remember { SnackbarHostState() }
         val coroutineScope = rememberCoroutineScope()
 
-        /*
+    /*
         // Verifica si hay una sesión activa al abrir la app
-        LaunchedEffect(key1 = Unit) {
-            if (isAuthenticated == null) { // Evita ejecutar checkSession múltiples veces
+        LaunchedEffect(key1 = isAuthenticated) {
+            if (isAuthenticated == null) {
                 loginViewModel.checkSession { route ->
                     navController.navigate(route) {
                         popUpTo("Login") { inclusive = true }
@@ -82,7 +82,7 @@ import kotlinx.coroutines.launch
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .weight(0.3f) // Mantiene la proporción original
+                    .weight(0.3f) // Espacio para el logo
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.logo),
@@ -132,16 +132,7 @@ import kotlinx.coroutines.launch
                         modifier = Modifier
                             .align(Alignment.Start)
                             .clickable {
-                                if (email.isBlank()) {
-                                    coroutineScope.launch {
-                                        snackbarHostState.showSnackbar("Por favor, ingresa tu correo electrónico")
-                                    }
-                                } else {
-                                    loginViewModel.resetPassword(email, context)
-                                    coroutineScope.launch {
-                                        snackbarHostState.showSnackbar("Se ha enviado un correo para restablecer tu contraseña")
-                                    }
-                                }
+                                loginViewModel.resetPassword(email)
                             }
                     )
 
