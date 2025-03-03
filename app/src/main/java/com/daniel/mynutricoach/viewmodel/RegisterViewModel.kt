@@ -25,7 +25,7 @@ class RegisterViewModel(private val repository: AuthRepository = AuthRepository(
         }
 
         viewModelScope.launch {
-            val result = repository.registerUser(email, password) // 🔹 Se quita el parámetro `role`, ya que se define en AuthRepository
+            val result = repository.registerUser(email, password)
             _registerState.value = result
         }
     }

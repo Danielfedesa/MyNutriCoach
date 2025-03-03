@@ -3,15 +3,12 @@ package com.daniel.mynutricoach.screens
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.*
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
@@ -129,40 +126,41 @@ fun Register(navController: NavHostController, registerViewModel: RegisterViewMo
 
             Spacer(Modifier.width(8.dp))
 
-            val annotatedString = buildAnnotatedString {
-                append("He leído y estoy de acuerdo con los ")
+            Column {
+                Text(
+                    text = "He leído y estoy de acuerdo con los",
+                    fontSize = 14.sp
+                )
 
-                pushStringAnnotation(tag = "terms", annotation = "terms")
-                withStyle(style = SpanStyle(color = Color.Blue, fontWeight = FontWeight.Bold)) {
-                    append("Términos y Condiciones")
-                }
-                pop()
-
-                append(" y la ")
-
-                pushStringAnnotation(tag = "privacy", annotation = "privacy")
-                withStyle(style = SpanStyle(color = Color.Blue, fontWeight = FontWeight.Bold)) {
-                    append("Política de Privacidad")
-                }
-                pop()
-            }
-
-            ClickableText(
-                text = annotatedString,
-                style = TextStyle(fontSize = 14.sp),
-                onClick = { offset ->
-                    annotatedString.getStringAnnotations(tag = "terms", start = offset, end = offset)
-                        .firstOrNull()?.let {
+                Row {
+                    Text(
+                        text = "Términos y Condiciones",
+                        color = Color.Blue,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.clickable {
                             navController.navigate(AppScreens.Terms.ruta)
                         }
+                    )
 
-                    annotatedString.getStringAnnotations(tag = "privacy", start = offset, end = offset)
-                        .firstOrNull()?.let {
-                            navController.navigate(AppScreens.Privacy.ruta)
-                        }
+                    Text(
+                        text = " y la",
+                        fontSize = 14.sp
+                    )
                 }
-            )
+
+                Text(
+                    text = "Política de Privacidad",
+                    color = Color.Blue,
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.clickable {
+                        navController.navigate(AppScreens.Privacy.ruta)
+                    }
+                )
+            }
         }
+
 
         Spacer(Modifier.height(16.dp))
 

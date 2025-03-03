@@ -46,7 +46,7 @@ class LoginViewModel(
             result.onSuccess {
                 fetchUserRole(onNavigate)
             }.onFailure {
-                _errorMessage.value = it.message ?: "Error desconocido"
+                _errorMessage.value = "Los datos introducidos son incorrectos, verifiquelos e inténtelo de nuevo."
             }
         }
     }
@@ -75,7 +75,7 @@ class LoginViewModel(
             result.onSuccess {
                 _errorMessage.value = "Se ha enviado un correo para restablecer tu contraseña"
             }.onFailure {
-                _errorMessage.value = it.message ?: "Error al enviar el correo"
+                _errorMessage.value = "El correo ingresado no está registrado"
             }
         }
     }
