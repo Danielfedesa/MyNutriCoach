@@ -42,8 +42,8 @@ fun InitialProfile(navController: NavHostController, initialProfileViewModel: In
     var telefono by remember { mutableStateOf(userData.telefono) }
     var fechaNacimiento by remember { mutableStateOf(userData.fechaNacimiento) }
     var sexo by remember { mutableStateOf(userData.sexo) }
-    var estatura by remember { mutableStateOf(userData.estatura.toString()) }
-    var pesoObjetivo by remember { mutableStateOf(userData.pesoObjetivo.toString()) }
+    var estatura by remember { mutableStateOf(userData.estatura?.toString() ?: "") } // Si es null, muestra ""
+    var pesoObjetivo by remember { mutableStateOf(userData.pesoObjetivo?.toString() ?: "") } // Si es null, muestra ""
 
     // Estado que controla si el botón debe estar habilitado
     val isButtonEnabled by remember {

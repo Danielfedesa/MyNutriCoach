@@ -9,6 +9,6 @@ data class User(
     val telefono: String = "",
     val fechaNacimiento: String = "",
     val sexo: String = "",
-    val estatura: Int = 0,
-    val pesoObjetivo: Double = 0.0
+    val estatura: Int? = null, // Permite valores nulos para no mostrar 0 en la interfaz
+    val pesoObjetivo: Double? = null // Permite valores nulos para no mostrar 0 en la interfaz
 )
