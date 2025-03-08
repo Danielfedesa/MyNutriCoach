@@ -51,7 +51,7 @@ import com.daniel.mynutricoach.viewmodel.LoginViewModel
         val isAuthenticated by loginViewModel.isAuthenticated.collectAsState()
         val errorMessage by loginViewModel.errorMessage.collectAsState()
 
-    /*
+
         // Verifica si hay una sesión activa al abrir la app
         LaunchedEffect(key1 = isAuthenticated) {
             if (isAuthenticated == null) {
@@ -62,7 +62,7 @@ import com.daniel.mynutricoach.viewmodel.LoginViewModel
                 }
             }
         }
-*/
+
     Column(
         modifier = Modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally

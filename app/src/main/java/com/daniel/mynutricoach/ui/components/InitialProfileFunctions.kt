@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
@@ -101,6 +102,7 @@ fun CustomOutlinedTextField(
         onValueChange = onValueChange,
         label = { Text(label) },
         modifier = Modifier.fillMaxWidth(),
-        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = keyboardType)
+        keyboardOptions = KeyboardOptions.Default.copy(keyboardType = keyboardType),
+        shape = RoundedCornerShape(12.dp)
     )
 }
