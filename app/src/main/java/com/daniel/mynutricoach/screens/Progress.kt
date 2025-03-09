@@ -6,7 +6,10 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.daniel.mynutricoach.viewmodel.ProgressViewModel
 import com.daniel.mynutricoach.ui.components.BottomNavBar
@@ -18,18 +21,33 @@ import com.daniel.mynutricoach.ui.components.GraphComponent
 @Composable
 fun Progress(navController: NavHostController, progressViewModel: ProgressViewModel = viewModel()) {
 
+    val userName by progressViewModel.userName.collectAsState()
     val progressHistory by progressViewModel.progressHistory.collectAsState()
 
-    Scaffold(bottomBar = { BottomNavBar(navController, "Progress") }) { paddingValues ->
+    Scaffold(
+        topBar = {
+            Column { // 🔹 Colocamos el carrusel dentro de una `Column` para que se renderice bien
+                CarouselComponent()
+            }
+        },
+        bottomBar = { BottomNavBar(navController, "Progress") } // 🔹 Se mantiene la barra de navegación inferior
+    ) { paddingValues ->
         Column(
             modifier = Modifier
-                .padding(paddingValues)
                 .fillMaxSize()
+                .padding(paddingValues)
                 .verticalScroll(rememberScrollState())
         ) {
-            CarouselComponent()
-
             Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = "Hola, $userName 👋",
+                modifier = Modifier
+                    .padding(bottom = 24.dp)
+                    .align(Alignment.CenterHorizontally),
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold
+            )
 
             if (progressHistory.isNotEmpty()) {
                 val latestPeso = progressHistory.lastOrNull()?.get("peso") as? Float ?: 0f
@@ -40,30 +58,42 @@ fun Progress(navController: NavHostController, progressViewModel: ProgressViewMo
                 val masas = progressHistory.map { (it["timestamp"] as? Long ?: 0L) to (it["masa_muscular"] as? Float ?: 0f) }
                 val grasas = progressHistory.map { (it["timestamp"] as? Long ?: 0L) to (it["grasa"] as? Float ?: 0f) }
 
-                // Mostrar valores más recientes antes de cada gráfica
                 Text(
-                    text = "Peso actual: ${"%.1f".format(latestPeso)} kg", // Peso con el ultimo valor
-                    modifier = Modifier.padding(16.dp),
-                    style = MaterialTheme.typography.headlineSmall
+                    text = "Peso actual: ${"%.1f".format(latestPeso)} kg",
+                    modifier = Modifier.padding(start = 16.dp),
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
                 )
                 GraphComponent(pesos, "kg")
 
+                Spacer(modifier = Modifier.height(16.dp))
+
                 Text(
-                    text = "Masa muscular: ${"%.1f".format(latestMasa)} kg", // Masa muscular con el ultimo valor
-                    modifier = Modifier.padding(16.dp),
-                    style = MaterialTheme.typography.headlineSmall
+                    text = "Masa muscular: ${"%.1f".format(latestMasa)} kg",
+                    modifier = Modifier.padding(start = 16.dp),
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
                 )
                 GraphComponent(masas, "kg")
 
+                Spacer(modifier = Modifier.height(16.dp))
+
                 Text(
-                    text = "Porcentaje de grasa: ${"%.1f".format(latestGrasa)} %", // Grasa con el ultimo valor
-                    modifier = Modifier.padding(8.dp),
-                    style = MaterialTheme.typography.headlineSmall
+                    text = "Porcentaje de grasa: ${"%.1f".format(latestGrasa)} %",
+                    modifier = Modifier.padding(start = 16.dp),
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
                 )
                 GraphComponent(grasas, "%")
             } else {
-                Text("No hay historial de datos", modifier = Modifier.padding(16.dp))
+                Text(
+                    text = "No hay historial de datos",
+                    modifier = Modifier.padding(16.dp),
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Normal
+                )
             }
         }
     }
 }
+

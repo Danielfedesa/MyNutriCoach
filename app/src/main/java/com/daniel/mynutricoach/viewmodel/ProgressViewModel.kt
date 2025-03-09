@@ -16,9 +16,13 @@ class ProgressViewModel(private val repository: ProgressRepository = ProgressRep
     private val _progressHistory = MutableStateFlow<List<Map<String, Any>>>(emptyList())
     val progressHistory: StateFlow<List<Map<String, Any>>> = _progressHistory
 
+    private val _userName = MutableStateFlow<String>("")
+    val userName: StateFlow<String> = _userName
+
     init {
         fetchProgressData()
         fetchProgressHistory()
+        fetchUserName()
     }
 
     private fun fetchProgressData() {
@@ -34,6 +38,14 @@ class ProgressViewModel(private val repository: ProgressRepository = ProgressRep
                 Log.d("FirestoreData", "Peso: ${data["peso"]}, Músculo: ${data["masa_muscular"]}, Grasa: ${data["grasa"]}")
             }
             _progressHistory.value = history
+        }
+    }
+
+    // Obtiene el nombre del usuario actual para mostrarlo en la pantalla de progreso
+    private fun fetchUserName() {
+        viewModelScope.launch {
+            val name = repository.getUserName()
+            _userName.value = name ?: "Usuario"
         }
     }
 

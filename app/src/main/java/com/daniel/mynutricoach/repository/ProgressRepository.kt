@@ -31,7 +31,8 @@ class ProgressRepository(
             querySnapshot.documents.mapNotNull { doc ->
                 val timestamp = doc.getLong("timestamp") ?: return@mapNotNull null
                 val peso = doc.getDouble("peso")?.toFloat() ?: return@mapNotNull null
-                val masaMuscular = doc.getDouble("masa_muscular")?.toFloat() ?: return@mapNotNull null
+                val masaMuscular =
+                    doc.getDouble("masa_muscular")?.toFloat() ?: return@mapNotNull null
                 val grasa = doc.getDouble("grasa")?.toFloat() ?: return@mapNotNull null
 
                 mapOf(
@@ -46,4 +47,14 @@ class ProgressRepository(
         }
     }
 
+    // Obtiene el nombre del usuario actual para mostrarlo en la pantalla de progreso
+    suspend fun getUserName(): String? {
+        val userId = auth.currentUser?.uid ?: return null
+        return try {
+            val document = db.collection("users").document(userId).get().await()
+            document.getString("nombre")
+        } catch (e: Exception) {
+            null
+        }
+    }
 }

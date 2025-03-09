@@ -1,27 +1,44 @@
 package com.daniel.mynutricoach.ui.components
 
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.daniel.mynutricoach.navigation.AppScreens
 
 @Composable
 fun BottomNavBar(navController: NavHostController, currentScreen: String) {
-    NavigationBar {
-        listOf("Progress", "Dieta", "Citas", "Perfil").forEach { screen ->
+    NavigationBar(
+        containerColor = Color.White
+    ) {
+        listOf(
+            Triple("Progress", "Progreso", Icons.Filled.BarChart),
+            Triple("Diets", "Dieta", Icons.Filled.Restaurant),
+            Triple("Appointments", "Citas", Icons.Filled.CalendarToday),
+            Triple("Profile", "Perfil", Icons.Filled.Person)
+        ).forEach { (screen, label, icon) ->
             NavigationBarItem(
-                selected = screen == currentScreen,
-                onClick = { navController.navigate(screen) },
-                icon = { Icon(Icons.Default.Home, contentDescription = null) },
-                label = { Text(screen) },
+                selected = screen == currentScreen, // Marca la pantalla actual
+                onClick = { navController.navigate(screen) }, // Navega a la pantalla
+                icon = {
+                    Icon(icon, contentDescription = label, modifier = Modifier.size(20.dp))
+                },
+                label = {
+                    Text(label, fontSize = 12.sp) // 🔹 Usa el nombre personalizado
+                },
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = Color.Blue,
+                    selectedIconColor = Color(0xFF0077CC),
                     unselectedIconColor = Color.Gray
                 )
             )
         }
     }
 }
+
+

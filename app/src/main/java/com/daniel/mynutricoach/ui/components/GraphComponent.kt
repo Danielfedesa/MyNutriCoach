@@ -15,10 +15,15 @@ import kotlin.math.roundToInt
 
 @Composable
 fun GraphComponent(values: List<Pair<Long, Float>>, unit: String) {
+
+    // Color de la tarjeta
+    val cardColor = Color(0xFFD9EFFC)
+
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(16.dp)
+            .padding(start =16.dp, end = 16.dp, bottom = 16.dp),
+        colors = CardDefaults.cardColors(containerColor = cardColor)
     ) {
         Column(
             modifier = Modifier.padding(16.dp)
@@ -54,21 +59,22 @@ fun LineChart(values: List<Pair<Long, Float>>, unit: String) {
         val xStep = width / (points.size - 1).coerceAtLeast(1)
         val yStep = height / (maxValue - minValue)
 
-        // Dibuja los ejes X e Y
+        // **Líneas de los ejes**
         drawLine(
-            color = Color.Gray,
+            color = Color(0xFF8AB1D9), // Azul grisáceo para ejes
             start = Offset(0f, height),
             end = Offset(width, height),
-            strokeWidth = 4f
+            strokeWidth = 3f
         )
 
         drawLine(
-            color = Color.Gray,
+            color = Color(0xFF8AB1D9),
             start = Offset(0f, 0f),
             end = Offset(0f, height),
-            strokeWidth = 4f
+            strokeWidth = 3f
         )
 
+        // **Línea de progreso de la gráfica**
         val path = Path().apply {
             points.forEachIndexed { index, (x, y) ->
                 val xPos = x * xStep
@@ -78,28 +84,37 @@ fun LineChart(values: List<Pair<Long, Float>>, unit: String) {
             }
         }
 
-        drawPath(path, color = Color.Blue, style = Stroke(width = 10f))
+        drawPath(
+            path,
+            color = Color(0xFF38B6FF), // Azul vibrante para la línea
+            style = Stroke(width = 8f, cap = StrokeCap.Round)
+        )
 
+        // **Puntos de la gráfica**
         points.forEachIndexed { index, (x, y) ->
             val xPos = x * xStep
             val yPos = height - ((y - minValue) * yStep)
 
-            drawCircle(color = Color.Red, radius = 8f, center = Offset(xPos, yPos))
+            drawCircle(
+                color = Color(0xFF0077CC), // Azul oscuro para los puntos
+                radius = 8f,
+                center = Offset(xPos, yPos)
+            )
 
-            // Etiquetas de valores en el eje Y
+            // **Etiquetas de valores en el eje Y**
             drawContext.canvas.nativeCanvas.apply {
                 drawText(
                     "${y.roundToInt()} $unit",
                     xPos,
                     yPos - 10,
                     android.graphics.Paint().apply {
-                        color = android.graphics.Color.BLACK
-                        textSize = 30f
+                        color = android.graphics.Color.parseColor("#444444") // Gris oscuro
+                        textSize = 40f
                     }
                 )
             }
 
-            // Etiquetas de fechas en el eje X
+            // **Etiquetas de fechas en el eje X**
             if (index % 2 == 0) { // Mostrar fecha cada 2 puntos para evitar saturación
                 drawContext.canvas.nativeCanvas.apply {
                     drawText(
@@ -107,7 +122,7 @@ fun LineChart(values: List<Pair<Long, Float>>, unit: String) {
                         xPos,
                         height + 40,
                         android.graphics.Paint().apply {
-                            color = android.graphics.Color.BLACK
+                            color = android.graphics.Color.parseColor("#444444") // Gris oscuro
                             textSize = 30f
                         }
                     )
