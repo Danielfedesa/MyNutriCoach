@@ -1,6 +1,5 @@
 package com.daniel.mynutricoach.ui.components
 
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -27,10 +26,10 @@ fun BottomNavBar(navController: NavHostController, currentScreen: String) {
                 selected = screen == currentScreen, // Marca la pantalla actual
                 onClick = { navController.navigate(screen) }, // Navega a la pantalla
                 icon = {
-                    Icon(icon, contentDescription = label, modifier = Modifier.size(20.dp))
+                    Icon(icon, contentDescription = label, modifier = Modifier.size(22.dp))
                 },
                 label = {
-                    Text(label, fontSize = 12.sp) // 🔹 Usa el nombre personalizado
+                    Text(label, fontSize = 12.sp) // Usa el nombre personalizado
                 },
                 colors = NavigationBarItemDefaults.colors(
                     selectedIconColor = Color(0xFF0077CC),
