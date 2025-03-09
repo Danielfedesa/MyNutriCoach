@@ -9,17 +9,6 @@ class ProgressRepository(
     private val auth: FirebaseAuth = FirebaseAuth.getInstance(),
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 ) {
-    suspend fun getUserProgress(): Progress? {
-        val userId = auth.currentUser?.uid ?: return null
-        return try {
-            val document = db.collection("users").document(userId)
-                .collection("progress").document("latest").get().await()
-            document.toObject(Progress::class.java) // Convertir directamente a objeto Progres
-        } catch (e: Exception) {
-            null
-        }
-    }
-
     suspend fun getProgressHistory(): List<Progress> {
         val userId = auth.currentUser?.uid ?: return emptyList()
         return try {
@@ -33,14 +22,8 @@ class ProgressRepository(
         }
     }
 
-    // Obtiene el nombre del usuario actual para mostrarlo en la pantalla de progreso
-    suspend fun getUserName(): String? {
-        val userId = auth.currentUser?.uid ?: return null
-        return try {
-            val document = db.collection("users").document(userId).get().await()
-            document.getString("nombre")
-        } catch (e: Exception) {
-            null
-        }
-    }
+    suspend fun getUserName(): String =
+        auth.currentUser?.uid?.let { userId ->
+            db.collection("users").document(userId).get().await().getString("nombre")
+        } ?: "Usuario"
 }

@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
@@ -28,21 +30,20 @@ import com.daniel.mynutricoach.ui.components.BottomNavBar
 import com.daniel.mynutricoach.viewmodel.AppointmentsViewModel
 
 @Composable
-fun Appointments(navController: NavHostController, apoinmentsViewModel: AppointmentsViewModel = viewModel()){
+fun Appointments(navController: NavHostController, appointmentsViewModel: AppointmentsViewModel = viewModel()) {
 
-    val userName by apoinmentsViewModel.userName.collectAsState()
-    val appointments by apoinmentsViewModel.appointments.collectAsState()
+    val userName by appointmentsViewModel.userName.collectAsState()
+    val appointments by appointmentsViewModel.appointments.collectAsState()
 
-    Scaffold (bottomBar = { BottomNavBar(navController, "Appointments") }) { paddingValues ->
+    Scaffold(bottomBar = { BottomNavBar(navController, "Appointments") }) { paddingValues ->
         Column(
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize()
                 .padding(16.dp)
-                .verticalScroll(rememberScrollState()),
         ) {
             Text(
-                text = "Citas de $userName",
+                text = "Citas de ${userName ?: "Usuario"}",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black
@@ -55,17 +56,12 @@ fun Appointments(navController: NavHostController, apoinmentsViewModel: Appointm
                     fontSize = 18.sp,
                     color = Color.DarkGray
                 )
+            } else {
+                LazyColumn {
+                    items(appointments) { cita -> AppointmentCard(cita) }
+                }
             }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
-            appointments.forEach { cita ->
-                AppointmentCard(cita)
-
-            }
-
         }
-
     }
 }
 
@@ -87,7 +83,6 @@ fun AppointmentCard(appointment: Appointment) {
             Text(text = appointment.estado.name, color = Color.White, fontWeight = FontWeight.Bold)
             Text(text = "Fecha: ${appointment.fecha}", color = Color.White)
             Text(text = "Hora: ${appointment.hora}", color = Color.White)
-
         }
     }
 }

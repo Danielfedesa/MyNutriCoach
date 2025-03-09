@@ -1,47 +1,29 @@
 package com.daniel.mynutricoach.repository
 
 import com.daniel.mynutricoach.models.Appointment
-import com.daniel.mynutricoach.models.AppointmentState
-import com.google.firebase.Timestamp
+
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
-class AppointmentsRepository (
+class AppointmentsRepository(
     private val auth: FirebaseAuth = FirebaseAuth.getInstance(),
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 ) {
 
+    // Función para obtener las citas del usuario
     suspend fun getAppointments(): List<Appointment> {
         val userId = auth.currentUser?.uid ?: return emptyList()
-        return try {
-            val querySnapshot = db.collection("users").document(userId)
-                .collection("appointments")
-                .orderBy("timestamp")
-                .get().await()
-
-            querySnapshot.documents.mapNotNull { doc ->
-                val firestoreTimestamp = doc.getTimestamp("timestamp") // Obtener Timestamp de Firestore
-                val estadoString = doc.getString("estado") ?: "Programada"
-
-                doc.toObject(Appointment::class.java)?.copy(
-                    timestamp = firestoreTimestamp ?: Timestamp.now(),
-                    estado = AppointmentState.valueOf(estadoString) // Convertir String a Enum
-                )
-            }
-        } catch (e: Exception) {
-            emptyList()
-        }
+        return db.collection("users").document(userId)
+            .collection("appointments")
+            .orderBy("timestamp")
+            .get().await()
+            .documents.mapNotNull { it.toObject(Appointment::class.java) }
     }
 
-    // Función para obtener el nombre del usuario
-    suspend fun getUserName(): String? {
-        val userId = auth.currentUser?.uid ?: return null
-        return try {
-            val document = db.collection("users").document(userId).get().await()
-            document.getString("nombre")
-        } catch (e: Exception) {
-            null
+    // Obtiene el nombre del usuario actual para mostrarlo en la pantalla de citas
+    suspend fun getUserName(): String? =
+        auth.currentUser?.uid?.let { userId ->
+            db.collection("users").document(userId).get().await().getString("nombre")
         }
-    }
 }

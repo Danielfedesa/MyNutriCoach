@@ -10,9 +10,6 @@ import kotlinx.coroutines.launch
 
 class ProgressViewModel(private val repository: ProgressRepository = ProgressRepository()) : ViewModel() {
 
-    private val _progressData = MutableStateFlow<Progress?>(null)
-    val progressData: StateFlow<Progress?> = _progressData
-
     private val _progressHistory = MutableStateFlow<List<Progress>>(emptyList())
     val progressHistory: StateFlow<List<Progress>> = _progressHistory
 
@@ -20,32 +17,9 @@ class ProgressViewModel(private val repository: ProgressRepository = ProgressRep
     val userName: StateFlow<String> = _userName
 
     init {
-        fetchProgressData()
-        fetchProgressHistory()
-        fetchUserName()
-    }
-
-    private fun fetchProgressData() {
         viewModelScope.launch {
-            _progressData.value = repository.getUserProgress()
+            _progressHistory.value = repository.getProgressHistory()
+            _userName.value = repository.getUserName()
         }
     }
-
-    private fun fetchProgressHistory() {
-        viewModelScope.launch {
-            val history = repository.getProgressHistory()
-            history.forEach { data ->
-            }
-            _progressHistory.value = history
-        }
-    }
-
-    // Obtiene el nombre del usuario actual para mostrarlo en la pantalla de progreso
-    private fun fetchUserName() {
-        viewModelScope.launch {
-            val name = repository.getUserName()
-            _userName.value = name ?: "Usuario"
-        }
-    }
-
 }

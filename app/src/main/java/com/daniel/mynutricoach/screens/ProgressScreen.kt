@@ -37,47 +37,21 @@ fun Progress(navController: NavHostController, progressViewModel: ProgressViewMo
 
             Text(
                 text = "Hola, $userName 👋",
-                modifier = Modifier
-                    .padding(bottom = 24.dp)
-                    .align(Alignment.CenterHorizontally),
+                modifier = Modifier.padding(bottom = 24.dp).align(Alignment.CenterHorizontally),
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Bold
             )
 
             if (progressHistory.isNotEmpty()) {
-                val latestProgress = progressHistory.last() // Último registro de progreso
-
+                val latest = progressHistory.last()
                 val pesos = progressHistory.map { it.timestamp to it.peso }
-                val masas = progressHistory.map { it.timestamp to it.masa_muscular }
+                val masas = progressHistory.map { it.timestamp to it.masaMuscular }
                 val grasas = progressHistory.map { it.timestamp to it.grasa }
 
-                Text(
-                    text = "Peso actual: ${"%.1f".format(latestProgress.peso)} kg",
-                    modifier = Modifier.padding(start = 16.dp),
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                GraphComponent(pesos, "kg")
+                ProgressSection("Peso actual", latest.peso, "kg", pesos)
+                ProgressSection("Masa muscular", latest.masaMuscular, "kg", masas)
+                ProgressSection("Porcentaje de grasa", latest.grasa, "%", grasas)
 
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Text(
-                    text = "Masa muscular: ${"%.1f".format(latestProgress.masa_muscular)} kg",
-                    modifier = Modifier.padding(start = 16.dp),
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                GraphComponent(masas, "kg")
-
-                Spacer(modifier = Modifier.height(16.dp))
-
-                Text(
-                    text = "Porcentaje de grasa: ${"%.1f".format(latestProgress.grasa)} %",
-                    modifier = Modifier.padding(start = 16.dp),
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                GraphComponent(grasas, "%")
             } else {
                 Text(
                     text = "No hay historial de datos. Tu nutricionista aún no ha registrado tu progreso.",
@@ -88,6 +62,18 @@ fun Progress(navController: NavHostController, progressViewModel: ProgressViewMo
             }
         }
     }
+}
+
+@Composable
+fun ProgressSection(title: String, value: Float, unit: String, data: List<Pair<Long, Float>>) {
+    Text(
+        text = "$title: ${"%.1f".format(value)} $unit",
+        modifier = Modifier.padding(start = 16.dp),
+        fontSize = 18.sp,
+        fontWeight = FontWeight.Bold
+    )
+    GraphComponent(data, unit)
+    Spacer(modifier = Modifier.height(16.dp))
 }
 
 
