@@ -1,11 +1,17 @@
 package com.daniel.mynutricoach.models
 
+import com.google.firebase.Timestamp
+
 data class Appointment (
     val id: String = "",
-    val clienteId: String = "",
-    val nutricionistaId: String = "",
-    val fecha: Long = 0L,
+    val fecha: String = "",
     val hora: String = "",
-    val motivo: String = "",
-    val notas: String = ""
+    val estado: AppointmentState = AppointmentState.Programada,
+    val timestamp: Timestamp = Timestamp.now()
 )
+
+enum class AppointmentState {
+    Programada,
+    Cancelada,
+    Finalizada
+}
