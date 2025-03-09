@@ -6,7 +6,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,12 +24,8 @@ fun Progress(navController: NavHostController, progressViewModel: ProgressViewMo
     val progressHistory by progressViewModel.progressHistory.collectAsState()
 
     Scaffold(
-        topBar = {
-            Column { // 🔹 Colocamos el carrusel dentro de una `Column` para que se renderice bien
-                CarouselComponent()
-            }
-        },
-        bottomBar = { BottomNavBar(navController, "Progress") } // 🔹 Se mantiene la barra de navegación inferior
+        topBar = { CarouselComponent() },
+        bottomBar = { BottomNavBar(navController, "Progress") }
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -50,16 +45,14 @@ fun Progress(navController: NavHostController, progressViewModel: ProgressViewMo
             )
 
             if (progressHistory.isNotEmpty()) {
-                val latestPeso = progressHistory.lastOrNull()?.get("peso") as? Float ?: 0f
-                val latestMasa = progressHistory.lastOrNull()?.get("masa_muscular") as? Float ?: 0f
-                val latestGrasa = progressHistory.lastOrNull()?.get("grasa") as? Float ?: 0f
+                val latestProgress = progressHistory.last() // Último registro de progreso
 
-                val pesos = progressHistory.map { (it["timestamp"] as? Long ?: 0L) to (it["peso"] as? Float ?: 0f) }
-                val masas = progressHistory.map { (it["timestamp"] as? Long ?: 0L) to (it["masa_muscular"] as? Float ?: 0f) }
-                val grasas = progressHistory.map { (it["timestamp"] as? Long ?: 0L) to (it["grasa"] as? Float ?: 0f) }
+                val pesos = progressHistory.map { it.timestamp to it.peso }
+                val masas = progressHistory.map { it.timestamp to it.masa_muscular }
+                val grasas = progressHistory.map { it.timestamp to it.grasa }
 
                 Text(
-                    text = "Peso actual: ${"%.1f".format(latestPeso)} kg",
+                    text = "Peso actual: ${"%.1f".format(latestProgress.peso)} kg",
                     modifier = Modifier.padding(start = 16.dp),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold
@@ -69,7 +62,7 @@ fun Progress(navController: NavHostController, progressViewModel: ProgressViewMo
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = "Masa muscular: ${"%.1f".format(latestMasa)} kg",
+                    text = "Masa muscular: ${"%.1f".format(latestProgress.masa_muscular)} kg",
                     modifier = Modifier.padding(start = 16.dp),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold
@@ -79,7 +72,7 @@ fun Progress(navController: NavHostController, progressViewModel: ProgressViewMo
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = "Porcentaje de grasa: ${"%.1f".format(latestGrasa)} %",
+                    text = "Porcentaje de grasa: ${"%.1f".format(latestProgress.grasa)} %",
                     modifier = Modifier.padding(start = 16.dp),
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold
@@ -87,13 +80,14 @@ fun Progress(navController: NavHostController, progressViewModel: ProgressViewMo
                 GraphComponent(grasas, "%")
             } else {
                 Text(
-                    text = "No hay historial de datos",
+                    text = "No hay historial de datos. Tu nutricionista aún no ha registrado tu progreso.",
                     modifier = Modifier.padding(16.dp),
                     fontSize = 16.sp,
-                    fontWeight = FontWeight.Normal
+                    fontWeight = FontWeight.Bold
                 )
             }
         }
     }
 }
+
 
