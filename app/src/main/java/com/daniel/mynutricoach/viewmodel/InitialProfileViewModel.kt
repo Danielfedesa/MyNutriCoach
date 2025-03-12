@@ -20,7 +20,7 @@ class InitialProfileViewModel(private val repository: UserRepository = UserRepos
         fetchUserData()
     }
 
-    fun fetchUserData() {
+    private fun fetchUserData() {
         viewModelScope.launch {
             val user = repository.getUserData()
             user?.let {

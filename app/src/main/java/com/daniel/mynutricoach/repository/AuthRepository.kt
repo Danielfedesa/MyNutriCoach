@@ -2,6 +2,7 @@ package com.daniel.mynutricoach.repository
 
 import com.daniel.mynutricoach.models.User
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 
@@ -57,4 +58,9 @@ class AuthRepository(
             Result.failure(e)
         }
     }
+
+    fun getCurrentUser(): FirebaseUser? {
+        return auth.currentUser
+    }
+
 }

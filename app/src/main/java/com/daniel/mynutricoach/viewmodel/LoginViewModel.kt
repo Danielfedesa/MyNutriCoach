@@ -22,13 +22,17 @@ class LoginViewModel(
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage: StateFlow<String?> = _errorMessage
 
-    fun checkSession(onNavigate: (String) -> Unit) {
+    init {
+        checkSession() // Se ejecuta cuando el ViewModel se inicializa
+    }
+
+    fun checkSession() {
         viewModelScope.launch {
-            val role = userRepository.getUserRole()
-            if (role != null) {
+            val user = authRepository.getCurrentUser()
+            if (user != null) {
+                val role = userRepository.getUserRole()
                 _isAuthenticated.value = true
                 _userRole.value = role
-                onNavigate(if (role == "nutricionista") "Home" else "Progress")
             } else {
                 _isAuthenticated.value = false
             }
@@ -44,22 +48,10 @@ class LoginViewModel(
         viewModelScope.launch {
             val result = authRepository.signIn(email, password)
             result.onSuccess {
-                fetchUserRole(onNavigate)
+                checkSession()
+                onNavigate(if (_userRole.value == "nutricionista") "Home" else "Progress")
             }.onFailure {
-                _errorMessage.value = "Los datos introducidos son incorrectos, verifiquelos e inténtelo de nuevo."
-            }
-        }
-    }
-
-    private fun fetchUserRole(onNavigate: (String) -> Unit) {
-        viewModelScope.launch {
-            val role = userRepository.getUserRole()
-            if (role != null) {
-                _userRole.value = role
-                _isAuthenticated.value = true
-                onNavigate(if (role == "nutricionista") "Home" else "Progress")
-            } else {
-                _errorMessage.value = "No se encontró el usuario en Firestore"
+                _errorMessage.value = "Los datos introducidos son incorrectos, verifícalos e inténtalo de nuevo."
             }
         }
     }

@@ -9,36 +9,17 @@ class UserRepository(
     private val auth: FirebaseAuth = FirebaseAuth.getInstance(),
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 ) {
-
-    suspend fun getUserData(): User? {
-        val userId = auth.currentUser?.uid ?: return null
-        return try {
-            val document = db.collection("users").document(userId).get().await()
-            document.toObject(User::class.java)
-        } catch (e: Exception) {
-            null
-        }
+    suspend fun getUserData(): User? = auth.currentUser?.uid?.let { userId ->
+        db.collection("users").document(userId).get().await().toObject(User::class.java)
     }
 
-    suspend fun getUserRole(): String? {
-        val userId = auth.currentUser?.uid ?: return null
-        return try {
-            val document = db.collection("users").document(userId).get().await()
-            document.getString("role")
-        } catch (e: Exception) {
-            null
-        }
-    }
+    suspend fun getUserRole(): String = auth.currentUser?.uid?.let { userId ->
+        db.collection("users").document(userId).get().await().getString("role") ?: "cliente"
+    } ?: "cliente"
 
-    suspend fun saveUserData(user: User): Result<Void?> {
-        return try {
-            db.collection("users").document(user.userId).set(user).await()
-            Result.success(null)
-        } catch (e: Exception) {
-            Result.failure(e)
-        }
+    suspend fun saveUserData(user: User): Result<Void?> = runCatching {
+        db.collection("users").document(user.userId).set(user).await()
     }
-
 }
 
 
