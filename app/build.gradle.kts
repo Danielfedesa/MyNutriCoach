@@ -56,7 +56,7 @@ dependencies {
     implementation(libs.androidx.material3)
 
     // Material Icons
-    implementation("androidx.compose.material:material-icons-extended:1.5.0")
+    implementation(libs.androidx.material.icons.extended)
 
     // Navigation
     implementation(libs.androidx.navigation.compose)
@@ -76,6 +76,15 @@ dependencies {
     implementation(libs.androidx.espresso.core)
     implementation(libs.androidx.viewmodel.compose)
 
+    //Implementación Retrofit
+    // Para hacer peticiones a la API
+    implementation (libs.retrofit)
+    // Para convertir los datos de la API a objetos de Kotlin
+    implementation (libs.converter.gson)
+    // Para mostrar logs de Retrofit de la información que se envía y recibe
+    implementation (libs.logging.interceptor)
+    // Corrutinas para hacer peticiones a la API de forma asíncrona
+    implementation (libs.kotlinx.coroutines.android)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

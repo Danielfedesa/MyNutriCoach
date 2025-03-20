@@ -52,6 +52,10 @@ fun AppNavigation() {
             Diets(navController, dietsViewModel)
         }
 
+        // Pantalla FoodDetail con su ViewModel asociado
+        composable(AppScreens.FoodDetail.ruta) { FoodDetailScreen(navController) }
+        composable(AppScreens.Privacy.ruta) { PrivacyScreen(navController) }
+
         // Pantalla Appointments con su ViewModel asociado
         composable(AppScreens.Appointments.ruta) {
             val appointmentsViewModel: AppointmentsViewModel = viewModel()

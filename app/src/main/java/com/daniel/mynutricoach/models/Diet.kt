@@ -1,10 +1,11 @@
-package com.daniel.mynutricoach.models
+import com.daniel.mynutricoach.models.Meal
+import com.google.firebase.Timestamp
 
-class Diet(
+data class Diet(
     val id: String = "",
     val clienteId: String = "",
     val nutricionistaId: String = "",
-    val fecha: Long = 0L,
+    val fecha: Timestamp = Timestamp.now(),
     val descripcion: String = "",
-    val alimentos: Map<String, Map<String, List<String>>> = emptyMap()
+    val comidas: List<Meal> = emptyList() // Lista de comidas en la dieta
 )

@@ -1,16 +1,25 @@
 package com.daniel.mynutricoach.ui.components
 
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.unit.dp
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 import kotlin.math.roundToInt
 
 @Composable
@@ -22,7 +31,7 @@ fun GraphComponent(values: List<Pair<Long, Float>>, unit: String) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start =16.dp, end = 16.dp, bottom = 16.dp),
+            .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
         colors = CardDefaults.cardColors(containerColor = cardColor)
     ) {
         Column(

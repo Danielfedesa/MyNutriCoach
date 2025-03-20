@@ -2,7 +2,7 @@ package com.daniel.mynutricoach.models
 
 import com.google.firebase.Timestamp
 
-data class Appointment (
+data class Appointment(
     val id: String = "",
     val fecha: String = "",
     val hora: String = "",
