@@ -12,7 +12,7 @@ sealed class AppScreens (val ruta:String){
     // Screens del cliente
     object Progress: AppScreens("Progress")
     object Diets: AppScreens("Diets")
-    object FoodDetail: AppScreens("FoodDetail")
+    object FoodDetail : AppScreens("foodDetail")
     object Appointments: AppScreens("Appointments")
     object Profile: AppScreens("Profile")
 

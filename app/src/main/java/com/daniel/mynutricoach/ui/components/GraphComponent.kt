@@ -26,7 +26,7 @@ import kotlin.math.roundToInt
 fun GraphComponent(values: List<Pair<Long, Float>>, unit: String) {
 
     // Color de la tarjeta
-    val cardColor = Color(0xFFD9EFFC)
+    val cardColor = Color(0xFFBBDEFB)
 
     Card(
         modifier = Modifier
@@ -70,14 +70,14 @@ fun LineChart(values: List<Pair<Long, Float>>, unit: String) {
 
         // **Líneas de los ejes**
         drawLine(
-            color = Color(0xFF8AB1D9), // Azul grisáceo para ejes
+            color = Color(0xFF1976D2), // Azul grisáceo para ejes
             start = Offset(0f, height),
             end = Offset(width, height),
             strokeWidth = 3f
         )
 
         drawLine(
-            color = Color(0xFF8AB1D9),
+            color = Color(0xFF1976D2),
             start = Offset(0f, 0f),
             end = Offset(0f, height),
             strokeWidth = 3f
@@ -95,7 +95,7 @@ fun LineChart(values: List<Pair<Long, Float>>, unit: String) {
 
         drawPath(
             path,
-            color = Color(0xFF38B6FF), // Azul vibrante para la línea
+            color = Color(0xFF1976D2), // Azul vibrante para la línea
             style = Stroke(width = 8f, cap = StrokeCap.Round)
         )
 

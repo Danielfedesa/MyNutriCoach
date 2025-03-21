@@ -32,21 +32,24 @@ fun AppointmentsComp(navController: NavHostController, appointmentsViewModel: Ap
 
     Scaffold(
         topBar = {
-            CenterAlignedTopAppBar(
-                title = {},
-                modifier = Modifier.height(120.dp),
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = Color.Transparent),
-                navigationIcon = {
-                    Image(
-                        painter = painterResource(id = R.drawable.banner),
-                        contentDescription = "Banner",
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(100.dp),
-                        contentScale = ContentScale.Crop
-                    )
-                }
-            )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(120.dp)
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.banner),
+                    contentDescription = "Banner",
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier
+                        .fillMaxSize()
+                )
+                CenterAlignedTopAppBar(
+                    title = {},
+                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = Color.Transparent),
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
         },
         bottomBar = { BottomNavBar(navController, "Appointments") }
     ) { paddingValues ->
@@ -83,9 +86,9 @@ fun AppointmentsComp(navController: NavHostController, appointmentsViewModel: Ap
 @Composable
 fun AppointmentCard(appointment: Appointment) {
     val backgroundColor = when (appointment.estado) {
-        AppointmentState.Programada -> Color(0xFF4A90E2)
-        AppointmentState.Finalizada -> Color(0xFF7ED321)
-        AppointmentState.Cancelada -> Color(0xFFD0021B)
+        AppointmentState.Programada -> Color(0xFFBBDEFB)
+        AppointmentState.Finalizada -> Color(0xFFC8E6C9 )
+        AppointmentState.Cancelada -> Color(0xFFFFCDD2)
     }
 
     Card(
@@ -95,9 +98,9 @@ fun AppointmentCard(appointment: Appointment) {
         colors = CardDefaults.cardColors(containerColor = backgroundColor)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = appointment.estado.name, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 18.sp)
-            Text(text = "Fecha: ${appointment.fecha}", color = Color.White)
-            Text(text = "Hora: ${appointment.hora}", color = Color.White)
+            Text(text = appointment.estado.name, color = Color.Black, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+            Text(text = "Fecha: ${appointment.fecha}", color = Color.Black)
+            Text(text = "Hora: ${appointment.hora}", color = Color.Black)
         }
     }
 }
