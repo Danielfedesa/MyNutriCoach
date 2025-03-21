@@ -17,7 +17,7 @@ import com.daniel.mynutricoach.ui.components.Texts
 
 @ExperimentalMaterial3Api
 @Composable
-fun TermsScreen(navController: NavController) {
+fun TermsComp(navController: NavController) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(

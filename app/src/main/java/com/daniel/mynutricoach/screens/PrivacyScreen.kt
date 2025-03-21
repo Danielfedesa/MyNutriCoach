@@ -18,7 +18,7 @@ import com.daniel.mynutricoach.ui.components.Texts
 
 @ExperimentalMaterial3Api
 @Composable
-fun PrivacyScreen(navController: NavController) {
+fun PrivacyComp(navController: NavController) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(

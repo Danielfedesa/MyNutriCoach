@@ -12,7 +12,7 @@ import androidx.navigation.NavHostController
 import com.daniel.mynutricoach.viewmodel.HomeViewModel
 
 @Composable
-fun Home(navController: NavHostController, homeViewModel: HomeViewModel = viewModel()) {
+fun HomeComp(navController: NavHostController, homeViewModel: HomeViewModel = viewModel()) {
     val userEmail = homeViewModel.getCurrentUserEmail()
 
     Column(

@@ -42,7 +42,7 @@ import com.daniel.mynutricoach.viewmodel.LoginViewModel
 
 // Login Screen
     @Composable
-    fun LoginScreen(navController: NavHostController, loginViewModel: LoginViewModel = viewModel()) {
+    fun LoginComp(navController: NavHostController, loginViewModel: LoginViewModel = viewModel()) {
         var email by remember { mutableStateOf("") }
         var password by remember { mutableStateOf("") }
         val context = LocalContext.current

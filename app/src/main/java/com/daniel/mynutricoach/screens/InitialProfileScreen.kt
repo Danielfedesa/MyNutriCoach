@@ -32,7 +32,7 @@ import com.daniel.mynutricoach.viewmodel.InitialProfileViewModel
 
 
 @Composable
-fun InitialProfile(navController: NavHostController, initialProfileViewModel: InitialProfileViewModel = viewModel()) {
+fun InitialProfileComp(navController: NavHostController, initialProfileViewModel: InitialProfileViewModel = viewModel()) {
     val context = LocalContext.current
     val userData by initialProfileViewModel.userData.collectAsState()
     val saveState by initialProfileViewModel.saveState.collectAsState()

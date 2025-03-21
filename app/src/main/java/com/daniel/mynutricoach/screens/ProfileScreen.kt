@@ -21,7 +21,7 @@ import com.daniel.mynutricoach.viewmodel.ProfileViewModel
 
 
 @Composable
-fun Profile(navController: NavHostController, profileViewModel: ProfileViewModel = viewModel()){
+fun ProfileComp(navController: NavHostController, profileViewModel: ProfileViewModel = viewModel()){
 
     val userName by profileViewModel.userName.collectAsState()
 

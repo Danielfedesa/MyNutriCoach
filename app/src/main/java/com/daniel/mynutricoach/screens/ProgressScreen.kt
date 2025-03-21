@@ -26,7 +26,7 @@ import com.daniel.mynutricoach.viewmodel.ProgressViewModel
 
 
 @Composable
-fun Progress(navController: NavHostController, progressViewModel: ProgressViewModel = viewModel()) {
+fun ProgressComp(navController: NavHostController, progressViewModel: ProgressViewModel = viewModel()) {
 
     val userName by progressViewModel.userName.collectAsState()
     val progressHistory by progressViewModel.progressHistory.collectAsState()

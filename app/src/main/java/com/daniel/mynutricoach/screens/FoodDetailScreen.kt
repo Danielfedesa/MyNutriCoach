@@ -16,7 +16,7 @@ import androidx.navigation.NavController
 import com.daniel.mynutricoach.ui.components.BottomNavBar
 
 @Composable
-fun FoodDetailScreen(navController: NavController) {
+fun FoodDetailComp(navController: NavController) {
 
 
         Column(

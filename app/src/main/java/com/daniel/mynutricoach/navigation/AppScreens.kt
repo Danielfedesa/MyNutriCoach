@@ -1,5 +1,6 @@
 package com.daniel.mynutricoach.navigation
 
+// Clase sellada que contiene las rutas de las pantallas de la aplicación
 sealed class AppScreens (val ruta:String){
     // Registro de usuario
     object Register: AppScreens("Register")

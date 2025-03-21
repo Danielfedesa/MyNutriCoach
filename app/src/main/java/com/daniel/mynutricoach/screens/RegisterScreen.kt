@@ -17,7 +17,7 @@ import com.daniel.mynutricoach.ui.components.CustomTextField
 import com.daniel.mynutricoach.viewmodel.RegisterViewModel
 
 @Composable
-fun Register(navController: NavHostController, registerViewModel: RegisterViewModel = viewModel()) {
+fun RegisterComp(navController: NavHostController, registerViewModel: RegisterViewModel = viewModel()) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var confirmPassword by remember { mutableStateOf("") }

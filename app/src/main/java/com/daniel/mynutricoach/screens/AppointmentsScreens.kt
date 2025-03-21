@@ -25,7 +25,7 @@ import com.daniel.mynutricoach.viewmodel.AppointmentsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Appointments(navController: NavHostController, appointmentsViewModel: AppointmentsViewModel = viewModel()) {
+fun AppointmentsComp(navController: NavHostController, appointmentsViewModel: AppointmentsViewModel = viewModel()) {
 
     val userName by appointmentsViewModel.userName.collectAsState()
     val appointments by appointmentsViewModel.appointments.collectAsState()
@@ -38,7 +38,7 @@ fun Appointments(navController: NavHostController, appointmentsViewModel: Appoin
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = Color.Transparent),
                 navigationIcon = {
                     Image(
-                        painter = painterResource(id = R.drawable.banner), // Asegúrate de tener esta imagen en res/drawable
+                        painter = painterResource(id = R.drawable.banner),
                         contentDescription = "Banner",
                         modifier = Modifier
                             .fillMaxWidth()

@@ -2,80 +2,54 @@ package com.daniel.mynutricoach.navigation
 
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.daniel.mynutricoach.screens.*
-import com.daniel.mynutricoach.viewmodel.AppointmentsViewModel
-import com.daniel.mynutricoach.viewmodel.DietsViewModel
-import com.daniel.mynutricoach.viewmodel.HomeViewModel
-import com.daniel.mynutricoach.viewmodel.InitialProfileViewModel
-import com.daniel.mynutricoach.viewmodel.ProfileViewModel
-import com.daniel.mynutricoach.viewmodel.ProgressViewModel
-import com.daniel.mynutricoach.viewmodel.RegisterViewModel
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppNavigation() {
+    // Recuerda el estado de la navegación cuando se recomponen los composables
     val navController = rememberNavController()
 
+    // Contenedor principal de la navegación con las rutas de la app
     NavHost(navController = navController, startDestination = AppScreens.Login.ruta) {
-        composable(AppScreens.Login.ruta) { LoginScreen(navController) }
-        composable(AppScreens.Home.ruta) { Home(navController) }
+        composable(AppScreens.Login.ruta) { LoginComp(navController) }
+
         // Terminos y Condiciones
-        composable(AppScreens.Terms.ruta) { TermsScreen(navController) }
-        composable(AppScreens.Privacy.ruta) { PrivacyScreen(navController) }
+        composable(AppScreens.Terms.ruta) { TermsComp(navController) }
+        composable(AppScreens.Privacy.ruta) { PrivacyComp(navController) }
 
         // Pantalla de Registro con su ViewModel asociado
-        composable(AppScreens.Register.ruta) {
-            val registerViewModel: RegisterViewModel = viewModel()
-            Register(navController, registerViewModel)
-        }
+        composable(AppScreens.Register.ruta) { RegisterComp(navController) }
 
         // Pantalla de Perfil Inicial con su propio ViewModel
-        composable(AppScreens.InitialProfile.ruta) {
-            val initialProfileViewModel: InitialProfileViewModel = viewModel()
-            InitialProfile(navController, initialProfileViewModel)
-        }
+        composable(AppScreens.InitialProfile.ruta) { InitialProfileComp(navController) }
 
         // Pantallas del cliente
 
         // Pantalla Progress(Home del cliente) con su ViewModel asociado
-        composable(AppScreens.Progress.ruta) {
-            val progressViewModel: ProgressViewModel = viewModel()
-            Progress(navController, progressViewModel) }
+        composable(AppScreens.Progress.ruta) { ProgressComp(navController) }
 
         // Pantalla Diets con su ViewModel asociado
-        composable(AppScreens.Diets.ruta) {
-            val dietsViewModel: DietsViewModel = viewModel()
-            Diets(navController, dietsViewModel)
-        }
+        composable(AppScreens.Diets.ruta) { DietsComp(navController) }
 
         // Pantalla FoodDetail con su ViewModel asociado
-        composable(AppScreens.FoodDetail.ruta) { FoodDetailScreen(navController) }
-        composable(AppScreens.Privacy.ruta) { PrivacyScreen(navController) }
+        composable(AppScreens.FoodDetail.ruta) { FoodDetailComp(navController) }
 
-        // Pantalla Appointments con su ViewModel asociado
-        composable(AppScreens.Appointments.ruta) {
-            val appointmentsViewModel: AppointmentsViewModel = viewModel()
-            Appointments(navController, appointmentsViewModel)
-        }
+        // Pantalla Appointments
+        composable(AppScreens.Appointments.ruta) { AppointmentsComp(navController) }
 
         // Pantalla Profile con su ViewModel asociado
-        composable(AppScreens.Profile.ruta) {
-            val profileViewModel: ProfileViewModel = viewModel()
-            Profile(navController, profileViewModel)
-        }
+        composable(AppScreens.Profile.ruta) { ProfileComp(navController) }
 
 
         // Screens del nutricionista
 
         // Pantalla Home con su ViewModel asociado
-        composable(AppScreens.Home.ruta) {
-            val homeViewModel: HomeViewModel = viewModel()
-            Home(navController, homeViewModel)
-        }
+        composable(AppScreens.Home.ruta) { HomeComp(navController) }
 
     }
 }
