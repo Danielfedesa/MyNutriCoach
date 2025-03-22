@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class FoodDetailViewModel (
+class FoodDetailViewModel(
     private val repository: NutritionixRepository = NutritionixRepository()
 ) : ViewModel() {
 
@@ -17,10 +17,8 @@ class FoodDetailViewModel (
 
     fun cargarNutrientes(alimentos: List<String>) {
         viewModelScope.launch {
-            val resultados = alimentos.map { alimento ->
-                repository.getNutrientInfo(alimento)
-            }
-            _nutrientes.value = resultados
+            val result = repository.getNutritionData(alimentos)
+            _nutrientes.value = result
         }
     }
 }

@@ -1,19 +1,27 @@
 package com.daniel.mynutricoach.repository
 
+import com.daniel.mynutricoach.api.NutritionixRequest
+import com.daniel.mynutricoach.api.RetrofitInstance
 import com.daniel.mynutricoach.models.FoodInfo
-import kotlinx.coroutines.delay
 
 class NutritionixRepository {
 
-    suspend fun getNutrientInfo(name: String): FoodInfo {
-        // Simulación temporal (aquí irá la llamada real con Retrofit)
-        delay(500) // simula carga
-        return FoodInfo(
-            name = name,
-            calories = (50..300).random().toFloat(),
-            protein = (1..30).random().toFloat(),
-            carbs = (5..60).random().toFloat(),
-            fat = (1..20).random().toFloat()
-        )
+    suspend fun getNutritionData(alimentos: List<String>): List<FoodInfo> {
+        val query = alimentos.joinToString(", ")
+        val response = RetrofitInstance.api.getFoodInfo(NutritionixRequest(query))
+
+        return if (response.isSuccessful && response.body() != null) {
+            response.body()!!.foods.map {
+                FoodInfo(
+                    name = it.food_name,
+                    calories = it.nf_calories.toInt(),
+                    protein = it.nf_protein,
+                    carbs = it.nf_total_carbohydrate,
+                    fat = it.nf_total_fat
+                )
+            }
+        } else {
+            emptyList()
+        }
     }
 }
