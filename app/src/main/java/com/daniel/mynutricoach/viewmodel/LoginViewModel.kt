@@ -22,22 +22,22 @@ class LoginViewModel(
     private val _errorMessage = MutableStateFlow<String?>(null)
     val errorMessage: StateFlow<String?> = _errorMessage
 
-    init {
-        checkSession() // Se ejecuta cuando el ViewModel se inicializa
-    }
+        init {
+            checkSession() // Se ejecuta cuando el ViewModel se inicializa
+        }
 
-    fun checkSession() {
-        viewModelScope.launch {
-            val user = authRepository.getCurrentUser()
-            if (user != null) {
-                val role = userRepository.getUserRole()
-                _isAuthenticated.value = true
-                _userRole.value = role
-            } else {
-                _isAuthenticated.value = false
+        fun checkSession() {
+            viewModelScope.launch {
+                val user = authRepository.getCurrentUser()
+                if (user != null) {
+                    val role = userRepository.getUserRole()
+                    _isAuthenticated.value = true
+                    _userRole.value = role
+                } else {
+                    _isAuthenticated.value = false
+                }
             }
         }
-    }
 
     fun signIn(email: String, password: String, onNavigate: (String) -> Unit) {
         if (email.isEmpty() || password.isEmpty()) {

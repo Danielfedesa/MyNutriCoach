@@ -144,7 +144,7 @@ import com.daniel.mynutricoach.viewmodel.LoginViewModel
         }
     }
 
-    // Mostrar el Toast de forma segura en el hilo principal
+    // Mostrar el Toast en el hilo principal
     errorMessage?.let { message ->
         LaunchedEffect(message) {
             Handler(Looper.getMainLooper()).post {

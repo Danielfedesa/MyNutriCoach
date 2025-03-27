@@ -70,7 +70,7 @@ fun AppointmentsComp(navController: NavHostController, appointmentsViewModel: Ap
             if (appointments.isEmpty()) {
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    text = "No tienes citas programadas",
+                    text = "No existe registro de citas",
                     fontSize = 18.sp,
                     color = Color.DarkGray
                 )
