@@ -61,4 +61,9 @@ class ProfileRepository (
         }
     }
 
+    // Función para cerrar sesión en Firebase
+    fun logout() {
+        FirebaseAuth.getInstance().signOut()
+    }
+
 }

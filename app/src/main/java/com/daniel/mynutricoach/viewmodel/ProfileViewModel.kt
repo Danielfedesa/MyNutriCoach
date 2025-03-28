@@ -4,6 +4,8 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.daniel.mynutricoach.repository.ProfileRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -85,4 +87,11 @@ class ProfileViewModel(private val repository: ProfileRepository = ProfileReposi
         }
     }
 
+    // Función para cerrar sesión en Firebase
+    fun logout(navController: NavHostController) {
+        repository.logout()
+        navController.navigate("Login") {
+            popUpTo("Profile") { inclusive = true }
+        }
+    }
 }
