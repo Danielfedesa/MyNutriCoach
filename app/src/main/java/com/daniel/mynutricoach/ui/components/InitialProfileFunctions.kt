@@ -26,13 +26,19 @@ fun SexoSelector(selectedSexo: String, onSexoSelected: (String) -> Unit) {
     val opcionesAbreviadas = listOf("Masc", "Feme", "Otro")
     val opcionesCompletas = mapOf("Masc" to "Masculino", "Feme" to "Femenino", "Otro" to "Otro")
 
-    var selectedOption by remember { mutableStateOf(selectedSexo) }
+    var selectedOption by remember(selectedSexo) {
+        mutableStateOf(
+            opcionesCompletas.entries.find { it.value == selectedSexo }?.key ?: "Otro"
+        )
+    }
 
     Column {
-        Text("Sexo",
+        Text(
+            "Sexo",
             fontSize = 16.sp,
-            modifier = Modifier.padding(bottom = 4.dp))
-        Row (
+            modifier = Modifier.padding(bottom = 4.dp)
+        )
+        Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -45,7 +51,7 @@ fun SexoSelector(selectedSexo: String, onSexoSelected: (String) -> Unit) {
                         selected = abreviado == selectedOption,
                         onClick = {
                             selectedOption = abreviado
-                            onSexoSelected(opcionesCompletas[abreviado] ?: "Otro") // Guarda el valor completo en Firestore
+                            onSexoSelected(opcionesCompletas[abreviado] ?: "Otro")
                         }
                     )
                     Text(text = abreviado, modifier = Modifier.padding(start = 2.dp))
@@ -58,7 +64,7 @@ fun SexoSelector(selectedSexo: String, onSexoSelected: (String) -> Unit) {
 
 @Composable
 fun FechaNacimientoTextField(selectedDate: String, onDateSelected: (String) -> Unit) {
-    var fecha by remember { mutableStateOf(selectedDate) }
+    var fecha by remember(selectedDate) { mutableStateOf(selectedDate) }
 
     OutlinedTextField(
         value = fecha,
@@ -69,7 +75,7 @@ fun FechaNacimientoTextField(selectedDate: String, onDateSelected: (String) -> U
             }
         },
         label = { Text("Fecha de Nacimiento (DD/MM/AAAA)") },
-        placeholder = { Text("DD/MM/AAAA") }, // Muestra el formato predeterminado
+        placeholder = { Text("DD/MM/AAAA") },
         modifier = Modifier.fillMaxWidth()
     )
 }

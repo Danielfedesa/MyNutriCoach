@@ -3,7 +3,6 @@ package com.daniel.mynutricoach.screens
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -160,7 +159,7 @@ fun ProfileComp(navController: NavHostController, profileViewModel: ProfileViewM
                 }
 
                 ProfileOption("Obtener ayuda") {
-                    navController.navigate("viewHelp")
+                    navController.navigate("Help")
                 }
 
                 Button(

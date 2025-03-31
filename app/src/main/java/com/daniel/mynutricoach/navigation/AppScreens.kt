@@ -15,6 +15,9 @@ sealed class AppScreens (val ruta:String){
     object FoodDetail : AppScreens("foodDetail")
     object Appointments: AppScreens("Appointments")
     object Profile: AppScreens("Profile")
+    object EditProfile: AppScreens("EditProfile")
+    object EditLanguage: AppScreens("EditLanguage")
+    object EditNotifications: AppScreens("EditNotifications")
 
     // Screens del nutricionista
     object Home: AppScreens("Home")

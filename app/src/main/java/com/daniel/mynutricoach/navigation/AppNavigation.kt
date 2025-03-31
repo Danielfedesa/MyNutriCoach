@@ -66,6 +66,15 @@ fun AppNavigation() {
         // Pantalla Profile con su ViewModel asociado
         composable(AppScreens.Profile.ruta) { ProfileComp(navController) }
 
+        // Pantalla EditProfile con su ViewModel asociado
+        composable(AppScreens.EditProfile.ruta) { EditProfileComp(navController) }
+
+        // Pantalla EditLanguage con su ViewModel asociado
+        composable(AppScreens.EditLanguage.ruta) { EditLanguageComp(navController) }
+
+        // Pantalla EditNotifications con su ViewModel asociado
+        composable(AppScreens.EditNotifications.ruta) { EditNotificationsComp(navController) }
+
 
         // Screens del nutricionista
 
@@ -74,3 +83,4 @@ fun AppNavigation() {
 
     }
 }
+
