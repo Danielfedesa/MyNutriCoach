@@ -23,9 +23,10 @@ fun AppNavigation() {
     NavHost(navController = navController, startDestination = AppScreens.Login.ruta) {
         composable(AppScreens.Login.ruta) { LoginComp(navController) }
 
-        // Terminos y Condiciones
+        // Terminos, Condiciones y Politica de Privacidad y ayuda
         composable(AppScreens.Terms.ruta) { TermsComp(navController) }
         composable(AppScreens.Privacy.ruta) { PrivacyComp(navController) }
+        composable(AppScreens.Help.ruta) { HelpComp(navController) }
 
         // Pantalla de Registro con su ViewModel asociado
         composable(AppScreens.Register.ruta) { RegisterComp(navController) }

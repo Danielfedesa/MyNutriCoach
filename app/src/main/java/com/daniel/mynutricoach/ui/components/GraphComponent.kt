@@ -26,13 +26,14 @@ import kotlin.math.roundToInt
 fun GraphComponent(values: List<Pair<Long, Float>>, unit: String) {
 
     // Color de la tarjeta
-    val cardColor = Color(0xFFBBDEFB)
+    val cardColor = Color(0xFFE3F2FD)
 
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
-        colors = CardDefaults.cardColors(containerColor = cardColor)
+        colors = CardDefaults.cardColors(containerColor = cardColor),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column(
             modifier = Modifier.padding(16.dp)

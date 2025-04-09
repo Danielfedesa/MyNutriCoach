@@ -54,4 +54,30 @@ No nos hacemos responsables de cualquier daño o perjuicio derivado del uso de l
     7. Contacto
 Si tiene preguntas sobre estos términos, puede contactarnos en mynutricoach.app@gmail.com.
 """
+
+    const val HELP = """
+
+    1. ¿Qué es MyNutriCoach?
+MyNutriCoach es una aplicación diseñada para facilitar el seguimiento nutricional entre profesionales de la nutrición y sus pacientes. Permite gestionar dietas, citas, progreso físico y más.
+    
+    2. ¿Cómo puedo recuperar mi contraseña?
+En la pantalla de inicio de sesión, pulsa en "¿Olvidaste tu contraseña?" y recibirás un correo para restablecerla. Si no ves el correo, revisa tu carpeta de spam.
+    
+    3. ¿Cómo actualizo mis datos personales?
+Accede a tu perfil desde la barra de navegación inferior y pulsa en "Datos personales". Desde ahí podrás editar tu información de forma rápida y segura.
+    
+    4. ¿Puedo usar MyNutriCoach sin conexión?
+Sí, algunas funcionalidades como la visualización de progresos, citas y dietas recientes están disponibles sin conexión gracias al almacenamiento local. No obstante, se requiere conexión para actualizar datos.
+    
+    5. ¿Cómo contacto con soporte?
+Si necesitas ayuda adicional, puedes contactar directamente con nuestro equipo de soporte a través del correo que encontrarás más abajo.
+    
+    6. Eliminación de cuenta
+
+Si deseas eliminar tu cuenta, dirígete a la sección de "Configuración" en tu perfil y selecciona "Eliminar cuenta". Ten en cuenta que esta acción es irreversible y perderás todos tus datos.
+  
+    7. Contacto
+Si necesita contactar con un administrador, puede hacerlo en mynutricoach.app@gmail.com o pulsando el siguiente botón:
+
+"""
 }

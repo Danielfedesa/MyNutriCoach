@@ -69,7 +69,7 @@ fun DietsComp(navController: NavHostController, dietsViewModel: DietsViewModel =
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Dietas de ${userName ?: "Usuario"}",
+                text = "Dieta de ${userName ?: "Usuario"}",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(16.dp)
@@ -147,14 +147,15 @@ fun MealCard(meal: Meal, onClick: () -> Unit) {
             .fillMaxWidth()
             .padding(vertical = 4.dp)
             .clickable { onClick() },
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFC8E6C9))
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFEBEBEB)),
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(text = meal.tipo, fontWeight = FontWeight.Bold, fontSize = 18.sp)
             Text(
                 text = meal.alimentos.joinToString(", "),
-                fontSize = 14.sp,
-                color = Color.DarkGray
+                fontSize = 16.sp,
+                color = Color.Black
             )
         }
     }
