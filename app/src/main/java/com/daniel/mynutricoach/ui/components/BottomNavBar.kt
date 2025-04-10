@@ -30,7 +30,36 @@ fun BottomNavBar(navController: NavHostController, currentScreen: String) {
                     Icon(icon, contentDescription = label, modifier = Modifier.size(22.dp))
                 },
                 label = {
-                    Text(label, fontSize = 12.sp) // Usa el nombre personalizado
+                    Text(label, fontSize = 12.sp)
+                },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = Color(0xFF0077CC),
+                    unselectedIconColor = Color.Gray
+                )
+            )
+        }
+    }
+}
+
+@Composable
+fun NutriBottomNavBar(navController: NavHostController, currentScreen: String) {
+    NavigationBar(
+        containerColor = Color.White
+    ) {
+        listOf(
+            Triple("NutriHome", "Home", Icons.Filled.Home),
+            Triple("NutriClients", "Clientes", Icons.Filled.People),
+            Triple("Appointments", "Citas", Icons.Filled.CalendarToday),
+            Triple("Profile", "Perfil", Icons.Filled.Person)
+        ).forEach { (screen, label, icon) ->
+            NavigationBarItem(
+                selected = screen == currentScreen, // Marca la pantalla actual
+                onClick = { navController.navigate(screen) }, // Navega a la pantalla
+                icon = {
+                    Icon(icon, contentDescription = label, modifier = Modifier.size(22.dp))
+                },
+                label = {
+                    Text(label, fontSize = 12.sp)
                 },
                 colors = NavigationBarItemDefaults.colors(
                     selectedIconColor = Color(0xFF0077CC),

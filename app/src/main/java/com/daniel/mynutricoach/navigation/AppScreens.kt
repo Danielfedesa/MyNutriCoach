@@ -21,5 +21,6 @@ sealed class AppScreens (val ruta:String){
     object EditNotifications: AppScreens("EditNotifications")
 
     // Screens del nutricionista
-    object Home: AppScreens("Home")
+    object NutriHome: AppScreens("NutriHome")
+    object NutriClients: AppScreens("NutriClients")
 }

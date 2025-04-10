@@ -80,7 +80,10 @@ fun AppNavigation() {
         // Screens del nutricionista
 
         // Pantalla Home con su ViewModel asociado
-        composable(AppScreens.Home.ruta) { HomeComp(navController) }
+        composable(AppScreens.NutriHome.ruta) { NutriHomeComp(navController) }
+
+        // Pantalla Clients con su ViewModel asociado
+        composable(AppScreens.NutriClients.ruta) { NutriClientsComp(navController) }
 
     }
 }

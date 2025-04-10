@@ -54,7 +54,7 @@ import com.daniel.mynutricoach.viewmodel.LoginViewModel
     // Verifica si hay una sesión activa al abrir la app
     LaunchedEffect(isAuthenticated) {
         if (isAuthenticated == true) {
-            val destination = if (loginViewModel.userRole.value == "nutricionista") "Home" else "Progress"
+            val destination = if (loginViewModel.userRole.value == "nutricionista") "NutriHome" else "Progress"
             navController.navigate(destination) {
                 popUpTo("Login") { inclusive = true }
             }

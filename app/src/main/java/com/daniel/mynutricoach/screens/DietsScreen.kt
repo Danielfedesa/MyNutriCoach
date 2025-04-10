@@ -37,7 +37,7 @@ fun DietsComp(navController: NavHostController, dietsViewModel: DietsViewModel =
     val userName by dietsViewModel.userName.collectAsState()
 
     // Este estado se reinicia cada vez que se navega de nuevo a esta pantalla
-    var dayOffset by remember { mutableStateOf(0) }
+    var dayOffset by remember { mutableIntStateOf(0) }
 
     Scaffold(
         topBar = {
