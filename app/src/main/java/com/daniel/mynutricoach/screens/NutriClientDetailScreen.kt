@@ -1,5 +1,6 @@
 package com.daniel.mynutricoach.screens
 
+import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
@@ -35,11 +36,13 @@ fun NutriClientDetailComp(clienteId: String, navController: NavHostController, n
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(
-                    "Detalle del Cliente",
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center
-                )  },
+                title = {
+                    Text(
+                        "Detalle del Cliente",
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center
+                    )
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     titleContentColor = Color.White
@@ -70,8 +73,8 @@ fun NutriClientDetailComp(clienteId: String, navController: NavHostController, n
                 )
                 Text("Correo: ${clienteData.email}", fontSize = 18.sp)
                 Text("Teléfono: ${clienteData.telefono}", fontSize = 18.sp)
-                Text("Sexo: ${clienteData.sexo}" , fontSize = 18.sp)
-                Text("F. nacimiento: ${clienteData.fechaNacimiento}" , fontSize = 18.sp)
+                Text("Sexo: ${clienteData.sexo}", fontSize = 18.sp)
+                Text("F. nacimiento: ${clienteData.fechaNacimiento}", fontSize = 18.sp)
                 Text("Peso objetivo: ${clienteData.pesoObjetivo ?: "--"} Kg", fontSize = 18.sp)
 
                 if (progreso.isNotEmpty()) {
@@ -106,25 +109,48 @@ fun NutriClientDetailComp(clienteId: String, navController: NavHostController, n
         }
     }
 
-    // Diálogo para añadir progreso o dieta
+    // Diálogo para añadir progreso, dieta o cita
     if (showDialog) {
         AlertDialog(
             onDismissRequest = { showDialog = false },
             title = { Text("¿Qué quieres añadir?") },
+            text = { Text("Selecciona qué deseas registrar para este cliente:") },
             confirmButton = {
-                Button(onClick = {
-                    showDialog = false
-                    navController.navigate("AñadirProgreso/$clienteId")
-                }) {
-                    Text("Progreso")
-                }
-            },
-            dismissButton = {
-                Button(onClick = {
-                    showDialog = false
-                    navController.navigate("AñadirDieta/$clienteId")
-                }) {
-                    Text("Dieta")
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Button(
+                        onClick = {
+                            showDialog = false
+                            navController.navigate("AñadirProgreso/$clienteId")
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text("Añadir Progreso")
+                    }
+
+                    Button(
+                        onClick = {
+                            showDialog = false
+                            navController.navigate("AñadirDieta/$clienteId")
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text("Añadir Dieta")
+                    }
+
+                    Button(
+                        onClick = {
+                            showDialog = false
+                            cliente?.let { clienteData ->
+                                navController.navigate("NutriAddAppointment/${clienteData.userId}/${Uri.encode(clienteData.nombre)}")
+                            }
+                        },
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        Text("Añadir Cita")
+                    }
                 }
             }
         )

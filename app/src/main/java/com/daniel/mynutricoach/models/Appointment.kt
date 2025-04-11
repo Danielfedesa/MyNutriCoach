@@ -7,7 +7,8 @@ data class Appointment(
     val fecha: String = "",
     val hora: String = "",
     val estado: AppointmentState = AppointmentState.Programada,
-    val timestamp: Timestamp = Timestamp.now()
+    val timestamp: Timestamp = Timestamp.now(),
+    val userName: String = ""
 )
 
 enum class AppointmentState {
