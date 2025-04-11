@@ -49,8 +49,8 @@ fun NutriBottomNavBar(navController: NavHostController, currentScreen: String) {
         listOf(
             Triple("NutriHome", "Home", Icons.Filled.Home),
             Triple("NutriClients", "Clientes", Icons.Filled.People),
-            Triple("Appointments", "Citas", Icons.Filled.CalendarToday),
-            Triple("Profile", "Perfil", Icons.Filled.Person)
+            Triple("NutriAppointments", "Citas", Icons.Filled.CalendarToday),
+            Triple("NutriProfile", "Perfil", Icons.Filled.Person)
         ).forEach { (screen, label, icon) ->
             NavigationBarItem(
                 selected = screen == currentScreen, // Marca la pantalla actual

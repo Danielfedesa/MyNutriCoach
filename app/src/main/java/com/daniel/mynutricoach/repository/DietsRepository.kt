@@ -30,13 +30,13 @@ class DietsRepository(
                 .document("comidas")
                 .get().await()
 
-            val comidasRaw = doc[dia] as? List<Map<String, Any>> ?: return emptyList()
+            val comidasRaw = (doc[dia] as? List<*>)?.mapNotNull { it as? Map<*, *> } ?: return emptyList()
 
             println("🔥 Firestore devuelve para $dia: $comidasRaw") // Debug
 
             comidasRaw.map { raw ->
                 val tipo = raw["tipo"] as? String ?: ""
-                val alimentos = raw["alimentos"] as? List<String> ?: emptyList()
+                val alimentos = (raw["alimentos"] as? List<*>)?.mapNotNull { it as? String } ?: emptyList()
                 Meal(tipo, alimentos)
             }.also { meals ->
                 println("✅ Meals parseadas: $meals") // Debug

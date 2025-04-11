@@ -129,8 +129,8 @@ fun NutriClientsComp(navController: NavHostController, clientesViewModel: NutriC
             ) {
                 items(filteredClientes) { cliente ->
                     ClienteCard(cliente) {
-                        // Aquí navegas a la pantalla de detalles del cliente
-                        navController.navigate("ClienteDetalle/${cliente.email}")
+                        // Aquí navego a la pantalla de detalles del cliente
+                        navController.navigate("NutriClientDetail/${cliente.userId}")
                     }
                 }
             }
