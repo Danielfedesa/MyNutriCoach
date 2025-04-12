@@ -115,9 +115,20 @@ fun AppNavigation() {
             )
         }
 
+        // Pantalla NutriAddProgress con su ViewModel asociado
+        composable(
+            route = "AñadirProgreso/{clienteId}",
+            arguments = listOf(navArgument("clienteId") { type = NavType.StringType })
+        ) { backStackEntry ->
+            val clienteId = backStackEntry.arguments?.getString("clienteId") ?: ""
+            AddProgressComp(clienteId = clienteId, navController = navController)
+        }
 
         // Pantalla NutriAppointments con su ViewModel asociado
         composable(AppScreens.NutriAppointments.ruta) { NutriAppointmentsComp(navController) }
+
+        // Pantalla NutriProfile con su ViewModel asociado
+        composable(AppScreens.NutriProfile.ruta) { NutriProfileComp(navController) }
 
 
 

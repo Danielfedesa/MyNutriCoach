@@ -26,4 +26,17 @@ class ProgressRepository(
         auth.currentUser?.uid?.let { userId ->
             db.collection("users").document(userId).get().await().getString("nombre")
         } ?: "Usuario"
+
+    // Función para añadir progreso
+    suspend fun addProgress(clienteId: String, progress: Progress) {
+        try {
+            db.collection("users")
+                .document(clienteId)
+                .collection("progress")
+                .add(progress)
+                .await()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
 }

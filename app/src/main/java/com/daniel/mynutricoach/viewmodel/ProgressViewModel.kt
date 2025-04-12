@@ -16,10 +16,34 @@ class ProgressViewModel(private val repository: ProgressRepository = ProgressRep
     private val _userName = MutableStateFlow("Usuario")
     val userName: StateFlow<String> = _userName
 
+    // Init para cargar el historial de progreso y el nombre del usuario
     init {
         viewModelScope.launch {
             _progressHistory.value = repository.getProgressHistory()
             _userName.value = repository.getUserName()
+        }
+    }
+    // Función para añadir progreso
+    fun addProgress(
+        clienteId: String,
+        peso: Float,
+        masaMuscular: Float,
+        grasa: Float,
+        onSuccess: () -> Unit
+    ) {
+        viewModelScope.launch {
+            try {
+                val progress = Progress(
+                    timestamp = System.currentTimeMillis(),
+                    peso = peso,
+                    masaMuscular = masaMuscular,
+                    grasa = grasa
+                )
+                repository.addProgress(clienteId, progress)
+                onSuccess()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
     }
 }
