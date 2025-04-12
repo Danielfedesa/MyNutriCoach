@@ -86,6 +86,9 @@ dependencies {
     // Corrutinas para hacer peticiones a la API de forma asíncrona
     implementation (libs.kotlinx.coroutines.android)
 
+    implementation(libs.androidx.foundation)
+
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

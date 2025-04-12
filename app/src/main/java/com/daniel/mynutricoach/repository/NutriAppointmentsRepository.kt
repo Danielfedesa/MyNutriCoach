@@ -11,10 +11,15 @@ class NutriAppointmentsRepository (
     ) {
     suspend fun getAllAppointments(): List<Appointment> {
         return try {
-            db.collectionGroup("appointments") // Buscar en todas las subcolecciones appointments
+            val auth = com.google.firebase.auth.FirebaseAuth.getInstance()
+            val nutricionistaId = auth.currentUser?.uid ?: return emptyList()
+
+            db.collection("appointments")
+                .whereEqualTo("nutricionistaId", nutricionistaId) // Aquí filtramos
                 .get()
                 .await()
                 .documents.mapNotNull { it.toObject(Appointment::class.java) }
+                .filter { it.estado.name == "Programada" } // Solo citas programadas
         } catch (e: Exception) {
             emptyList()
         }
@@ -22,37 +27,43 @@ class NutriAppointmentsRepository (
 
     suspend fun updateAppointmentStatus(appointmentId: String, newState: AppointmentState) {
         try {
-            val query = db.collectionGroup("appointments")
-                .whereEqualTo("id", appointmentId)
-                .get()
+            val docRef = db.collection("appointments").document(appointmentId)
+            docRef.update("estado", newState)
                 .await()
-
-            if (query.documents.isNotEmpty()) {
-                val doc = query.documents.first()
-                doc.reference.update("estado", newState)
-            }
         } catch (e: Exception) {
+            e.printStackTrace()
         }
     }
 
-    suspend fun addAppointment(clienteId: String, userName: String, fecha: String, hora: String) {
+    suspend fun addAppointment(
+        clienteId: String,
+        clienteNombre: String,
+        clienteApellido: String,
+        fecha: String,
+        hora: String
+    ) {
         try {
+            val dbRef = db.collection("appointments").document()
+
+            val auth = com.google.firebase.auth.FirebaseAuth.getInstance()
+            val nutricionistaId = auth.currentUser?.uid ?: ""
+
             val newAppointment = Appointment(
-                id = db.collection("users").document(clienteId).collection("appointments").document().id,
+                id = dbRef.id, // el ID del documento
+                clienteId = clienteId,
+                clienteNombre = clienteNombre,
+                clienteApellido = clienteApellido,
+                nutricionistaId = nutricionistaId,
                 fecha = fecha,
                 hora = hora,
-                estado = AppointmentState.Programada,
-                userName = userName
+                estado = AppointmentState.Programada
             )
 
-            db.collection("users")
-                .document(clienteId)
-                .collection("appointments")
-                .document(newAppointment.id)
-                .set(newAppointment)
-                .await()
+            dbRef.set(newAppointment).await()
+
         } catch (e: Exception) {
-            // Error
+            // Manejo de errores
+            e.printStackTrace()
         }
     }
 }

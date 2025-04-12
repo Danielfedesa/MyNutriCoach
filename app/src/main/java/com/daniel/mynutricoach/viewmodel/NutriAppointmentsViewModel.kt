@@ -23,6 +23,7 @@ class NutriAppointmentsViewModel(
         }
     }
 
+    // Actualizar el estado de una cita
     fun updateAppointmentStatus(appointmentId: String, newState: AppointmentState) {
         viewModelScope.launch {
             repository.updateAppointmentStatus(appointmentId, newState)
@@ -31,10 +32,15 @@ class NutriAppointmentsViewModel(
         }
     }
 
-    // Método para añadir una cita
-    fun addAppointment(clienteId: String, userName: String, fecha: String, hora: String, onComplete: () -> Unit) {
+    // Métdo para añadir una cita
+    fun addAppointment(clienteId: String,
+                       clienteNombre: String,
+                       clienteApellido: String,
+                       fecha: String,
+                       hora: String,
+                       onComplete: () -> Unit) {
         viewModelScope.launch {
-            repository.addAppointment(clienteId, userName, fecha, hora)
+            repository.addAppointment(clienteId, clienteNombre, clienteApellido, fecha, hora)
             _appointments.value = repository.getAllAppointments()
                 .sortedByDescending { it.timestamp.toDate().time }
             onComplete()

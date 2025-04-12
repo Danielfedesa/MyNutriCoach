@@ -96,16 +96,25 @@ fun AppNavigation() {
 
         // Pantalla NutriAddAppointment con su ViewModel asociado
         composable(
-            route = "${AppScreens.NutriAddAppointment.ruta}/{clienteId}/{clienteNombre}",
+            route = "${AppScreens.NutriAddAppointment.ruta}/{clienteId}/{clienteNombre}/{clienteApellido}",
             arguments = listOf(
                 navArgument("clienteId") { type = NavType.StringType },
-                navArgument("clienteNombre") { type = NavType.StringType }
+                navArgument("clienteNombre") { type = NavType.StringType },
+                navArgument("clienteApellido") { type = NavType.StringType }
             )
         ) { backStackEntry ->
             val clienteId = backStackEntry.arguments?.getString("clienteId") ?: ""
             val clienteNombre = backStackEntry.arguments?.getString("clienteNombre") ?: ""
-            NutriAddAppointmentComp(clienteId, clienteNombre, navController)
+            val clienteApellido = backStackEntry.arguments?.getString("clienteApellido") ?: ""
+
+            NutriAddAppointmentComp(
+                clienteId = clienteId,
+                clienteNombre = clienteNombre,
+                clienteApellido = clienteApellido,
+                navController = navController
+            )
         }
+
 
         // Pantalla NutriAppointments con su ViewModel asociado
         composable(AppScreens.NutriAppointments.ruta) { NutriAppointmentsComp(navController) }

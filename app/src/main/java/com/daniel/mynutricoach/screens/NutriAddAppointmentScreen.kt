@@ -1,18 +1,11 @@
 package com.daniel.mynutricoach.screens
 
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,78 +13,116 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.daniel.mynutricoach.viewmodel.NutriAppointmentsViewModel
+import java.time.LocalDate
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import com.daniel.mynutricoach.ui.components.DayCard
+import com.daniel.mynutricoach.ui.components.TimeSlotButton
 
-@OptIn(ExperimentalMaterial3Api::class)
+
+@RequiresApi(Build.VERSION_CODES.O)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun NutriAddAppointmentComp(
     clienteId: String,
     clienteNombre: String,
+    clienteApellido: String,
     navController: NavHostController,
     viewModel: NutriAppointmentsViewModel = viewModel()
 ) {
-    var fecha by remember { mutableStateOf("") }
-    var hora by remember { mutableStateOf("") }
+    val today = remember { LocalDate.now() }
+    val selectedDate = remember { mutableStateOf(today) }
+    val appointments by viewModel.appointments.collectAsState()
     var showSuccessDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Añadir Cita para $clienteNombre") },
+                title = { Text("Reservar cita para $clienteNombre") },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     titleContentColor = Color.White
                 )
             )
         }
-    ) { paddingValues ->
+    ) { padding ->
         Column(
             modifier = Modifier
-                .padding(paddingValues)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .padding(padding)
+                .padding(16.dp)
         ) {
-            OutlinedTextField(
-                value = fecha,
-                onValueChange = { fecha = it },
-                label = { Text("Fecha (DD/MM/AAAA)") },
-                modifier = Modifier.fillMaxWidth()
-            )
+            // Días (solo lunes a viernes)
+            val diasDisponibles = (0..60)
+                .map { today.plusDays(it.toLong()) }
+                .filter { it.dayOfWeek.value in 1..5 } // 1 = Lunes, 5 = Viernes
 
-            OutlinedTextField(
-                value = hora,
-                onValueChange = { hora = it },
-                label = { Text("Hora (HH:MM)") },
-                modifier = Modifier.fillMaxWidth()
-            )
-
-            Button(
-                onClick = {
-                    viewModel.addAppointment(clienteId, clienteNombre, fecha, hora) {
-                        showSuccessDialog = true
-                    }
-                },
-                modifier = Modifier.fillMaxWidth()
+            LazyRow(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp)
             ) {
-                Text("Añadir Cita")
+                items(diasDisponibles) { day ->
+                    DayCard(
+                        day = day,
+                        isSelected = selectedDate.value == day,
+                        onClick = { selectedDate.value = day }
+                    )
+                }
+            }
+
+            Spacer(Modifier.height(16.dp))
+
+            // Horas disponibles
+            val horarios = listOf(
+                "09:00", "09:30", "10:00", "10:30",
+                "11:00", "11:30", "12:00", "12:30",
+                "13:00", "13:30"
+            )
+
+            FlowRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                horarios.forEach { hora ->
+                    val isTaken = appointments.any {
+                        it.fecha == selectedDate.value.toString() && it.hora == hora
+                    }
+                    TimeSlotButton(hora, isTaken) {
+                        if (!isTaken) {
+                            viewModel.addAppointment(
+                                clienteId = clienteId,
+                                clienteNombre = clienteNombre,
+                                clienteApellido = clienteApellido,
+                                fecha = selectedDate.value.toString(),
+                                hora = hora
+                            ) {
+                                showSuccessDialog = true
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Mensaje de cita reservada
+            if (showSuccessDialog) {
+                AlertDialog(
+                    onDismissRequest = { showSuccessDialog = false },
+                    title = { Text("Cita Reservada") },
+                    text = { Text("La cita se ha reservado correctamente.") },
+                    confirmButton = {
+                        Button(
+                            onClick = {
+                                showSuccessDialog = false
+                                navController.popBackStack()
+                            }
+                        ) {
+                            Text("Aceptar")
+                        }
+                    }
+                )
             }
         }
     }
-
-    if (showSuccessDialog) {
-        AlertDialog(
-            onDismissRequest = { showSuccessDialog = false },
-            title = { Text("Cita Añadida") },
-            text = { Text("La cita se ha añadido correctamente.") },
-            confirmButton = {
-                Button(
-                    onClick = {
-                        showSuccessDialog = false
-                        navController.popBackStack()
-                    }
-                ) {
-                    Text("Aceptar")
-                }
-            }
-        )
-    }
 }
+

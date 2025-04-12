@@ -144,7 +144,7 @@ fun NutriClientDetailComp(clienteId: String, navController: NavHostController, n
                         onClick = {
                             showDialog = false
                             cliente?.let { clienteData ->
-                                navController.navigate("NutriAddAppointment/${clienteData.userId}/${Uri.encode(clienteData.nombre)}")
+                                navController.navigate("NutriAddAppointment/${clienteData.userId}/${Uri.encode(clienteData.nombre)}/${Uri.encode(clienteData.apellidos)}")
                             }
                         },
                         modifier = Modifier.fillMaxWidth()
