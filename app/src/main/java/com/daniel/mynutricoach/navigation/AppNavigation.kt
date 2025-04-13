@@ -130,6 +130,17 @@ fun AppNavigation() {
         // Pantalla NutriProfile con su ViewModel asociado
         composable(AppScreens.NutriProfile.ruta) { NutriProfileComp(navController) }
 
+        // Pantalla NutriAddDiet con su ViewModel asociado
+        composable(
+            route = "${AppScreens.NutriAddDiet.ruta}/{clienteId}",
+            arguments = listOf(
+                navArgument("clienteId") { type = NavType.StringType }
+            )
+        ) { backStackEntry ->
+            val clienteId = backStackEntry.arguments?.getString("clienteId") ?: ""
+            NutriAddDietScreen(clienteId = clienteId, navController = navController)
+        }
+
 
 
     }

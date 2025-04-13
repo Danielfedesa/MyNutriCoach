@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.daniel.mynutricoach.ui.components.inputs.CustomTextField
 import com.daniel.mynutricoach.viewmodel.ProgressViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -41,25 +42,25 @@ fun AddProgressComp(
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            OutlinedTextField(
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            CustomTextField(
                 value = peso,
                 onValueChange = { peso = it },
-                label = { Text("Peso (Kg)") },
-                modifier = Modifier.fillMaxWidth()
+                label = "Peso (kg)",
             )
 
-            OutlinedTextField(
+            CustomTextField(
                 value = masaMuscular,
                 onValueChange = { masaMuscular = it },
-                label = { Text("Masa Muscular (%)") },
-                modifier = Modifier.fillMaxWidth()
+                label = "Masa Muscular (%)"
             )
 
-            OutlinedTextField(
+            CustomTextField(
                 value = grasa,
                 onValueChange = { grasa = it },
-                label = { Text("Grasa Corporal (%)") },
-                modifier = Modifier.fillMaxWidth()
+                label = "Grasa Corporal (%)"
             )
 
             Button(

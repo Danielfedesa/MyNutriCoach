@@ -37,7 +37,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.daniel.mynutricoach.R
-import com.daniel.mynutricoach.ui.components.forms.CustomTextField
+import com.daniel.mynutricoach.ui.components.inputs.CustomTextField
 import com.daniel.mynutricoach.viewmodel.LoginViewModel
 
 // Login Screen
@@ -94,11 +94,17 @@ fun LoginComp(navController: NavHostController, loginViewModel: LoginViewModel =
             )
             Spacer(modifier = Modifier.height(8.dp))
 
-            CustomTextField(value = email, onValueChange = { email = it }, placeholder = "Correo")
+            CustomTextField(value = email,
+                onValueChange = { email = it },
+                label = "Correo")
 
             Spacer(Modifier.height(16.dp))
 
-            CustomTextField(value = password, onValueChange = { password = it }, placeholder = "Contraseña", isPassword = true)
+            CustomTextField(
+                value = password,
+                onValueChange = { password = it },
+                label = "Contraseña",
+                isPassword = true)
 
             Spacer(Modifier.height(6.dp))
 

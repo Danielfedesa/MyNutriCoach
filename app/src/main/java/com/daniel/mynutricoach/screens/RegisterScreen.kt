@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.*
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.daniel.mynutricoach.navigation.AppScreens
-import com.daniel.mynutricoach.ui.components.forms.CustomTextField
+import com.daniel.mynutricoach.ui.components.inputs.CustomTextField
 import com.daniel.mynutricoach.viewmodel.RegisterViewModel
 
 @Composable
@@ -80,7 +80,7 @@ fun RegisterComp(navController: NavHostController, registerViewModel: RegisterVi
         CustomTextField(
             value = email,
             onValueChange = { email = it },
-            placeholder = "ejemplo@ejemplo.com"
+            label = "ejemplo@ejemplo.com"
         )
 
         Spacer(Modifier.height(12.dp))
@@ -98,7 +98,7 @@ fun RegisterComp(navController: NavHostController, registerViewModel: RegisterVi
         CustomTextField(
             value = password,
             onValueChange = { password = it },
-            placeholder = "Crear contraseña",
+            label = "Crear contraseña",
             isPassword = true
         )
 
@@ -108,7 +108,7 @@ fun RegisterComp(navController: NavHostController, registerViewModel: RegisterVi
         CustomTextField(
             value = confirmPassword,
             onValueChange = { confirmPassword = it },
-            placeholder = "Confirmar contraseña",
+            label = "Confirmar contraseña",
             isPassword = true
         )
 

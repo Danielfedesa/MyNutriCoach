@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.daniel.mynutricoach.navigation.AppScreens
 import com.daniel.mynutricoach.ui.components.visuals.GraphComponent
 import com.daniel.mynutricoach.viewmodel.NutriClientDetailViewModel
 
@@ -49,12 +50,29 @@ fun NutriClientDetailComp(clienteId: String, navController: NavHostController, n
                 )
             )
         },
+        // Botón flotante para añadir progreso, dieta o cita
         floatingActionButton = {
-            FloatingActionButton(
-                onClick = { showDialog = true },
-                containerColor = MaterialTheme.colorScheme.primary
+            Box(
+                modifier = Modifier
+                    .padding(end = 16.dp, bottom = 16.dp) // Separación del botón
             ) {
-                Icon(Icons.Default.Add, contentDescription = "Añadir")
+                FloatingActionButton(
+                    onClick = { showDialog = true },
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    elevation = FloatingActionButtonDefaults.elevation(
+                        defaultElevation = 8.dp,
+                        pressedElevation = 12.dp
+                    ),
+                    shape = MaterialTheme.shapes.medium,
+                    modifier = Modifier
+                        .size(60.dp) // Tamaño del botón flotante
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "Añadir",
+                        modifier = Modifier.size(40.dp) // Tamaño del icono
+                    )
+                }
             }
         }
     ) { padding ->
@@ -113,8 +131,8 @@ fun NutriClientDetailComp(clienteId: String, navController: NavHostController, n
     if (showDialog) {
         AlertDialog(
             onDismissRequest = { showDialog = false },
-            title = { Text("¿Qué quieres añadir?") },
-            text = { Text("Selecciona qué deseas registrar para este cliente:") },
+            title = { Text("¿Qué quieres añadir?", fontSize =  22.sp) },
+            text = { Text("Selecciona qué deseas registrar para este cliente:", fontSize = 18.sp) },
             confirmButton = {
                 Column(
                     verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -127,17 +145,19 @@ fun NutriClientDetailComp(clienteId: String, navController: NavHostController, n
                         },
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text("Añadir Progreso")
+                        Text("Progreso", fontSize = 18.sp)
                     }
 
                     Button(
                         onClick = {
                             showDialog = false
-                            navController.navigate("AñadirDieta/$clienteId")
+                            cliente?.let { clienteData ->
+                                navController.navigate("${AppScreens.NutriAddDiet.ruta}/${clienteData.userId}")
+                            }
                         },
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text("Añadir Dieta")
+                        Text("Dieta", fontSize = 18.sp)
                     }
 
                     Button(
@@ -149,7 +169,7 @@ fun NutriClientDetailComp(clienteId: String, navController: NavHostController, n
                         },
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text("Añadir Cita")
+                        Text("Cita", fontSize = 18.sp)
                     }
                 }
             }
