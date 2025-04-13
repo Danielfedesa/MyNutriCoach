@@ -130,6 +130,9 @@ fun AppNavigation() {
         // Pantalla NutriProfile con su ViewModel asociado
         composable(AppScreens.NutriProfile.ruta) { NutriProfileComp(navController) }
 
+        // Pantalla NutriEditProfile con su ViewModel asociado
+        composable(AppScreens.NutriEditProfile.ruta) { NutriEditProfileComp(navController) }
+
         // Pantalla NutriAddDiet con su ViewModel asociado
         composable(
             route = "${AppScreens.NutriAddDiet.ruta}/{clienteId}",

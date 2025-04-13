@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
@@ -35,8 +34,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.daniel.mynutricoach.ui.components.buttons.BottomNavBar
 import com.daniel.mynutricoach.ui.components.buttons.CustomButton
+import com.daniel.mynutricoach.ui.components.buttons.NutriBottomNavBar
 import com.daniel.mynutricoach.ui.components.forms.CustomOutlinedTextField
 import com.daniel.mynutricoach.ui.components.forms.FechaNacimientoTextField
 import com.daniel.mynutricoach.ui.components.forms.SexoSelector
@@ -45,7 +44,7 @@ import com.daniel.mynutricoach.viewmodel.InitialProfileViewModel
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditProfileComp(navController: NavHostController, initialProfileViewModel: InitialProfileViewModel = viewModel()) {
+fun NutriEditProfileComp(navController: NavHostController, initialProfileViewModel: InitialProfileViewModel = viewModel()) {
 
     val context = LocalContext.current
     val userData by initialProfileViewModel.userData.collectAsState()
@@ -87,8 +86,8 @@ fun EditProfileComp(navController: NavHostController, initialProfileViewModel: I
     LaunchedEffect(saveState) {
         saveState?.onSuccess {
             Toast.makeText(context, "Perfil actualizado correctamente", Toast.LENGTH_SHORT).show()
-            navController.navigate("Profile") {
-                popUpTo("EditProfile") { inclusive = true }
+            navController.navigate("NutriProfile") {
+                popUpTo("NutriEditProfile") { inclusive = true }
             }
         }?.onFailure {
             Toast.makeText(context, "Error: ${it.message}", Toast.LENGTH_SHORT).show()
@@ -109,7 +108,7 @@ fun EditProfileComp(navController: NavHostController, initialProfileViewModel: I
                 )
             }
         },
-        bottomBar = { BottomNavBar(navController, "Profile") }
+        bottomBar = { NutriBottomNavBar(navController, "NutriProfile") }
     ) { paddingValues ->
         Column(
             modifier = Modifier

@@ -12,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -24,7 +23,11 @@ import com.daniel.mynutricoach.viewmodel.NutriClientDetailViewModel
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NutriClientDetailComp(clienteId: String, navController: NavHostController, nutriClientDetailviewModel: NutriClientDetailViewModel = viewModel()) {
+fun NutriClientDetailComp(
+    clienteId: String,
+    navController: NavHostController,
+    nutriClientDetailviewModel: NutriClientDetailViewModel = viewModel()
+) {
     val cliente by nutriClientDetailviewModel.cliente.collectAsState()
     val progreso by nutriClientDetailviewModel.progreso.collectAsState()
 
@@ -36,25 +39,32 @@ fun NutriClientDetailComp(clienteId: String, navController: NavHostController, n
 
     Scaffold(
         topBar = {
-            TopAppBar(
+            CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        "Detalle del Cliente",
-                        modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Center
+                        "Detalle del cliente",
+                        style = MaterialTheme.typography.titleLarge
                     )
                 },
-                colors = TopAppBarDefaults.topAppBarColors(
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Text(
+                            text = "<",
+                            color = Color.White,
+                            style = MaterialTheme.typography.titleLarge.copy(fontSize = 30.sp)
+                        )
+                    }
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = Color.White
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary
                 )
             )
         },
-        // Botón flotante para añadir progreso, dieta o cita
         floatingActionButton = {
             Box(
                 modifier = Modifier
-                    .padding(end = 16.dp, bottom = 16.dp) // Separación del botón
+                    .padding(end = 16.dp, bottom = 16.dp)
             ) {
                 FloatingActionButton(
                     onClick = { showDialog = true },
@@ -64,13 +74,12 @@ fun NutriClientDetailComp(clienteId: String, navController: NavHostController, n
                         pressedElevation = 12.dp
                     ),
                     shape = MaterialTheme.shapes.medium,
-                    modifier = Modifier
-                        .size(60.dp) // Tamaño del botón flotante
+                    modifier = Modifier.size(60.dp)
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,
                         contentDescription = "Añadir",
-                        modifier = Modifier.size(40.dp) // Tamaño del icono
+                        modifier = Modifier.size(40.dp)
                     )
                 }
             }
@@ -131,7 +140,7 @@ fun NutriClientDetailComp(clienteId: String, navController: NavHostController, n
     if (showDialog) {
         AlertDialog(
             onDismissRequest = { showDialog = false },
-            title = { Text("¿Qué quieres añadir?", fontSize =  22.sp) },
+            title = { Text("¿Qué quieres añadir?", fontSize = 22.sp) },
             text = { Text("Selecciona qué deseas registrar para este cliente:", fontSize = 18.sp) },
             confirmButton = {
                 Column(

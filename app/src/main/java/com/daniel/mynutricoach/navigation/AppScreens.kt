@@ -27,6 +27,7 @@ sealed class AppScreens (val ruta:String){
     object NutriAddAppointment : AppScreens("NutriAddAppointment")
     object NutriAppointments: AppScreens("NutriAppointments")
     object NutriProfile: AppScreens("NutriProfile")
+    object NutriEditProfile: AppScreens("NutriEditProfile")
     object NutriAddDiet: AppScreens("NutriAddDiet")
 
 }

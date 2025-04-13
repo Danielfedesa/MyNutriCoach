@@ -146,7 +146,7 @@ fun NutriProfileComp(navController: NavHostController, profileViewModel: Profile
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 ProfileOption("Datos personales") {
-                    navController.navigate("editProfile")
+                    navController.navigate("NutriEditProfile")
                 }
 
                 ProfileOption("Notificaciones") {

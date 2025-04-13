@@ -20,6 +20,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.daniel.mynutricoach.R
@@ -36,7 +37,6 @@ fun NutriAppointmentsComp(
 ) {
     val appointments by viewModel.appointments.collectAsState()
 
-    // 🔵 Variables para los diálogos
     var showFinalizeDialog by remember { mutableStateOf(false) }
     var showCancelConfirmationDialog by remember { mutableStateOf(false) }
     var selectedAppointmentId by remember { mutableStateOf<String?>(null) }
@@ -52,7 +52,8 @@ fun NutriAppointmentsComp(
                     painter = painterResource(id = R.drawable.banner),
                     contentDescription = "Banner",
                     contentScale = ContentScale.Crop,
-                    modifier = Modifier.fillMaxSize()
+                    modifier = Modifier
+                        .fillMaxSize()
                 )
                 CenterAlignedTopAppBar(
                     title = {},
@@ -106,10 +107,10 @@ fun NutriAppointmentsComp(
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
                         Icon(
-                            imageVector = Icons.Default.CheckCircle, // Icono de check
+                            imageVector = Icons.Default.CheckCircle,
                             contentDescription = "Cita finalizada",
-                            tint = Color(0xFF4CAF50), // Color verde
-                            modifier = Modifier.size(64.dp) // Tamaño del icono
+                            tint = Color(0xFF4CAF50),
+                            modifier = Modifier.size(64.dp)
                         )
                         Spacer(modifier = Modifier.height(8.dp))
                         Text(

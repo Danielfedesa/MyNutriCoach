@@ -16,6 +16,8 @@ import com.daniel.mynutricoach.viewmodel.NutriAppointmentsViewModel
 import java.time.LocalDate
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.sp
 import com.daniel.mynutricoach.ui.components.cards.DayCard
 import com.daniel.mynutricoach.ui.components.buttons.TimeSlotButton
 
@@ -37,11 +39,25 @@ fun NutriAddAppointmentComp(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = { Text("Reservar cita para $clienteNombre") },
-                colors = TopAppBarDefaults.topAppBarColors(
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        "Añadir Cita",
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Text(
+                            text = "<",
+                            color = Color.White,
+                            style = MaterialTheme.typography.titleLarge.copy(fontSize = 30.sp)
+                        )
+                    }
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = Color.White
+                    titleContentColor = MaterialTheme.colorScheme.onPrimary
                 )
             )
         }
@@ -108,14 +124,28 @@ fun NutriAddAppointmentComp(
             if (showSuccessDialog) {
                 AlertDialog(
                     onDismissRequest = { showSuccessDialog = false },
-                    title = { Text("Cita Reservada") },
-                    text = { Text("La cita se ha reservado correctamente.") },
+                    title = {
+                        Text(
+                            "Cita Reservada",
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    },
+                    text = {
+                        Text(
+                            "La cita se ha reservado correctamente.",
+                            fontSize = 18.sp,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    },
                     confirmButton = {
                         Button(
                             onClick = {
                                 showSuccessDialog = false
                                 navController.popBackStack()
-                            }
+                            },
+                            modifier = Modifier.fillMaxWidth()
                         ) {
                             Text("Aceptar")
                         }
