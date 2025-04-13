@@ -18,9 +18,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.daniel.mynutricoach.ui.components.BottomNavBar
-import com.daniel.mynutricoach.ui.components.InfoBox
-import com.daniel.mynutricoach.ui.components.ProfileOption
+import com.daniel.mynutricoach.ui.components.buttons.BottomNavBar
+import com.daniel.mynutricoach.ui.components.visuals.InfoBox
+import com.daniel.mynutricoach.ui.components.visuals.ProfileOption
 import com.daniel.mynutricoach.viewmodel.ProfileViewModel
 
 

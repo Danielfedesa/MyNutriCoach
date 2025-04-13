@@ -14,7 +14,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.daniel.mynutricoach.ui.components.Texts
+import com.daniel.mynutricoach.ui.components.forms.TextsApp
 
 @ExperimentalMaterial3Api
 @Composable
@@ -49,7 +49,7 @@ fun PrivacyComp(navController: NavController) {
             Spacer(modifier = Modifier.height(12.dp))
 
             Text(
-                text = Texts.PRIVACY,
+                text = TextsApp.PRIVACY,
                 fontSize = 16.sp,
                 color = MaterialTheme.colorScheme.onBackground,
                 textAlign = TextAlign.Start,

@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.*
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.daniel.mynutricoach.navigation.AppScreens
-import com.daniel.mynutricoach.ui.components.CustomTextField
+import com.daniel.mynutricoach.ui.components.forms.CustomTextField
 import com.daniel.mynutricoach.viewmodel.RegisterViewModel
 
 @Composable

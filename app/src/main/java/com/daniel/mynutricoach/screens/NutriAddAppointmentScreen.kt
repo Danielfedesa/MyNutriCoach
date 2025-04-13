@@ -16,8 +16,8 @@ import com.daniel.mynutricoach.viewmodel.NutriAppointmentsViewModel
 import java.time.LocalDate
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import com.daniel.mynutricoach.ui.components.DayCard
-import com.daniel.mynutricoach.ui.components.TimeSlotButton
+import com.daniel.mynutricoach.ui.components.cards.DayCard
+import com.daniel.mynutricoach.ui.components.buttons.TimeSlotButton
 
 
 @RequiresApi(Build.VERSION_CODES.O)

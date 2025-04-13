@@ -35,10 +35,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.daniel.mynutricoach.ui.components.BottomNavBar
-import com.daniel.mynutricoach.ui.components.CustomOutlinedTextField
-import com.daniel.mynutricoach.ui.components.FechaNacimientoTextField
-import com.daniel.mynutricoach.ui.components.SexoSelector
+import com.daniel.mynutricoach.ui.components.buttons.BottomNavBar
+import com.daniel.mynutricoach.ui.components.forms.CustomOutlinedTextField
+import com.daniel.mynutricoach.ui.components.forms.FechaNacimientoTextField
+import com.daniel.mynutricoach.ui.components.forms.SexoSelector
 import com.daniel.mynutricoach.viewmodel.InitialProfileViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)

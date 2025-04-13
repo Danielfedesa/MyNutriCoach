@@ -15,8 +15,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.daniel.mynutricoach.ui.components.Texts
-
+import com.daniel.mynutricoach.ui.components.forms.TextsApp
 import androidx.core.net.toUri
 
 @ExperimentalMaterial3Api
@@ -52,7 +51,7 @@ fun HelpComp(navController: NavController) {
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = Texts.HELP,
+                text = TextsApp.HELP,
                 fontSize = 16.sp,
                 color = MaterialTheme.colorScheme.onBackground,
                 textAlign = TextAlign.Start,

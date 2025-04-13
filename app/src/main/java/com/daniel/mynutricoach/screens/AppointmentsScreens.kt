@@ -18,9 +18,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.daniel.mynutricoach.R
-import com.daniel.mynutricoach.models.Appointment
-import com.daniel.mynutricoach.models.AppointmentState
-import com.daniel.mynutricoach.ui.components.BottomNavBar
+import com.daniel.mynutricoach.ui.components.cards.AppointmentCard
+import com.daniel.mynutricoach.ui.components.buttons.BottomNavBar
 import com.daniel.mynutricoach.viewmodel.AppointmentsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -83,24 +82,4 @@ fun AppointmentsComp(navController: NavHostController, appointmentsViewModel: Ap
     }
 }
 
-@Composable
-fun AppointmentCard(appointment: Appointment) {
-    val backgroundColor = when (appointment.estado) {
-        AppointmentState.Programada -> Color(0xFFBBDEFB)
-        AppointmentState.Finalizada -> Color(0xFFC8E6C9 )
-        AppointmentState.Cancelada -> Color(0xFFFFCDD2)
-    }
 
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp),
-        colors = CardDefaults.cardColors(containerColor = backgroundColor)
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = appointment.estado.name, color = Color.Black, fontWeight = FontWeight.Bold, fontSize = 18.sp)
-            Text(text = "Fecha: ${appointment.fecha}", color = Color.Black)
-            Text(text = "Hora: ${appointment.hora}", color = Color.Black)
-        }
-    }
-}

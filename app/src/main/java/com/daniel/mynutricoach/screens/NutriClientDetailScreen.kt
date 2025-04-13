@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.daniel.mynutricoach.ui.components.GraphComponent
+import com.daniel.mynutricoach.ui.components.visuals.GraphComponent
 import com.daniel.mynutricoach.viewmodel.NutriClientDetailViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)

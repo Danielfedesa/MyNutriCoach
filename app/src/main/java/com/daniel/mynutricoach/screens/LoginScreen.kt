@@ -37,19 +37,19 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.daniel.mynutricoach.R
-import com.daniel.mynutricoach.ui.components.CustomTextField
+import com.daniel.mynutricoach.ui.components.forms.CustomTextField
 import com.daniel.mynutricoach.viewmodel.LoginViewModel
 
 // Login Screen
-    @Composable
-    fun LoginComp(navController: NavHostController, loginViewModel: LoginViewModel = viewModel()) {
-        var email by remember { mutableStateOf("") }
-        var password by remember { mutableStateOf("") }
-        val context = LocalContext.current
+@Composable
+fun LoginComp(navController: NavHostController, loginViewModel: LoginViewModel = viewModel()) {
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    val context = LocalContext.current
 
-        // Estados del ViewModel
-        val isAuthenticated by loginViewModel.isAuthenticated.collectAsState()
-        val errorMessage by loginViewModel.errorMessage.collectAsState()
+    // Estados del ViewModel
+    val isAuthenticated by loginViewModel.isAuthenticated.collectAsState()
+    val errorMessage by loginViewModel.errorMessage.collectAsState()
 
     // Verifica si hay una sesión activa al abrir la app
     LaunchedEffect(isAuthenticated) {

@@ -13,7 +13,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.daniel.mynutricoach.ui.components.Texts
+import com.daniel.mynutricoach.ui.components.forms.TextsApp
 
 @ExperimentalMaterial3Api
 @Composable
@@ -47,7 +47,7 @@ fun TermsComp(navController: NavController) {
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = Texts.TERMS,
+                text = TextsApp.TERMS,
                 fontSize = 16.sp,
                 color = MaterialTheme.colorScheme.onBackground,
                 textAlign = TextAlign.Start,

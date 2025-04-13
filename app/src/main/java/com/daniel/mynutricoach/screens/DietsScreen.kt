@@ -1,10 +1,8 @@
 package com.daniel.mynutricoach.screens
 
-import android.net.Uri
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -22,13 +20,10 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.daniel.mynutricoach.R
-import com.daniel.mynutricoach.models.Meal
-import com.daniel.mynutricoach.navigation.AppScreens
-import com.daniel.mynutricoach.ui.components.BottomNavBar
+import com.daniel.mynutricoach.ui.components.buttons.BottomNavBar
+import com.daniel.mynutricoach.ui.components.cards.DayMeals
+import com.daniel.mynutricoach.ui.components.cards.getDayName
 import com.daniel.mynutricoach.viewmodel.DietsViewModel
-import java.time.LocalDate
-import java.time.format.TextStyle
-import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
@@ -110,54 +105,4 @@ fun DietsComp(navController: NavHostController, dietsViewModel: DietsViewModel =
     }
 }
 
-@RequiresApi(Build.VERSION_CODES.O)
-fun getDayName(dayOffset: Int): String {
-    val date = LocalDate.now().plusDays(dayOffset.toLong())
-    return date.dayOfWeek.getDisplayName(TextStyle.FULL, Locale("es", "ES"))
-        .replaceFirstChar { it.uppercaseChar() }
-}
-
-@RequiresApi(Build.VERSION_CODES.O)
-@Composable
-fun DayMeals(offset: Int, dietsViewModel: DietsViewModel, navController: NavHostController) {
-    val meals by dietsViewModel.getMealsForDay(offset).collectAsState()
-
-    if (meals.isEmpty()) {
-        Text(
-            text = "No hay comidas asignadas para este día",
-            modifier = Modifier.padding(16.dp)
-        )
-    } else {
-        Column(modifier = Modifier.padding(16.dp)) {
-            meals.forEach { meal ->
-                MealCard(meal) {
-                    val encodedAlimentos = Uri.encode(meal.alimentos.joinToString("|"))
-                    navController.navigate("${AppScreens.FoodDetail.ruta}/${meal.tipo}/$encodedAlimentos")
-                }
-            }
-        }
-    }
-}
-
-
-@Composable
-fun MealCard(meal: Meal, onClick: () -> Unit) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp)
-            .clickable { onClick() },
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFEBEBEB)),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = meal.tipo, fontWeight = FontWeight.Bold, fontSize = 18.sp)
-            Text(
-                text = meal.alimentos.joinToString(", "),
-                fontSize = 16.sp,
-                color = Color.Black
-            )
-        }
-    }
-}
 

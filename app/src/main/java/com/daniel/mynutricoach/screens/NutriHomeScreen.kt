@@ -4,32 +4,39 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CalendarToday
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Group
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.daniel.mynutricoach.R
-import com.daniel.mynutricoach.ui.components.NutriBottomNavBar
-import com.daniel.mynutricoach.viewmodel.ProfileViewModel
+import com.daniel.mynutricoach.ui.components.cards.AppointmentSimpleCard
+import com.daniel.mynutricoach.ui.components.buttons.NutriBottomNavBar
+import com.daniel.mynutricoach.ui.components.cards.SectionTitle
+import com.daniel.mynutricoach.viewmodel.NutriHomeViewModel
 
-
-@OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NutriHomeComp(navController: NavHostController, profileViewModel: ProfileViewModel = viewModel()) {
-    val userName by profileViewModel.userName.collectAsState()
+fun NutriHomeComp(
+    navController: NavHostController,
+    homeViewModel: NutriHomeViewModel = viewModel()
+) {
+    val todayAppointments by homeViewModel.todayAppointments.collectAsState()
+    val weekAppointments by homeViewModel.weekAppointments.collectAsState()
+    val totalClients by homeViewModel.totalClients.collectAsState()
 
     Scaffold(
         topBar = {
@@ -54,43 +61,39 @@ fun NutriHomeComp(navController: NavHostController, profileViewModel: ProfileVie
         },
         bottomBar = { NutriBottomNavBar(navController, "NutriHome") }
     ) { paddingValues ->
-        Column(
+        LazyColumn(
             modifier = Modifier
                 .padding(paddingValues)
-                .padding(horizontal = 16.dp)
+                .padding(16.dp)
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState()),
-            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Spacer(Modifier.height(16.dp))
+            item {
+                SectionTitle(title = "Citas de Hoy", icon = Icons.Default.CalendarToday)
+            }
+            items(todayAppointments) { cita ->
+                AppointmentSimpleCard(
+                    cliente = "${cita.clienteNombre} ${cita.clienteApellido}",
+                    hora = cita.hora
+                )
+            }
 
-            Text(
-                text = "Bienvenido, ${userName ?: "Nutricionista"}",
-                fontSize = 26.sp,
-                fontWeight = FontWeight.Bold
-            )
+            item {
+                Spacer(modifier = Modifier.height(24.dp))
+                SectionTitle(title = "Citas de la Semana", icon = Icons.Default.DateRange)
+            }
+            items(weekAppointments) { cita ->
+                AppointmentSimpleCard(fecha = cita.fecha, hora = cita.hora)
+            }
 
-            Spacer(Modifier.height(24.dp))
-
-            DashboardCard(title = "Clientes registrados", number = 10)
-            DashboardCard(title = "Citas próximas", number = 5)
-            DashboardCard(title = "Dietas actualizadas", number = 3)
+            item {
+                Spacer(modifier = Modifier.height(24.dp))
+                SectionTitle(title = "Clientes Registrados", icon = Icons.Default.Group)
+                Text(
+                    text = "$totalClients Clientes",
+                    style = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier.padding(start = 16.dp, top = 8.dp)
+                )
+            }
         }
     }
 }
-
-@Composable
-fun DashboardCard(title: String, number: Int) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = title, fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
-            Text(text = "$number", fontSize = 28.sp, fontWeight = FontWeight.Bold)
-        }
-    }
-}
-

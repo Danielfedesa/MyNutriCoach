@@ -24,8 +24,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.daniel.mynutricoach.R
 import com.daniel.mynutricoach.models.AppointmentState
-import com.daniel.mynutricoach.ui.components.NutriAppointmentCard
-import com.daniel.mynutricoach.ui.components.NutriBottomNavBar
+import com.daniel.mynutricoach.ui.components.cards.NutriAppointmentCard
+import com.daniel.mynutricoach.ui.components.buttons.NutriBottomNavBar
 import com.daniel.mynutricoach.viewmodel.NutriAppointmentsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)

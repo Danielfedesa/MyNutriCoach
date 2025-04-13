@@ -10,9 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,11 +27,11 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.daniel.mynutricoach.R
-import com.daniel.mynutricoach.models.FoodInfo
-import com.daniel.mynutricoach.ui.components.BottomNavBar
+import com.daniel.mynutricoach.ui.components.buttons.BottomNavBar
+import com.daniel.mynutricoach.ui.components.cards.NutrientCard
 import com.daniel.mynutricoach.viewmodel.FoodDetailViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun FoodDetailComp(navController: NavHostController, foodDetailViewModel: FoodDetailViewModel = viewModel(),
@@ -86,23 +84,6 @@ fun FoodDetailComp(navController: NavHostController, foodDetailViewModel: FoodDe
                     NutrientCard(info)
                 }
             }
-        }
-    }
-}
-
-@Composable
-fun NutrientCard(info: FoodInfo) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp)
-    ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = info.name, fontWeight = FontWeight.Bold)
-            Text(text = "Calorías: ${info.calories}")
-            Text(text = "Proteínas: ${info.protein} gr")
-            Text(text = "Carbohidratos: ${info.carbs} gr")
-            Text(text = "Grasas: ${info.fat} gr")
         }
     }
 }

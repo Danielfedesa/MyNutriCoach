@@ -25,9 +25,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.daniel.mynutricoach.ui.components.CustomOutlinedTextField
-import com.daniel.mynutricoach.ui.components.FechaNacimientoTextField
-import com.daniel.mynutricoach.ui.components.SexoSelector
+import com.daniel.mynutricoach.ui.components.forms.CustomOutlinedTextField
+import com.daniel.mynutricoach.ui.components.forms.FechaNacimientoTextField
+import com.daniel.mynutricoach.ui.components.forms.SexoSelector
 import com.daniel.mynutricoach.viewmodel.InitialProfileViewModel
 
 

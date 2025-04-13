@@ -19,9 +19,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.daniel.mynutricoach.ui.components.BottomNavBar
-import com.daniel.mynutricoach.ui.components.CarouselComponent
-import com.daniel.mynutricoach.ui.components.GraphComponent
+import com.daniel.mynutricoach.ui.components.buttons.BottomNavBar
+import com.daniel.mynutricoach.ui.components.visuals.CarouselComponent
+import com.daniel.mynutricoach.ui.components.visuals.GraphComponent
 import com.daniel.mynutricoach.viewmodel.ProgressViewModel
 
 
@@ -72,6 +72,12 @@ fun ProgressComp(navController: NavHostController, progressViewModel: ProgressVi
     }
 }
 
+
+
+// Función para mostrar la sección de progreso
+// Recibe el título, valor actual, unidad y los datos históricos
+// Muestra el título, el valor actual y un gráfico con los datos históricos
+// Se usa en la pantalla ProgressComp
 @Composable
 fun ProgressSection(title: String, value: Float, unit: String, data: List<Pair<Long, Float>>) {
     Text(
@@ -83,5 +89,3 @@ fun ProgressSection(title: String, value: Float, unit: String, data: List<Pair<L
     GraphComponent(data, unit)
     Spacer(modifier = Modifier.height(16.dp))
 }
-
-

@@ -5,7 +5,6 @@ import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -42,10 +41,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.daniel.mynutricoach.ui.components.BottomNavBar
-import com.daniel.mynutricoach.ui.components.InfoBox
-import com.daniel.mynutricoach.ui.components.NutriBottomNavBar
-import com.daniel.mynutricoach.ui.components.ProfileOption
+import com.daniel.mynutricoach.ui.components.buttons.NutriBottomNavBar
+import com.daniel.mynutricoach.ui.components.visuals.ProfileOption
 import com.daniel.mynutricoach.viewmodel.ProfileViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)

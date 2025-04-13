@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.daniel.mynutricoach.ui.components.BottomNavBar
+import com.daniel.mynutricoach.ui.components.buttons.BottomNavBar
 import com.daniel.mynutricoach.viewmodel.ProfileViewModel
 
 @RequiresApi(Build.VERSION_CODES.O)
