@@ -17,8 +17,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.CalendarToday
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -33,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.daniel.mynutricoach.models.Appointment
 import com.daniel.mynutricoach.models.User
+import com.daniel.mynutricoach.ui.components.buttons.CustomButton
 import java.time.LocalDate
 import java.time.format.TextStyle
 import java.util.Locale
@@ -78,6 +77,7 @@ fun NutriAppointmentCard(
     onCancel: () -> Unit
 ) {
     Card(
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
         modifier = Modifier
             .fillMaxWidth()
             .padding(vertical = 8.dp),
@@ -118,23 +118,23 @@ fun NutriAppointmentCard(
                 Text(text = appointment.hora)
             }
 
-            Spacer(Modifier.height(12.dp))
+            Spacer(Modifier.height(10.dp))
 
             Row(
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                Button(
+                CustomButton(
+                    text = "Finalizar",
                     onClick = onFinalize,
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF4CAF50))
-                ) {
-                    Text("Finalizar")
-                }
-                Button(
+                    modifier = Modifier.weight(1f),
+                    containerColor = Color(0xFF4CAF50),
+                )
+                CustomButton(
+                    text = "Cancelar",
                     onClick = onCancel,
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFF44336))
-                ) {
-                    Text("Cancelar")
-                }
+                    modifier = Modifier.weight(1f),
+                    containerColor = Color(0xFFF44336)
+                )
             }
         }
     }
@@ -156,7 +156,7 @@ fun DayCard(day: LocalDate, isSelected: Boolean, onClick: () -> Unit) {
             .width(75.dp)
             .height(100.dp)
             .clickable(onClick = onClick),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 6.dp),
         colors = CardDefaults.cardColors(containerColor = backgroundColor),
         shape = MaterialTheme.shapes.medium
     ) {
@@ -169,7 +169,7 @@ fun DayCard(day: LocalDate, isSelected: Boolean, onClick: () -> Unit) {
                 text = day.dayOfWeek.getDisplayName(TextStyle.SHORT, Locale("es")),
                 style = MaterialTheme.typography.bodySmall.copy(
                     color = textColor,
-                    fontSize = 12.sp
+                    fontSize = 16.sp
                 )
             )
             Text(
@@ -183,7 +183,7 @@ fun DayCard(day: LocalDate, isSelected: Boolean, onClick: () -> Unit) {
                 text = day.month.getDisplayName(TextStyle.SHORT, Locale("es")),
                 style = MaterialTheme.typography.bodySmall.copy(
                     color = textColor,
-                    fontSize = 12.sp
+                    fontSize = 16.sp
                 )
             )
         }

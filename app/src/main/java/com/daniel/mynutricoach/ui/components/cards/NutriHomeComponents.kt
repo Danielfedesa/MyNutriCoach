@@ -35,9 +35,10 @@ fun SectionTitle(title: String, icon: androidx.compose.ui.graphics.vector.ImageV
 @Composable
 fun AppointmentSimpleCard(cliente: String? = null, fecha: String? = null, hora: String) {
     Card(
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 4.dp),
+            .padding(vertical = 8.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant)
     ) {
         Column(

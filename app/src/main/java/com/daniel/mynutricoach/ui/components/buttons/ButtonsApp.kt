@@ -1,6 +1,6 @@
 package com.daniel.mynutricoach.ui.components.buttons
 
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -17,20 +17,22 @@ fun CustomButton(
     text: String,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    enabled: Boolean = true
+    enabled: Boolean = true,
+    containerColor: Color = MaterialTheme.colorScheme.primary,
+    contentColor: Color = MaterialTheme.colorScheme.onPrimary
 ) {
     Button(
         onClick = onClick,
         enabled = enabled,
         shape = RoundedCornerShape(12.dp),
         colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary,
+            containerColor = containerColor,
+            contentColor = contentColor,
             disabledContainerColor = Color.LightGray,
             disabledContentColor = Color.White
         ),
-        modifier = modifier
-            .fillMaxWidth()
+        modifier = Modifier
+            .width(220.dp)
             .then(modifier),
         elevation = ButtonDefaults.buttonElevation(
             defaultElevation = 6.dp,

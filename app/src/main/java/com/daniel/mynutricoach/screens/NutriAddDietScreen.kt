@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -13,6 +14,7 @@ import com.daniel.mynutricoach.ui.components.inputs.DropdownMenuSelector
 import com.daniel.mynutricoach.viewmodel.NutriDietViewModel
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.sp
+import com.daniel.mynutricoach.ui.components.buttons.CustomButton
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("RestrictedApi")
@@ -78,19 +80,22 @@ fun NutriAddDietScreen(
                 label = "Alimento",
             )
 
-            Button(onClick = {
+            CustomButton(
+                text = "Añadir alimento",
+                modifier = Modifier.width(180.dp),
+                onClick = {
                 if (alimento.isNotBlank()) {
                     alimentosTemp.add(alimento)
                     alimento = ""
                 }
-            }) {
-                Text("Añadir alimento")
-            }
+            })
 
             Spacer(Modifier.height(12.dp))
             Text("Alimentos: ${alimentosTemp.joinToString(", ")}")
 
-            Button(
+            CustomButton(
+                text = "Guardar comida",
+                    modifier = Modifier.width(180.dp),
                 onClick = {
                     viewModel.actualizarComida(
                         diaSeleccionado,
@@ -99,19 +104,19 @@ fun NutriAddDietScreen(
                     )
                     alimentosTemp.clear()
                 }
-            ) {
-                Text("Guardar Comida")
-            }
+            )
 
-            Spacer(Modifier.height(24.dp))
+            Spacer(Modifier.height(34.dp))
 
-            Button(onClick = {
+            CustomButton(
+                text = "Guardar dieta",
+                modifier = Modifier.align(Alignment.CenterHorizontally),
+                containerColor = Color(0xFF4CAF50),
+                onClick = {
                 viewModel.guardarDieta(clienteId) {
                     navController.popBackStack()
                 }
-            }) {
-                Text("Guardar Dieta Completa")
-            }
+            })
         }
     }
 }

@@ -3,14 +3,20 @@ package com.daniel.mynutricoach.screens
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import com.daniel.mynutricoach.ui.components.buttons.CustomButton
+import com.daniel.mynutricoach.ui.components.dialogues.SuccessDialog
 import com.daniel.mynutricoach.ui.components.inputs.CustomTextField
 import com.daniel.mynutricoach.viewmodel.ProgressViewModel
 
@@ -79,7 +85,13 @@ fun AddProgressComp(
                 label = "Grasa Corporal (%)"
             )
 
-            Button(
+            Spacer(modifier = Modifier.height(12.dp))
+
+            CustomButton(
+                text = "Guardar Progreso",
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .fillMaxWidth(),
                 onClick = {
                     if (peso.isNotBlank() && masaMuscular.isNotBlank() && grasa.isNotBlank()) {
                         viewModel.addProgress(
@@ -92,27 +104,18 @@ fun AddProgressComp(
                         }
                     }
                 },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Guardar Progreso")
-            }
+            )
         }
     }
 
     if (showDialog) {
-        AlertDialog(
-            onDismissRequest = { showDialog = false },
-            title = { Text("Progreso Añadido") },
-            text = { Text("El progreso se ha registrado correctamente.") },
-            confirmButton = {
-                Button(
-                    onClick = {
-                        showDialog = false
-                        navController.popBackStack()
-                    }
-                ) {
-                    Text("Aceptar")
-                }
+        SuccessDialog(
+            title = "Progreso Añadido",
+            message = "El progreso se ha registrado correctamente.",
+            onDismiss = { showDialog = false },
+            onConfirm = {
+                showDialog = false
+                navController.popBackStack()
             }
         )
     }

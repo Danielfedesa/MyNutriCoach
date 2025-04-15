@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.daniel.mynutricoach.R
@@ -37,6 +38,12 @@ fun NutriHomeComp(
     val todayAppointments by homeViewModel.todayAppointments.collectAsState()
     val weekAppointments by homeViewModel.weekAppointments.collectAsState()
     val totalClients by homeViewModel.totalClients.collectAsState()
+    val sortedWeekAppointments = weekAppointments.sortedWith(
+        compareBy({ it.fecha }, { it.hora })
+    )
+    val sortedTodayAppointments = todayAppointments.sortedWith(
+        compareBy({ it.fecha }, { it.hora })
+    )
 
     Scaffold(
         topBar = {
@@ -70,7 +77,7 @@ fun NutriHomeComp(
             item {
                 SectionTitle(title = "Citas de Hoy", icon = Icons.Default.CalendarToday)
             }
-            items(todayAppointments) { cita ->
+            items(sortedTodayAppointments) { cita ->
                 AppointmentSimpleCard(
                     cliente = "${cita.clienteNombre} ${cita.clienteApellido}",
                     hora = cita.hora
@@ -81,7 +88,7 @@ fun NutriHomeComp(
                 Spacer(modifier = Modifier.height(24.dp))
                 SectionTitle(title = "Citas de la Semana", icon = Icons.Default.DateRange)
             }
-            items(weekAppointments) { cita ->
+            items(sortedWeekAppointments) { cita ->
                 AppointmentSimpleCard(fecha = cita.fecha, hora = cita.hora)
             }
 
@@ -90,8 +97,8 @@ fun NutriHomeComp(
                 SectionTitle(title = "Clientes Registrados", icon = Icons.Default.Group)
                 Text(
                     text = "$totalClients Clientes",
-                    style = MaterialTheme.typography.bodyLarge,
-                    modifier = Modifier.padding(start = 16.dp, top = 8.dp)
+                    fontSize = 20.sp,
+                    modifier = Modifier.padding(start = 34.dp, top = 8.dp)
                 )
             }
         }

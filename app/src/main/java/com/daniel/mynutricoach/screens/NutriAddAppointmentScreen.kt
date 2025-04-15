@@ -16,8 +16,12 @@ import com.daniel.mynutricoach.viewmodel.NutriAppointmentsViewModel
 import java.time.LocalDate
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+import com.daniel.mynutricoach.ui.components.buttons.CustomButton
 import com.daniel.mynutricoach.ui.components.cards.DayCard
 import com.daniel.mynutricoach.ui.components.buttons.TimeSlotButton
 
@@ -86,34 +90,38 @@ fun NutriAddAppointmentComp(
                 }
             }
 
-            Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.height(18.dp))
 
             // Horas disponibles
             val horarios = listOf(
                 "09:00", "09:30", "10:00", "10:30",
                 "11:00", "11:30", "12:00", "12:30",
-                "13:00", "13:30"
+                "13:00", "13:30", "14:00", "14:30",
             )
 
-            FlowRow(
+            Box(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                contentAlignment = Alignment.Center
             ) {
-                horarios.forEach { hora ->
-                    val isTaken = appointments.any {
-                        it.fecha == selectedDate.value.toString() && it.hora == hora
-                    }
-                    TimeSlotButton(hora, isTaken) {
-                        if (!isTaken) {
-                            viewModel.addAppointment(
-                                clienteId = clienteId,
-                                clienteNombre = clienteNombre,
-                                clienteApellido = clienteApellido,
-                                fecha = selectedDate.value.toString(),
-                                hora = hora
-                            ) {
-                                showSuccessDialog = true
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalArrangement = Arrangement.spacedBy(20.dp)
+                ) {
+                    horarios.forEach { hora ->
+                        val isTaken = appointments.any {
+                            it.fecha == selectedDate.value.toString() && it.hora == hora
+                        }
+                        TimeSlotButton(hora, isTaken) {
+                            if (!isTaken) {
+                                viewModel.addAppointment(
+                                    clienteId = clienteId,
+                                    clienteNombre = clienteNombre,
+                                    clienteApellido = clienteApellido,
+                                    fecha = selectedDate.value.toString(),
+                                    hora = hora
+                                ) {
+                                    showSuccessDialog = true
+                                }
                             }
                         }
                     }
@@ -125,11 +133,23 @@ fun NutriAddAppointmentComp(
                 AlertDialog(
                     onDismissRequest = { showSuccessDialog = false },
                     title = {
-                        Text(
-                            "Cita Reservada",
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.fillMaxWidth()
-                        )
+                        Column(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.CheckCircle,
+                                contentDescription = "Cita reservada",
+                                tint = Color(0xFF4CAF50),
+                                modifier = Modifier.size(64.dp)
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Text(
+                                text = "Cita Reservada",
+                                textAlign = TextAlign.Center,
+                                style = MaterialTheme.typography.titleLarge
+                            )
+                        }
                     },
                     text = {
                         Text(
@@ -140,14 +160,17 @@ fun NutriAddAppointmentComp(
                         )
                     },
                     confirmButton = {
-                        Button(
-                            onClick = {
-                                showSuccessDialog = false
-                                navController.popBackStack()
-                            },
-                            modifier = Modifier.fillMaxWidth()
+                        Column(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Text("Aceptar")
+                            CustomButton(
+                                text = "Aceptar",
+                                onClick = {
+                                    showSuccessDialog = false
+                                    navController.popBackStack()
+                                }
+                            )
                         }
                     }
                 )

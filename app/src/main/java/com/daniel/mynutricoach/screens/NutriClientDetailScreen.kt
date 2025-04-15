@@ -12,11 +12,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.daniel.mynutricoach.navigation.AppScreens
+import com.daniel.mynutricoach.ui.components.buttons.CustomButton
 import com.daniel.mynutricoach.ui.components.visuals.GraphComponent
 import com.daniel.mynutricoach.viewmodel.NutriClientDetailViewModel
 
@@ -140,46 +142,63 @@ fun NutriClientDetailComp(
     if (showDialog) {
         AlertDialog(
             onDismissRequest = { showDialog = false },
-            title = { Text("¿Qué quieres añadir?", fontSize = 22.sp) },
-            text = { Text("Selecciona qué deseas registrar para este cliente:", fontSize = 18.sp) },
+            title = {
+                Text(
+                    "¿Qué quieres añadir?",
+                    fontSize = 22.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            },
+            text = {
+                Text(
+                    "Selecciona qué deseas registrar para este cliente:",
+                    fontSize = 18.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            },
             confirmButton = {
                 Column(
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Button(
+                    CustomButton(
+                        text = "Progreso",
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .fillMaxWidth(),
                         onClick = {
                             showDialog = false
                             navController.navigate("AñadirProgreso/$clienteId")
                         },
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text("Progreso", fontSize = 18.sp)
-                    }
+                    )
 
-                    Button(
+                    CustomButton(
+                        text = "Dieta",
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .fillMaxWidth(),
                         onClick = {
                             showDialog = false
                             cliente?.let { clienteData ->
                                 navController.navigate("${AppScreens.NutriAddDiet.ruta}/${clienteData.userId}")
                             }
                         },
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text("Dieta", fontSize = 18.sp)
-                    }
+                    )
 
-                    Button(
+                    CustomButton(
+                        text = "Cita",
+                        modifier = Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .fillMaxWidth(),
                         onClick = {
                             showDialog = false
                             cliente?.let { clienteData ->
                                 navController.navigate("NutriAddAppointment/${clienteData.userId}/${Uri.encode(clienteData.nombre)}/${Uri.encode(clienteData.apellidos)}")
                             }
                         },
-                        modifier = Modifier.fillMaxWidth()
-                    ) {
-                        Text("Cita", fontSize = 18.sp)
-                    }
+                    )
                 }
             }
         )
