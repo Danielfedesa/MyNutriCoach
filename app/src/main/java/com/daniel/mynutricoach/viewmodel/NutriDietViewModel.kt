@@ -32,4 +32,10 @@ class NutriDietViewModel (
             onSuccess()
         }
     }
+
+    fun cargarDieta(clienteId: String) {
+        viewModelScope.launch {
+            _dietaSemana.value = repository.obtenerDieta(clienteId)
+        }
+    }
 }

@@ -2,6 +2,8 @@ package com.daniel.mynutricoach.screens
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -13,32 +15,29 @@ import com.daniel.mynutricoach.ui.components.inputs.CustomTextField
 import com.daniel.mynutricoach.ui.components.inputs.DropdownMenuSelector
 import com.daniel.mynutricoach.viewmodel.NutriDietViewModel
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.daniel.mynutricoach.ui.components.buttons.CustomButton
 
 @OptIn(ExperimentalMaterial3Api::class)
-@SuppressLint("RestrictedApi")
 @Composable
 fun NutriAddDietScreen(
-    clienteId: String, viewModel: NutriDietViewModel = viewModel(), navController: NavHostController
+    clienteId: String,
+    viewModel: NutriDietViewModel = viewModel(),
+    navController: NavHostController
 ) {
     val diasSemana = listOf("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo")
     val tiposComida = listOf("Desayuno", "Almuerzo", "Comida", "Merienda", "Cena")
+    val dietaSemana by viewModel.dietaSemana.collectAsState()
 
     var alimento by remember { mutableStateOf("") }
-    var alimentosTemp = remember { mutableStateListOf<String>() }
-    var diaSeleccionado by remember { mutableStateOf(diasSemana.first()) }
-    var tipoSeleccionado by remember { mutableStateOf(tiposComida.first()) }
+    var diaActual by remember { mutableStateOf(diasSemana.first()) }
+    var tipoActual by remember { mutableStateOf(tiposComida.first()) }
 
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        "Añadir Dieta",
-                        style = MaterialTheme.typography.titleLarge
-                    )
-                },
+                title = { Text("Añadir Dieta", style = MaterialTheme.typography.titleLarge) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Text(
@@ -58,65 +57,71 @@ fun NutriAddDietScreen(
         Column(
             modifier = Modifier
                 .padding(padding)
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .padding(16.dp)
+                .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            DropdownMenuSelector("Día", diasSemana, diaSeleccionado) {
-                diaSeleccionado = it
-            }
-
-            Spacer(Modifier.height(8.dp))
-
-            DropdownMenuSelector("Tipo", tiposComida, tipoSeleccionado) {
-                tipoSeleccionado = it
-            }
+            // Selector día y tipo de comida
+            DropdownMenuSelector("Día", diasSemana, diaActual) { diaActual = it }
+            DropdownMenuSelector("Tipo", tiposComida, tipoActual) { tipoActual = it }
 
             CustomTextField(
                 value = alimento,
                 onValueChange = { alimento = it },
-                label = "Alimento",
+                label = "Nuevo alimento"
             )
 
             CustomButton(
                 text = "Añadir alimento",
-                modifier = Modifier.width(180.dp),
                 onClick = {
-                if (alimento.isNotBlank()) {
-                    alimentosTemp.add(alimento)
-                    alimento = ""
-                }
-            })
-
-            Spacer(Modifier.height(12.dp))
-            Text("Alimentos: ${alimentosTemp.joinToString(", ")}")
-
-            CustomButton(
-                text = "Guardar comida",
-                    modifier = Modifier.width(180.dp),
-                onClick = {
-                    viewModel.actualizarComida(
-                        diaSeleccionado,
-                        tipoSeleccionado,
-                        alimentosTemp.toList()
-                    )
-                    alimentosTemp.clear()
-                }
+                    if (alimento.isNotBlank()) {
+                        val nuevosAlimentos = (dietaSemana[diaActual]?.find { it.tipo == tipoActual }?.alimentos ?: emptyList()).toMutableList()
+                        nuevosAlimentos.add(alimento)
+                        viewModel.actualizarComida(diaActual, tipoActual, nuevosAlimentos)
+                        alimento = ""
+                    }
+                },
+                modifier = Modifier.align(Alignment.Start)
             )
 
-            Spacer(Modifier.height(34.dp))
+            Spacer(Modifier.height(20.dp))
+
+            // Tabla visual de la dieta completa
+            Text("Resumen de la Dieta", style = MaterialTheme.typography.titleMedium)
+
+            Column(
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                diasSemana.forEach { dia ->
+                    Text(dia, fontWeight = FontWeight.Bold)
+
+                    tiposComida.forEach { tipo ->
+                        val alimentos = dietaSemana[dia]?.find { it.tipo == tipo }?.alimentos ?: emptyList()
+                        if (alimentos.isNotEmpty()) {
+                            Column(modifier = Modifier.padding(start = 16.dp)) {
+                                Text("$tipo:", fontWeight = FontWeight.SemiBold)
+                                Text(alimentos.joinToString(", "), fontSize = 14.sp)
+                            }
+                        }
+                    }
+                    HorizontalDivider()
+                }
+            }
+
+            Spacer(Modifier.height(32.dp))
 
             CustomButton(
                 text = "Guardar dieta",
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-                containerColor = Color(0xFF4CAF50),
                 onClick = {
-                viewModel.guardarDieta(clienteId) {
-                    navController.popBackStack()
-                }
-            })
+                    viewModel.guardarDieta(clienteId) {
+                        navController.popBackStack()
+                    }
+                },
+                containerColor = Color(0xFF4CAF50),
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
         }
     }
 }

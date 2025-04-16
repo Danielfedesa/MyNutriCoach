@@ -91,18 +91,17 @@ fun NutriClientDetailComp(
             Column(
                 modifier = Modifier
                     .padding(padding)
-                    .padding(16.dp)
+                    .padding(14.dp)
                     .fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Text(
                     text = "${clienteData.nombre} ${clienteData.apellidos}",
-                    fontSize = 26.sp,
+                    fontSize = 24.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Text("Correo: ${clienteData.email}", fontSize = 18.sp)
                 Text("Teléfono: ${clienteData.telefono}", fontSize = 18.sp)
-                Text("Sexo: ${clienteData.sexo}", fontSize = 18.sp)
                 Text("F. nacimiento: ${clienteData.fechaNacimiento}", fontSize = 18.sp)
                 Text("Peso objetivo: ${clienteData.pesoObjetivo ?: "--"} Kg", fontSize = 18.sp)
 
@@ -112,7 +111,13 @@ fun NutriClientDetailComp(
                     Text("Peso actual: -- Kg", fontSize = 18.sp)
                 }
 
-                Spacer(Modifier.height(20.dp))
+                CustomButton(
+                    text = "Ver Dieta",
+                    onClick = {
+                        navController.navigate("NutriViewDiet/${clienteData.userId}")
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                )
 
                 Text(
                     text = "Historial de Peso (kg)",

@@ -19,4 +19,29 @@ class NutriDietRepository(
 
         dietaRef.set(data).await()
     }
+
+    suspend fun obtenerDieta(clienteId: String): Map<String, List<Meal>> {
+        return try {
+            val snapshot = db.collection("users")
+                .document(clienteId)
+                .collection("dieta_general")
+                .document("comidas")
+                .get()
+                .await()
+
+            val data = snapshot.data ?: return emptyMap()
+
+            data.mapValues { entry ->
+                (entry.value as? List<*>)?.mapNotNull { item ->
+                    (item as? Map<*, *>)?.let {
+                        val tipo = it["tipo"] as? String ?: return@let null
+                        val alimentos = it["alimentos"] as? List<String> ?: emptyList()
+                        Meal(tipo, alimentos)
+                    }
+                } ?: emptyList()
+            }
+        } catch (e: Exception) {
+            emptyMap()
+        }
+    }
 }
