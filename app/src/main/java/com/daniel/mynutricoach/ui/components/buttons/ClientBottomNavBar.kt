@@ -32,8 +32,8 @@ fun BottomNavBar(navController: NavHostController, currentScreen: String) {
                     Text(label, fontSize = 12.sp)
                 },
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = Color(0xFF0077CC),
-                    unselectedIconColor = Color.Gray
+                    selectedIconColor = MaterialTheme.colorScheme.primary,
+                    unselectedIconColor = MaterialTheme.colorScheme.tertiary
                 )
             )
         }

@@ -47,4 +47,26 @@ class DietsRepository(
             emptyList()
         }
     }
+
+    suspend fun getDietaSemana(): Map<String, List<Meal>> {
+        val userId = auth.currentUser?.uid ?: return emptyMap()
+        val snapshot = db.collection("users")
+            .document(userId)
+            .collection("dieta_general")
+            .document("comidas")
+            .get()
+            .await()
+
+        val data = snapshot.data ?: return emptyMap()
+
+        return data.mapValues { (_, value) ->
+            (value as? List<*>)?.mapNotNull { item ->
+                (item as? Map<*, *>)?.let {
+                    val tipo = it["tipo"] as? String ?: return@let null
+                    val alimentos = it["alimentos"] as? List<String> ?: return@let null
+                    Meal(tipo, alimentos)
+                }
+            } ?: emptyList()
+        }
+    }
 }

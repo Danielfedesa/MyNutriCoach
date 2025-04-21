@@ -31,9 +31,7 @@ import com.daniel.mynutricoach.viewmodel.NutriHomeViewModel
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NutriHomeComp(
-    navController: NavHostController,
-    homeViewModel: NutriHomeViewModel = viewModel()
+fun NutriHomeComp(navController: NavHostController, homeViewModel: NutriHomeViewModel = viewModel()
 ) {
     val todayAppointments by homeViewModel.todayAppointments.collectAsState()
     val weekAppointments by homeViewModel.weekAppointments.collectAsState()

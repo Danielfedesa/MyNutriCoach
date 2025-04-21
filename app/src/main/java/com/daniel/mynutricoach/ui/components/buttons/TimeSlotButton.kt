@@ -19,7 +19,7 @@ fun TimeSlotButton(time: String, isTaken: Boolean, onClick: () -> Unit) {
         onClick = onClick,
         enabled = !isTaken,
         colors = ButtonDefaults.buttonColors(
-            containerColor = if (isTaken) Color.LightGray else MaterialTheme.colorScheme.primary
+            containerColor = if (isTaken) MaterialTheme.colorScheme.tertiary else MaterialTheme.colorScheme.primary
         ),
         modifier = Modifier
             .width(100.dp)

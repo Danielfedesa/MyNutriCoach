@@ -2,8 +2,10 @@ package com.daniel.mynutricoach.ui.components.cards
 
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,10 +15,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material.icons.filled.CalendarToday
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -87,54 +92,74 @@ fun NutriAppointmentCard(
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text = "Cliente: ${appointment.clienteNombre} ${appointment.clienteApellido}",
+                text =  "${appointment.clienteNombre} ${appointment.clienteApellido}",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
             )
 
             Spacer(Modifier.height(8.dp))
 
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    imageVector = Icons.Default.CalendarToday,
-                    contentDescription = "Fecha",
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(20.dp)
-                )
-                Spacer(Modifier.width(8.dp))
-                Text(text = appointment.fecha)
-            }
-
-            Spacer(Modifier.height(4.dp))
-
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    imageVector = Icons.Default.AccessTime,
-                    contentDescription = "Hora",
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(20.dp)
-                )
-                Spacer(Modifier.width(8.dp))
-                Text(text = appointment.hora)
-            }
-
-            Spacer(Modifier.height(10.dp))
-
             Row(
-                horizontalArrangement = Arrangement.spacedBy(16.dp)
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
             ) {
-                CustomButton(
-                    text = "Finalizar",
-                    onClick = onFinalize,
-                    modifier = Modifier.weight(1f),
-                    containerColor = Color(0xFF4CAF50),
-                )
-                CustomButton(
-                    text = "Cancelar",
-                    onClick = onCancel,
-                    modifier = Modifier.weight(1f),
-                    containerColor = Color(0xFFF44336)
-                )
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.CalendarToday,
+                        contentDescription = "Fecha",
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(Modifier.width(4.dp))
+                    Text(text = appointment.fecha)
+
+                    Spacer(Modifier.width(12.dp))
+
+                    Icon(
+                        imageVector = Icons.Default.AccessTime,
+                        contentDescription = "Hora",
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(Modifier.width(4.dp))
+                    Text(text = appointment.hora)
+                }
+
+                // Botones pequeños a la derecha
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Box(
+                        modifier = Modifier
+                            .size(36.dp)
+                            .background(color = Color(0xFF4CAF50), shape = CircleShape)
+                            .clickable { onFinalize() },
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Check,
+                            contentDescription = "Finalizar",
+                            tint = Color.White,
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
+
+                    Box(
+                        modifier = Modifier
+                            .size(36.dp)
+                            .background(color = Color(0xFFF44336), shape = CircleShape)
+                            .clickable { onCancel() },
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Close,
+                            contentDescription = "Cancelar",
+                            tint = Color.White,
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
+                }
             }
         }
     }

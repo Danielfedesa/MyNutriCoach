@@ -76,6 +76,10 @@ dependencies {
     implementation(libs.androidx.espresso.core)
     implementation(libs.androidx.viewmodel.compose)
 
+    // Comprobar conexión a Internet
+    implementation (libs.androidx.core.ktx.v1101)
+
+
     //Implementación Retrofit
     // Para hacer peticiones a la API
     implementation (libs.retrofit)
@@ -87,6 +91,8 @@ dependencies {
     implementation (libs.kotlinx.coroutines.android)
 
     implementation(libs.androidx.foundation)
+    implementation(libs.androidx.room.common.jvm)
+    implementation(libs.androidx.room.runtime.android)
 
 
     testImplementation(libs.junit)
