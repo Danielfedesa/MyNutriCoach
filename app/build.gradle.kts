@@ -76,9 +76,6 @@ dependencies {
     implementation(libs.androidx.espresso.core)
     implementation(libs.androidx.viewmodel.compose)
 
-    // Comprobar conexión a Internet
-    implementation (libs.androidx.core.ktx.v1101)
-
 
     //Implementación Retrofit
     // Para hacer peticiones a la API

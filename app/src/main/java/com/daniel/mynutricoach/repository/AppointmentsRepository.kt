@@ -13,12 +13,16 @@ class AppointmentsRepository(
     // Obtener todas las citas del cliente logueado
     suspend fun getAppointments(): List<Appointment> {
         val userId = auth.currentUser?.uid ?: return emptyList()
-        return db.collection("appointments")
-            .whereEqualTo("clienteId", userId) // sólo citas del cliente actual
-            .orderBy("timestamp")
+
+        // Obtener sin ordenar desde Firebase (porque timestamp no existe)
+        val result = db.collection("appointments")
+            .whereEqualTo("clienteId", userId)
             .get()
             .await()
             .documents.mapNotNull { it.toObject(Appointment::class.java) }
+
+        // Ordenar localmente por fecha y hora
+        return result.sortedWith(compareBy({ it.fecha }, { it.hora }))
     }
 
     // Obtener el nombre del cliente actual

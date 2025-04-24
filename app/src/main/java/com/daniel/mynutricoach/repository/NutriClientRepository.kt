@@ -1,7 +1,6 @@
 package com.daniel.mynutricoach.repository
 
 import com.daniel.mynutricoach.models.User
-import com.daniel.mynutricoach.navigation.AppScreens
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import com.daniel.mynutricoach.models.Progress
@@ -12,7 +11,7 @@ class NutriClientRepository (
         suspend fun getClientes(): List<User> {
             return try {
                 val snapshot = db.collection("users")
-                    .whereEqualTo("role", "cliente") // 🔹 Filtra solo usuarios con rol cliente
+                    .whereEqualTo("role", "cliente") // Filtra solo usuarios con rol cliente
                     .get()
                     .await()
 

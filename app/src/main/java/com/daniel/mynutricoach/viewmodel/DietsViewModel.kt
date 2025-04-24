@@ -7,8 +7,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.daniel.mynutricoach.models.Meal
 import com.daniel.mynutricoach.repository.DietsRepository
-import com.daniel.mynutricoach.repository.RoomDietRepository
-import com.daniel.mynutricoach.utils.NetworkUtils
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -18,10 +16,10 @@ import java.util.Locale
 
 @RequiresApi(Build.VERSION_CODES.O)
 class DietsViewModel(
-    application: Application,
-    private val firebaseRepo: DietsRepository = DietsRepository(),
-    private val roomRepo: RoomDietRepository = RoomDietRepository(application.applicationContext)
+    application: Application
 ) : AndroidViewModel(application) {
+
+    private val firebaseRepo = DietsRepository()
 
     private val _userName = MutableStateFlow("Usuario")
     val userName: StateFlow<String> = _userName
@@ -30,19 +28,18 @@ class DietsViewModel(
     val meals: StateFlow<Map<String, List<Meal>>> = _meals
 
     init {
-        loadDietaPreferiblementeOnline()
+        loadDiet()
     }
 
-    private fun loadDietaPreferiblementeOnline() {
+    private fun loadDiet() {
         viewModelScope.launch {
-            if (NetworkUtils.hasInternet(getApplication())) {
+            try {
                 val dietaFirebase = firebaseRepo.getDietaSemana()
                 _meals.value = dietaFirebase
                 _userName.value = firebaseRepo.getUserName() ?: "Usuario"
-                roomRepo.saveDietaToLocal(dietaFirebase)
-            } else {
-                _meals.value = roomRepo.loadDietaFromLocal()
-                _userName.value = "Sin conexión"
+            } catch (e: Exception) {
+                _userName.value = "Error de conexión"
+                _meals.value = emptyMap()
             }
         }
     }
@@ -54,7 +51,6 @@ class DietsViewModel(
 
         val flow = MutableStateFlow(_meals.value[day] ?: emptyList())
 
-        // Actualiza automáticamente si cambia la dieta
         viewModelScope.launch {
             _meals.collect {
                 flow.value = it[day] ?: emptyList()

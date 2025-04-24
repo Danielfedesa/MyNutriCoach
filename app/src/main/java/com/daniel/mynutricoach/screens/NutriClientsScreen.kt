@@ -108,7 +108,7 @@ fun NutriClientsComp(navController: NavHostController, clientesViewModel: NutriC
 
             // Filtro los clientes
             val filteredClientes = clientes.filter {
-                it.nombre.contains(searchQuery.value, ignoreCase = true) ||
+                        it.nombre.contains(searchQuery.value, ignoreCase = true) ||
                         it.apellidos.contains(searchQuery.value, ignoreCase = true) ||
                         it.email.contains(searchQuery.value, ignoreCase = true)
             }

@@ -41,9 +41,7 @@ fun NutriAppointmentsComp(
     var showFinalizeDialog by remember { mutableStateOf(false) }
     var showCancelConfirmationDialog by remember { mutableStateOf(false) }
     var selectedAppointmentId by remember { mutableStateOf<String?>(null) }
-    val sortedAppointments = appointments.sortedWith(
-        compareBy({ it.fecha }, { it.hora })
-    )
+    val sortedAppointments = appointments.sortedWith(compareBy({ it.fecha }, { it.hora }))
 
     Scaffold(
         topBar = {
