@@ -24,8 +24,10 @@ import com.daniel.mynutricoach.viewmodel.AppointmentsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppointmentsComp(navController: NavHostController, appointmentsViewModel: AppointmentsViewModel = viewModel()) {
-
+fun ClientAppointmentsScreen(
+    navController: NavHostController,
+    appointmentsViewModel: AppointmentsViewModel = viewModel()
+) {
     val userName by appointmentsViewModel.userName.collectAsState()
     val appointments by appointmentsViewModel.appointments.collectAsState()
     val sortedAppointments = appointments.sortedWith(compareBy({ it.fecha }, { it.hora }))
@@ -39,10 +41,9 @@ fun AppointmentsComp(navController: NavHostController, appointmentsViewModel: Ap
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.banner),
-                    contentDescription = "Banner",
+                    contentDescription = null,
                     contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .fillMaxSize()
+                    modifier = Modifier.fillMaxSize()
                 )
                 CenterAlignedTopAppBar(
                     title = {},
@@ -52,31 +53,33 @@ fun AppointmentsComp(navController: NavHostController, appointmentsViewModel: Ap
             }
         },
         bottomBar = { BottomNavBar(navController, "Appointments") }
-    ) { paddingValues ->
+    ) { innerPadding ->
         Column(
             modifier = Modifier
-                .padding(paddingValues)
-                .fillMaxSize()
+                .padding(innerPadding)
                 .padding(16.dp)
+                .fillMaxSize()
         ) {
             Text(
-                text = "Citas de ${userName ?: "Usuario"}",
+                text = "Citas de $userName",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
-                modifier = Modifier.padding(16.dp)
+                modifier = Modifier.padding(bottom = 16.dp)
             )
 
-            if (appointments.isEmpty()) {
-                Spacer(modifier = Modifier.height(16.dp))
+            if (sortedAppointments.isEmpty()) {
                 Text(
                     text = "No existe registro de citas",
                     fontSize = 18.sp,
-                    color = Color.DarkGray
+                    color = Color.DarkGray,
+                    modifier = Modifier.padding(top = 16.dp)
                 )
             } else {
                 LazyColumn {
-                    items(sortedAppointments) { cita -> AppointmentCard(cita) }
+                    items(sortedAppointments) { cita ->
+                        AppointmentCard(cita)
+                    }
                 }
             }
         }

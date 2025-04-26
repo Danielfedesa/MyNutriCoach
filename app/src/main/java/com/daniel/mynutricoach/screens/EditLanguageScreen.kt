@@ -4,6 +4,8 @@ import android.os.Build
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -19,31 +21,21 @@ import com.daniel.mynutricoach.viewmodel.ProfileViewModel
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditLanguageComp(
+fun EditLanguageScreen(
     navController: NavHostController,
     profileViewModel: ProfileViewModel = viewModel()
 ) {
-    val context = LocalContext.current // 👈 AQUÍ AÑADES ESTO
-
+    val context = LocalContext.current
     val userName by profileViewModel.userName.collectAsState()
     var selectedLanguage by remember { mutableStateOf("Español") }
 
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        "Cambiar Idioma",
-                        style = MaterialTheme.typography.titleLarge
-                    )
-                },
+                title = { Text("Cambiar Idioma", style = MaterialTheme.typography.titleLarge) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Text(
-                            text = "<",
-                            color = Color.White,
-                            style = MaterialTheme.typography.titleLarge.copy(fontSize = 30.sp)
-                        )
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Atrás", tint = Color.White)
                     }
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -56,20 +48,20 @@ fun EditLanguageComp(
         Column(
             modifier = Modifier
                 .padding(padding)
-                .fillMaxSize()
-                .padding(16.dp),
+                .padding(16.dp)
+                .fillMaxSize(),
             verticalArrangement = Arrangement.spacedBy(20.dp)
         ) {
             Text(
-                text = "Selecciona el idioma, ${userName ?: "Usuario"}",
+                text = "Selecciona el idioma, $userName",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
-            // 🔵 Selector de idioma
             Row(
+                modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Button(
@@ -77,6 +69,7 @@ fun EditLanguageComp(
                         selectedLanguage = "Español"
                         Toast.makeText(context, "Idioma cambiado a Español", Toast.LENGTH_SHORT).show()
                     },
+                    modifier = Modifier.weight(1f),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = if (selectedLanguage == "Español") MaterialTheme.colorScheme.primary else Color.LightGray
                     )
@@ -89,6 +82,7 @@ fun EditLanguageComp(
                         selectedLanguage = "Inglés"
                         Toast.makeText(context, "Language changed to English", Toast.LENGTH_SHORT).show()
                     },
+                    modifier = Modifier.weight(1f),
                     colors = ButtonDefaults.buttonColors(
                         containerColor = if (selectedLanguage == "Inglés") MaterialTheme.colorScheme.primary else Color.LightGray
                     )
@@ -99,4 +93,3 @@ fun EditLanguageComp(
         }
     }
 }
-

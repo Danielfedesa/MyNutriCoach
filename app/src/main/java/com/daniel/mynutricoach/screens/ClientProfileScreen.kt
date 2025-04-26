@@ -27,11 +27,13 @@ import com.daniel.mynutricoach.viewmodel.ProfileViewModel
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileComp(navController: NavHostController, profileViewModel: ProfileViewModel = viewModel()) {
-
+fun ClientProfileScreen(
+    navController: NavHostController,
+    profileViewModel: ProfileViewModel = viewModel()
+) {
     val userName by profileViewModel.userName.collectAsState()
     val userActualWeight by profileViewModel.userWeight.collectAsState()
-    val userObjetive by profileViewModel.userObjetive.collectAsState()
+    val userObjective by profileViewModel.userObjective.collectAsState()
     val userAge by profileViewModel.userAge.collectAsState()
     var showDialog by remember { mutableStateOf(false) }
     val scrollState = rememberScrollState()
@@ -47,9 +49,7 @@ fun ProfileComp(navController: NavHostController, profileViewModel: ProfileViewM
                         showDialog = false
                         profileViewModel.logout(navController)
                     }
-                ) {
-                    Text("Cerrar sesión", color = Color.Red)
-                }
+                ) { Text("Cerrar sesión", color = Color.Red) }
             },
             dismissButton = {
                 TextButton(onClick = { showDialog = false }) {
@@ -60,28 +60,16 @@ fun ProfileComp(navController: NavHostController, profileViewModel: ProfileViewM
     }
 
     Scaffold(
-        topBar = {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(30.dp)
-            ) {
-                CenterAlignedTopAppBar(
-                    title = {},
-                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = Color.Transparent),
-                    modifier = Modifier.fillMaxSize()
-                )
-            }
-        },
+        topBar = {},
         bottomBar = { BottomNavBar(navController, "Profile") }
-    ) { paddingValues ->
+    ) { padding ->
         Column(
             modifier = Modifier
-                .padding(paddingValues)
-                .fillMaxSize()
-                .padding(horizontal = 24.dp, vertical = 16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top
+                .padding(padding)
+                .padding(horizontal = 24.dp, vertical = 16.dp)
+                .verticalScroll(scrollState)
+                .fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = "Perfil",
@@ -90,7 +78,7 @@ fun ProfileComp(navController: NavHostController, profileViewModel: ProfileViewM
                 color = Color.Black,
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(Modifier.height(16.dp))
 
             Box(contentAlignment = Alignment.BottomEnd) {
                 Icon(
@@ -119,61 +107,50 @@ fun ProfileComp(navController: NavHostController, profileViewModel: ProfileViewM
                 modifier = Modifier.padding(16.dp)
             )
 
-            Spacer(Modifier.height(8.dp))
-
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                InfoBox("Peso actual", "${userActualWeight} Kg")
-                InfoBox("Objetivo", "${userObjetive} Kg")
+                InfoBox("Peso actual", "$userActualWeight Kg")
+                InfoBox("Objetivo", "$userObjective Kg")
                 InfoBox("Edad", "$userAge años")
             }
 
-            Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.height(24.dp))
 
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .verticalScroll(scrollState),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ProfileOption("Datos personales") {
+                navController.navigate("editProfile")
+            }
+            ProfileOption("Notificaciones") {
+                navController.navigate("editNotifications")
+            }
+            ProfileOption("Idioma") {
+                navController.navigate("editLanguage")
+            }
+            ProfileOption("Política de privacidad") {
+                navController.navigate("Privacy")
+            }
+            ProfileOption("Términos y condiciones") {
+                navController.navigate("Terms")
+            }
+            ProfileOption("Obtener ayuda") {
+                navController.navigate("Help")
+            }
+
+            Spacer(Modifier.height(24.dp))
+
+            Button(
+                onClick = { showDialog = true },
+                modifier = Modifier.fillMaxWidth(),
+                shape = MaterialTheme.shapes.small,
+                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF4D4D))
             ) {
-                ProfileOption("Datos personales") {
-                    navController.navigate("editProfile")
-                }
-
-                ProfileOption("Notificaciones") {
-                    navController.navigate("editNotifications")
-                }
-
-                ProfileOption("Idioma") {
-                    navController.navigate("editLanguage")
-                }
-
-                ProfileOption("Política de privacidad") {
-                    navController.navigate("Privacy")
-                }
-
-                ProfileOption("Términos y condiciones") {
-                    navController.navigate("Terms")
-                }
-
-                ProfileOption("Obtener ayuda") {
-                    navController.navigate("Help")
-                }
-
-                Button(
-                    onClick = { showDialog = true },
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = MaterialTheme.shapes.small,
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFFF4D4D))
-                ) {
-                    Text("Cerrar sesión",
-                        color = Color.White,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                }
+                Text(
+                    "Cerrar sesión",
+                    color = Color.White,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold
+                )
             }
         }
     }

@@ -4,7 +4,6 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import com.daniel.mynutricoach.repository.ProfileRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,55 +15,50 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 @RequiresApi(Build.VERSION_CODES.O)
-class ProfileViewModel(private val repository: ProfileRepository = ProfileRepository()) : ViewModel() {
+class ProfileViewModel(
+    private val repository: ProfileRepository = ProfileRepository()
+) : ViewModel() {
 
-    private val _userName = MutableStateFlow<String>("")
+    private val _userName = MutableStateFlow("")
     val userName: StateFlow<String> = _userName
 
-    private val _userWeight = MutableStateFlow<Float>(0f)
+    private val _userWeight = MutableStateFlow(0f)
     val userWeight: StateFlow<Float> = _userWeight
 
-    private val _userObjetive = MutableStateFlow<String>("")
-    val userObjetive: StateFlow<String> = _userObjetive
+    private val _userObjective = MutableStateFlow("")
+    val userObjective: StateFlow<String> = _userObjective
 
-    private val _userBornDate = MutableStateFlow<String>("")
+    private val _userBornDate = MutableStateFlow("")
     val userBornDate: StateFlow<String> = _userBornDate
 
-    private val _userAge = MutableStateFlow<Int>(0)
+    private val _userAge = MutableStateFlow(0)
     val userAge: StateFlow<Int> = _userAge
 
     init {
         fetchUserName()
         fetchUserWeight()
-        fetchUserObjetive()
+        fetchUserObjective()
         fetchUserBornDate()
     }
 
-    // Recuperar nombre del usuario
     private fun fetchUserName() {
         viewModelScope.launch {
-            val name = repository.getUserName()
-            _userName.value = name ?: "Usuario"
+            _userName.value = repository.getUserName() ?: "Usuario"
         }
     }
 
-    // Recuperar peso ACTUAL del usuario
     private fun fetchUserWeight() {
         viewModelScope.launch {
-            val weight = repository.getLatestWeight()
-            _userWeight.value = weight ?: 0f
+            _userWeight.value = repository.getLatestWeight() ?: 0f
         }
     }
 
-    // Función para obtener el OBJETIVO DE PESO del usuario
-    private fun fetchUserObjetive() {
+    private fun fetchUserObjective() {
         viewModelScope.launch {
-            val objetivo = repository.getUserObjetive()
-            _userObjetive.value = objetivo ?: "--"
+            _userObjective.value = repository.getUserObjective() ?: "--"
         }
     }
 
-    // Función para obtener la fecha de nacimiento del usuario
     @RequiresApi(Build.VERSION_CODES.O)
     fun fetchUserBornDate() {
         viewModelScope.launch {
@@ -74,20 +68,17 @@ class ProfileViewModel(private val repository: ProfileRepository = ProfileReposi
         }
     }
 
-    // Función para calcular la edad del usuario a partir de la fecha de nacimiento
     @RequiresApi(Build.VERSION_CODES.O)
-    fun calculateAge(dateString: String): Int {
+    private fun calculateAge(dateString: String): Int {
         return try {
             val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.getDefault())
             val birthDate = LocalDate.parse(dateString, formatter)
-            val today = LocalDate.now()
-            Period.between(birthDate, today).years
+            Period.between(birthDate, LocalDate.now()).years
         } catch (e: Exception) {
-            0 // En caso de error devolvemos 0 por defecto
+            0
         }
     }
 
-    // Función para cerrar sesión en Firebase
     fun logout(navController: NavHostController) {
         repository.logout()
         navController.navigate("Login") {

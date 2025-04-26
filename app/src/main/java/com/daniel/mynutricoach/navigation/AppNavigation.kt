@@ -21,26 +21,26 @@ fun AppNavigation() {
 
     // Contenedor principal de la navegación con las rutas de la app
     NavHost(navController = navController, startDestination = AppScreens.Login.ruta) {
-        composable(AppScreens.Login.ruta) { LoginComp(navController) }
+        composable(AppScreens.Login.ruta) { LoginScreen(navController) }
 
         // Terminos, Condiciones y Politica de Privacidad y ayuda
-        composable(AppScreens.Terms.ruta) { TermsComp(navController) }
-        composable(AppScreens.Privacy.ruta) { PrivacyComp(navController) }
-        composable(AppScreens.Help.ruta) { HelpComp(navController) }
+        composable(AppScreens.Terms.ruta) { TermsScreen(navController) }
+        composable(AppScreens.Privacy.ruta) { PrivacyScreen(navController) }
+        composable(AppScreens.Help.ruta) { HelpScreen(navController) }
 
         // Pantalla de Registro con su ViewModel asociado
-        composable(AppScreens.Register.ruta) { RegisterComp(navController) }
+        composable(AppScreens.Register.ruta) { RegisterScreen(navController) }
 
         // Pantalla de Perfil Inicial con su propio ViewModel
-        composable(AppScreens.InitialProfile.ruta) { InitialProfileComp(navController) }
+        composable(AppScreens.InitialProfile.ruta) { InitialProfileScreen(navController) }
 
         // Pantallas del cliente
 
         // Pantalla Progress(Home del cliente) con su ViewModel asociado
-        composable(AppScreens.Progress.ruta) { ProgressComp(navController) }
+        composable(AppScreens.Progress.ruta) { ClientProgressScreen(navController) }
 
         // Pantalla Diets con su ViewModel asociado
-        composable(AppScreens.Diets.ruta) { DietsComp(navController) }
+        composable(AppScreens.Diets.ruta) { ClientDietsScreen(navController) }
 
         // Pantalla FoodDetail con argumentos
         composable(
@@ -54,7 +54,7 @@ fun AppNavigation() {
             val alimentosRaw = backStackEntry.arguments?.getString("alimentos") ?: ""
             val alimentos = alimentosRaw.split("|").map { it.trim() }
 
-            FoodDetailComp(
+            ClientFoodDetailScreen(
                 tipo = tipo,
                 alimentos = alimentos,
                 navController = navController
@@ -62,28 +62,28 @@ fun AppNavigation() {
         }
 
         // Pantalla Appointments
-        composable(AppScreens.Appointments.ruta) { AppointmentsComp(navController) }
+        composable(AppScreens.Appointments.ruta) { ClientAppointmentsScreen(navController) }
 
         // Pantalla Profile con su ViewModel asociado
-        composable(AppScreens.Profile.ruta) { ProfileComp(navController) }
+        composable(AppScreens.Profile.ruta) { ClientProfileScreen(navController) }
 
         // Pantalla EditProfile con su ViewModel asociado
-        composable(AppScreens.EditProfile.ruta) { EditProfileComp(navController) }
+        composable(AppScreens.EditProfile.ruta) { ClientEditProfileScreen(navController) }
 
         // Pantalla EditLanguage con su ViewModel asociado
-        composable(AppScreens.EditLanguage.ruta) { EditLanguageComp(navController) }
+        composable(AppScreens.EditLanguage.ruta) { EditLanguageScreen(navController) }
 
         // Pantalla EditNotifications con su ViewModel asociado
-        composable(AppScreens.EditNotifications.ruta) { EditNotificationsComp(navController) }
+        composable(AppScreens.EditNotifications.ruta) { EditNotificationsScreen(navController) }
 
 
         // Screens del nutricionista
 
         // Pantalla Home con su ViewModel asociado
-        composable(AppScreens.NutriHome.ruta) { NutriHomeComp(navController) }
+        composable(AppScreens.NutriHome.ruta) { NutriHomeScreen(navController) }
 
         // Pantalla Clients con su ViewModel asociado
-        composable(AppScreens.NutriClients.ruta) { NutriClientsComp(navController) }
+        composable(AppScreens.NutriClients.ruta) { NutriClientsScreen(navController) }
 
         // Pantalla NutriClientDetail con su ViewModel asociado
         composable(
@@ -91,7 +91,7 @@ fun AppNavigation() {
             arguments = listOf(navArgument("clienteId") { type = NavType.StringType })
         ) { backStackEntry ->
             val clienteId = backStackEntry.arguments?.getString("clienteId") ?: ""
-            NutriClientDetailComp(clienteId = clienteId, navController = navController)
+            NutriClientDetailScreen(clienteId = clienteId, navController = navController)
         }
 
         // Pantalla NutriAddAppointment con su ViewModel asociado
@@ -107,7 +107,7 @@ fun AppNavigation() {
             val clienteNombre = backStackEntry.arguments?.getString("clienteNombre") ?: ""
             val clienteApellido = backStackEntry.arguments?.getString("clienteApellido") ?: ""
 
-            NutriAddAppointmentComp(
+            NutriAddAppointmentScreen(
                 clienteId = clienteId,
                 clienteNombre = clienteNombre,
                 clienteApellido = clienteApellido,
@@ -121,17 +121,17 @@ fun AppNavigation() {
             arguments = listOf(navArgument("clienteId") { type = NavType.StringType })
         ) { backStackEntry ->
             val clienteId = backStackEntry.arguments?.getString("clienteId") ?: ""
-            AddProgressComp(clienteId = clienteId, navController = navController)
+            NutriAddProgressScreen(clienteId = clienteId, navController = navController)
         }
 
         // Pantalla NutriAppointments con su ViewModel asociado
-        composable(AppScreens.NutriAppointments.ruta) { NutriAppointmentsComp(navController) }
+        composable(AppScreens.NutriAppointments.ruta) { NutriAppointmentsScreen(navController) }
 
         // Pantalla NutriProfile con su ViewModel asociado
-        composable(AppScreens.NutriProfile.ruta) { NutriProfileComp(navController) }
+        composable(AppScreens.NutriProfile.ruta) { NutriProfileScreen(navController) }
 
         // Pantalla NutriEditProfile con su ViewModel asociado
-        composable(AppScreens.NutriEditProfile.ruta) { NutriEditProfileComp(navController) }
+        composable(AppScreens.NutriEditProfile.ruta) { NutriEditProfileScreen(navController) }
 
         // Pantalla NutriAddDiet con su ViewModel asociado
         composable(
@@ -150,7 +150,7 @@ fun AppNavigation() {
             arguments = listOf(navArgument("clienteId") { type = NavType.StringType })
         ) { backStackEntry ->
             val clienteId = backStackEntry.arguments?.getString("clienteId") ?: ""
-            NutriViewDietComp(clienteId = clienteId, navController = navController)
+            NutriViewDietScreen(clienteId = clienteId, navController = navController)
         }
 
 

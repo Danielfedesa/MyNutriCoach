@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class NutriDietViewModel (
+class NutriDietViewModel(
     private val repository: NutriDietRepository = NutriDietRepository()
 ) : ViewModel() {
 
@@ -16,14 +16,13 @@ class NutriDietViewModel (
     val dietaSemana: StateFlow<Map<String, List<Meal>>> = _dietaSemana
 
     fun actualizarComida(dia: String, tipo: String, alimentos: List<String>) {
-        val nuevasComidas = _dietaSemana.value.toMutableMap()
-        val comidasDelDia = nuevasComidas[dia]?.toMutableList() ?: mutableListOf()
-
-        comidasDelDia.removeAll { it.tipo == tipo }
-        comidasDelDia.add(Meal(tipo, alimentos))
-        nuevasComidas[dia] = comidasDelDia
-
-        _dietaSemana.value = nuevasComidas
+        _dietaSemana.value = _dietaSemana.value.toMutableMap().apply {
+            val comidasActualizadas = (this[dia] ?: emptyList())
+                .filterNot { it.tipo == tipo }
+                .toMutableList()
+                .apply { add(Meal(tipo, alimentos)) }
+            this[dia] = comidasActualizadas
+        }
     }
 
     fun guardarDieta(clienteId: String, onSuccess: () -> Unit) {

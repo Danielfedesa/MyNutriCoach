@@ -2,41 +2,37 @@ package com.daniel.mynutricoach.repository
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.coroutines.tasks.await
 import com.daniel.mynutricoach.models.Progress
+import kotlinx.coroutines.tasks.await
 
 class ProgressRepository(
     private val auth: FirebaseAuth = FirebaseAuth.getInstance(),
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 ) {
-    suspend fun getProgressHistory(): List<Progress> {
-        val userId = auth.currentUser?.uid ?: return emptyList()
-        return try {
+    suspend fun getProgressHistory(): List<Progress> = runCatching {
+        auth.currentUser?.uid?.let { userId ->
             db.collection("users").document(userId)
                 .collection("progress")
                 .orderBy("timestamp")
-                .get().await()
+                .get()
+                .await()
                 .documents.mapNotNull { it.toObject(Progress::class.java) }
-        } catch (e: Exception) {
-            emptyList()
         }
-    }
+    }.getOrNull() ?: emptyList()
 
-    suspend fun getUserName(): String =
+    suspend fun getUserName(): String = runCatching {
         auth.currentUser?.uid?.let { userId ->
             db.collection("users").document(userId).get().await().getString("nombre")
-        } ?: "Usuario"
+        }
+    }.getOrNull() ?: "Usuario"
 
-    // Función para añadir progreso
     suspend fun addProgress(clienteId: String, progress: Progress) {
-        try {
+        runCatching {
             db.collection("users")
                 .document(clienteId)
                 .collection("progress")
                 .add(progress)
                 .await()
-        } catch (e: Exception) {
-            e.printStackTrace()
         }
     }
 }

@@ -31,17 +31,16 @@ import com.daniel.mynutricoach.viewmodel.NutriHomeViewModel
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NutriHomeComp(navController: NavHostController, homeViewModel: NutriHomeViewModel = viewModel()
+fun NutriHomeScreen(
+    navController: NavHostController,
+    homeViewModel: NutriHomeViewModel = viewModel()
 ) {
     val todayAppointments by homeViewModel.todayAppointments.collectAsState()
     val weekAppointments by homeViewModel.weekAppointments.collectAsState()
     val totalClients by homeViewModel.totalClients.collectAsState()
-    val sortedWeekAppointments = weekAppointments.sortedWith(
-        compareBy({ it.fecha }, { it.hora })
-    )
-    val sortedTodayAppointments = todayAppointments.sortedWith(
-        compareBy({ it.fecha }, { it.hora })
-    )
+
+    val sortedTodayAppointments = todayAppointments.sortedWith(compareBy({ it.fecha }, { it.hora }))
+    val sortedWeekAppointments = weekAppointments.sortedWith(compareBy({ it.fecha }, { it.hora }))
 
     Scaffold(
         topBar = {
@@ -54,11 +53,10 @@ fun NutriHomeComp(navController: NavHostController, homeViewModel: NutriHomeView
                     painter = painterResource(id = R.drawable.banner),
                     contentDescription = "Banner",
                     contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .fillMaxSize()
+                    modifier = Modifier.fillMaxSize()
                 )
                 CenterAlignedTopAppBar(
-                    title = {},
+                    title = { Text("") }, // Vacío por si quieres luego poner "Inicio"
                     colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = Color.Transparent),
                     modifier = Modifier.fillMaxSize()
                 )
@@ -70,7 +68,8 @@ fun NutriHomeComp(navController: NavHostController, homeViewModel: NutriHomeView
             modifier = Modifier
                 .padding(paddingValues)
                 .padding(16.dp)
-                .fillMaxSize()
+                .fillMaxSize(),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             item {
                 SectionTitle(title = "Citas de Hoy", icon = Icons.Default.CalendarToday)
@@ -83,20 +82,22 @@ fun NutriHomeComp(navController: NavHostController, homeViewModel: NutriHomeView
             }
 
             item {
-                Spacer(modifier = Modifier.height(24.dp))
                 SectionTitle(title = "Citas de la Semana", icon = Icons.Default.DateRange)
             }
             items(sortedWeekAppointments) { cita ->
-                AppointmentSimpleCard(fecha = cita.fecha, hora = cita.hora)
+                AppointmentSimpleCard(
+                    fecha = cita.fecha,
+                    hora = cita.hora
+                )
             }
 
             item {
-                Spacer(modifier = Modifier.height(24.dp))
                 SectionTitle(title = "Clientes Registrados", icon = Icons.Default.Group)
+                Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "$totalClients Clientes",
                     fontSize = 20.sp,
-                    modifier = Modifier.padding(start = 34.dp, top = 8.dp)
+                    modifier = Modifier.padding(start = 34.dp)
                 )
             }
         }

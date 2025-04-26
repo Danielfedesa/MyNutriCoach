@@ -17,34 +17,35 @@ class NutriAppointmentsViewModel(
     val appointments: StateFlow<List<Appointment>> = _appointments
 
     init {
-        viewModelScope.launch {
-            _appointments.value = repository.getAllAppointments()
-                .sortedByDescending { it.timestamp.toDate().time } // Ordenar por fecha
-        }
+        refreshAppointments()
     }
 
-    // Actualizar el estado de una cita
     fun updateAppointmentStatus(appointmentId: String, newState: AppointmentState) {
         viewModelScope.launch {
             repository.updateAppointmentStatus(appointmentId, newState)
-            _appointments.value = repository.getAllAppointments() // Actualizar la lista de citas después de cambiar el estado
-                .sortedByDescending { it.timestamp.toDate().time } // Ordenar por fecha
+            refreshAppointments()
         }
     }
 
-    // Métdo para añadir una cita
-    fun addAppointment(clienteId: String,
-                       clienteNombre: String,
-                       clienteApellido: String,
-                       fecha: String,
-                       hora: String,
-                       onComplete: () -> Unit) {
+    fun addAppointment(
+        clienteId: String,
+        clienteNombre: String,
+        clienteApellido: String,
+        fecha: String,
+        hora: String,
+        onComplete: () -> Unit
+    ) {
         viewModelScope.launch {
             repository.addAppointment(clienteId, clienteNombre, clienteApellido, fecha, hora)
-            _appointments.value = repository.getAllAppointments()
-                .sortedByDescending { it.timestamp.toDate().time }
+            refreshAppointments()
             onComplete()
         }
     }
 
+    private fun refreshAppointments() {
+        viewModelScope.launch {
+            _appointments.value = repository.getAllAppointments()
+                .sortedByDescending { it.timestamp.toDate().time }
+        }
+    }
 }

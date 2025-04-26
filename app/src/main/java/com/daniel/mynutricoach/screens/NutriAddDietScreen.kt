@@ -1,22 +1,25 @@
 package com.daniel.mynutricoach.screens
 
-import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.daniel.mynutricoach.ui.components.inputs.CustomTextField
 import com.daniel.mynutricoach.ui.components.inputs.DropdownMenuSelector
 import com.daniel.mynutricoach.viewmodel.NutriDietViewModel
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.sp
 import com.daniel.mynutricoach.ui.components.buttons.CustomButton
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -40,16 +43,15 @@ fun NutriAddDietScreen(
                 title = { Text("Añadir Dieta", style = MaterialTheme.typography.titleLarge) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Text(
-                            text = "<",
-                            color = Color.White,
-                            style = MaterialTheme.typography.titleLarge.copy(fontSize = 30.sp)
+                        Icon(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = "Atrás",
+                            tint = Color.White
                         )
                     }
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimary
+                    containerColor = MaterialTheme.colorScheme.primary
                 )
             )
         }
@@ -59,10 +61,9 @@ fun NutriAddDietScreen(
                 .padding(padding)
                 .padding(16.dp)
                 .fillMaxSize()
-            .verticalScroll(rememberScrollState()),
+                .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            // Selector día y tipo de comida
             DropdownMenuSelector("Día", diasSemana, diaActual) { diaActual = it }
             DropdownMenuSelector("Tipo", tiposComida, tipoActual) { tipoActual = it }
 
@@ -87,7 +88,6 @@ fun NutriAddDietScreen(
 
             Spacer(Modifier.height(20.dp))
 
-            // Tabla visual de la dieta completa
             Text("Resumen de la Dieta", style = MaterialTheme.typography.titleMedium)
 
             Column(

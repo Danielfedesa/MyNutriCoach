@@ -15,11 +15,9 @@ import java.time.format.TextStyle
 import java.util.Locale
 
 @RequiresApi(Build.VERSION_CODES.O)
-class DietsViewModel(
-    application: Application
-) : AndroidViewModel(application) {
+class DietsViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val firebaseRepo = DietsRepository()
+    private val repository = DietsRepository()
 
     private val _userName = MutableStateFlow("Usuario")
     val userName: StateFlow<String> = _userName
@@ -33,11 +31,13 @@ class DietsViewModel(
 
     private fun loadDiet() {
         viewModelScope.launch {
-            try {
-                val dietaFirebase = firebaseRepo.getDietaSemana()
+            runCatching {
+                val dietaFirebase = repository.getDietaSemana()
+                val name = repository.getUserName()
+
                 _meals.value = dietaFirebase
-                _userName.value = firebaseRepo.getUserName() ?: "Usuario"
-            } catch (e: Exception) {
+                _userName.value = name ?: "Usuario"
+            }.onFailure {
                 _userName.value = "Error de conexión"
                 _meals.value = emptyMap()
             }
@@ -49,14 +49,14 @@ class DietsViewModel(
             .dayOfWeek.getDisplayName(TextStyle.FULL, Locale("es", "ES"))
             .replaceFirstChar { it.uppercaseChar() }
 
-        val flow = MutableStateFlow(_meals.value[day] ?: emptyList())
+        val mealsForDay = MutableStateFlow(_meals.value[day] ?: emptyList())
 
         viewModelScope.launch {
-            _meals.collect {
-                flow.value = it[day] ?: emptyList()
+            _meals.collect { updatedMeals ->
+                mealsForDay.value = updatedMeals[day] ?: emptyList()
             }
         }
 
-        return flow
+        return mealsForDay
     }
 }

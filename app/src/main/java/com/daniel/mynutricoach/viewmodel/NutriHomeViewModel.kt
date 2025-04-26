@@ -36,26 +36,29 @@ class NutriHomeViewModel(
     @RequiresApi(Build.VERSION_CODES.O)
     private fun loadAppointments() {
         viewModelScope.launch {
-            val allAppointments = appointmentsRepository.getAllAppointments()
-            val today = LocalDate.now()
-            val endOfWeek = today.plusDays(7)
+            runCatching {
+                val allAppointments = appointmentsRepository.getAllAppointments()
+                val today = LocalDate.now()
+                val endOfWeek = today.plusDays(7)
 
-            _todayAppointments.value = allAppointments.filter {
-                it.fecha == today.toString()
-            }
-            _weekAppointments.value = allAppointments.filter {
-                val fecha = LocalDate.parse(it.fecha)
-                fecha.isAfter(today.minusDays(1)) && fecha.isBefore(endOfWeek)
+                _todayAppointments.value = allAppointments.filter { it.fecha == today.toString() }
+                _weekAppointments.value = allAppointments.filter {
+                    val fecha = LocalDate.parse(it.fecha)
+                    fecha.isAfter(today.minusDays(1)) && fecha.isBefore(endOfWeek)
+                }
+            }.onFailure {
+                _todayAppointments.value = emptyList()
+                _weekAppointments.value = emptyList()
             }
         }
     }
 
     private fun loadClients() {
         viewModelScope.launch {
-            try {
+            runCatching {
                 val snapshot = db.collection("users").get().await()
                 _totalClients.value = snapshot.size()
-            } catch (e: Exception) {
+            }.onFailure {
                 _totalClients.value = 0
             }
         }

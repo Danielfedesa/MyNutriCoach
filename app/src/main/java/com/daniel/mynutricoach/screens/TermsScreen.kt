@@ -2,14 +2,14 @@ package com.daniel.mynutricoach.screens
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -17,31 +17,31 @@ import androidx.navigation.NavController
 import com.daniel.mynutricoach.ui.components.buttons.CustomButton
 import com.daniel.mynutricoach.ui.components.forms.TextsApp
 
-@ExperimentalMaterial3Api
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TermsComp(navController: NavController) {
+fun TermsScreen(navController: NavController) {
 
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        "Términos y condiciones",
-                        style = MaterialTheme.typography.titleLarge
+                        "Términos y Condiciones",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = Color.White
                     )
                 },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Text(
-                            text = "<",
-                            color = Color.White,
-                            style = MaterialTheme.typography.titleLarge.copy(fontSize = 30.sp)
+                        Icon(
+                            imageVector = Icons.Default.ArrowBack,
+                            contentDescription = "Volver",
+                            tint = Color.White
                         )
                     }
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimary
+                    containerColor = MaterialTheme.colorScheme.primary
                 )
             )
         }
@@ -54,7 +54,7 @@ fun TermsComp(navController: NavController) {
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.Start
         ) {
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(12.dp))
 
             Text(
                 text = TextsApp.TERMS,

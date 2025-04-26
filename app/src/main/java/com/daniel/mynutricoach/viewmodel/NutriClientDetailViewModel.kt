@@ -15,7 +15,7 @@ import java.time.Period
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-class NutriClientDetailViewModel (
+class NutriClientDetailViewModel(
     private val repository: NutriClientRepository = NutriClientRepository()
 ) : ViewModel() {
 
@@ -25,32 +25,23 @@ class NutriClientDetailViewModel (
     private val _progreso = MutableStateFlow<List<Progress>>(emptyList())
     val progreso: StateFlow<List<Progress>> = _progreso
 
-
-    fun getPesoActual(): Float {
-        return progreso.value.lastOrNull()?.peso ?: 0f
-    }
+    fun getPesoActual(): Float = progreso.value.lastOrNull()?.peso ?: 0f
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun getEdad(): Int {
-        val fechaNacimiento = cliente.value?.fechaNacimiento ?: return 0
-        return try {
+    fun getEdad(): Int = cliente.value?.fechaNacimiento?.let {
+        try {
             val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.getDefault())
-            val birthDate = LocalDate.parse(fechaNacimiento, formatter)
-            val today = LocalDate.now()
-            Period.between(birthDate, today).years
+            val birthDate = LocalDate.parse(it, formatter)
+            Period.between(birthDate, LocalDate.now()).years
         } catch (e: Exception) {
             0
         }
-    }
+    } ?: 0
 
     fun loadCliente(clienteId: String) {
         viewModelScope.launch {
-            val user = repository.getClienteById(clienteId)
-            _cliente.value = user
-
-            val progressList = repository.getProgresoCliente(clienteId)
-            _progreso.value = progressList
+            _cliente.value = repository.getClienteById(clienteId)
+            _progreso.value = repository.getProgresoCliente(clienteId)
         }
     }
-
 }

@@ -44,8 +44,10 @@ import com.daniel.mynutricoach.viewmodel.InitialProfileViewModel
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditProfileComp(navController: NavHostController, initialProfileViewModel: InitialProfileViewModel = viewModel()) {
-
+fun ClientEditProfileScreen(
+    navController: NavHostController,
+    initialProfileViewModel: InitialProfileViewModel = viewModel()
+) {
     val context = LocalContext.current
     val userData by initialProfileViewModel.userData.collectAsState()
     val saveState by initialProfileViewModel.saveState.collectAsState()
@@ -58,7 +60,14 @@ fun EditProfileComp(navController: NavHostController, initialProfileViewModel: I
     var estatura by remember { mutableStateOf("") }
     var pesoObjetivo by remember { mutableStateOf("") }
 
-    // Rellenar los campos una vez que los datos llegan
+    val isButtonEnabled by remember {
+        derivedStateOf {
+            nombre.isNotBlank() && apellidos.isNotBlank() && telefono.isNotBlank() &&
+                    fechaNacimiento.isNotBlank() && sexo.isNotBlank() &&
+                    estatura.toIntOrNull() != null && pesoObjetivo.toDoubleOrNull() != null
+        }
+    }
+
     LaunchedEffect(userData) {
         nombre = userData.nombre
         apellidos = userData.apellidos
@@ -69,20 +78,6 @@ fun EditProfileComp(navController: NavHostController, initialProfileViewModel: I
         pesoObjetivo = userData.pesoObjetivo?.toString() ?: ""
     }
 
-    // Validación de formulario
-    val isButtonEnabled by remember {
-        derivedStateOf {
-            nombre.isNotBlank() &&
-                    apellidos.isNotBlank() &&
-                    telefono.isNotBlank() &&
-                    fechaNacimiento.isNotBlank() &&
-                    sexo.isNotBlank() &&
-                    estatura.toIntOrNull() != null &&
-                    pesoObjetivo.toDoubleOrNull() != null
-        }
-    }
-
-    // Guardar datos y volver a perfil
     LaunchedEffect(saveState) {
         saveState?.onSuccess {
             Toast.makeText(context, "Perfil actualizado correctamente", Toast.LENGTH_SHORT).show()
@@ -97,7 +92,7 @@ fun EditProfileComp(navController: NavHostController, initialProfileViewModel: I
     Scaffold(
         topBar = {
             Box(
-                modifier = Modifier
+                Modifier
                     .fillMaxWidth()
                     .height(30.dp)
             ) {
@@ -109,12 +104,12 @@ fun EditProfileComp(navController: NavHostController, initialProfileViewModel: I
             }
         },
         bottomBar = { BottomNavBar(navController, "Profile") }
-    ) { paddingValues ->
+    ) { padding ->
         Column(
             modifier = Modifier
-                .padding(paddingValues)
-                .fillMaxSize()
+                .padding(padding)
                 .padding(horizontal = 32.dp)
+                .fillMaxSize()
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -128,31 +123,24 @@ fun EditProfileComp(navController: NavHostController, initialProfileViewModel: I
             Spacer(Modifier.height(16.dp))
 
             CustomOutlinedTextField(nombre, { nombre = it }, "Nombre")
-
             Spacer(Modifier.height(16.dp))
 
             CustomOutlinedTextField(apellidos, { apellidos = it }, "Apellidos")
-
             Spacer(Modifier.height(16.dp))
 
             CustomOutlinedTextField(telefono, { telefono = it }, "Teléfono")
-
             Spacer(Modifier.height(16.dp))
 
             FechaNacimientoTextField(fechaNacimiento) { fechaNacimiento = it }
-
             Spacer(Modifier.height(16.dp))
 
             CustomOutlinedTextField(estatura, { estatura = it }, "Estatura (cm)")
-
             Spacer(Modifier.height(16.dp))
 
             CustomOutlinedTextField(pesoObjetivo, { pesoObjetivo = it }, "Peso objetivo (kg)")
-
             Spacer(Modifier.height(16.dp))
 
             SexoSelector(sexo) { sexo = it }
-
             Spacer(Modifier.height(24.dp))
 
             CustomButton(

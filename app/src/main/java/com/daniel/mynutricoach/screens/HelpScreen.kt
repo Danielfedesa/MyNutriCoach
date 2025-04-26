@@ -5,12 +5,14 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -19,9 +21,9 @@ import androidx.navigation.NavController
 import com.daniel.mynutricoach.ui.components.forms.TextsApp
 import androidx.core.net.toUri
 
-@ExperimentalMaterial3Api
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HelpComp(navController: NavController) {
+fun HelpScreen(navController: NavController) {
     val context = LocalContext.current
 
     Scaffold(
@@ -30,21 +32,17 @@ fun HelpComp(navController: NavController) {
                 title = {
                     Text(
                         "Preguntas Frecuentes",
-                        style = MaterialTheme.typography.titleLarge
+                        style = MaterialTheme.typography.titleLarge,
+                        color = Color.White
                     )
                 },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Text(
-                            text = "<",
-                            color = Color.White,
-                            style = MaterialTheme.typography.titleLarge.copy(fontSize = 30.sp)
-                        )
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Atrás", tint = Color.White)
                     }
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimary
+                    containerColor = MaterialTheme.colorScheme.primary
                 )
             )
         }
@@ -53,7 +51,7 @@ fun HelpComp(navController: NavController) {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(horizontal = 16.dp)
+                .padding(16.dp)
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.Start
         ) {
@@ -67,7 +65,8 @@ fun HelpComp(navController: NavController) {
                 modifier = Modifier.fillMaxWidth()
             )
 
-            // Botón de Contactar Soporte
+            Spacer(modifier = Modifier.height(24.dp))
+
             Button(
                 onClick = {
                     val intent = Intent(Intent.ACTION_SENDTO).apply {
@@ -79,19 +78,16 @@ fun HelpComp(navController: NavController) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(50.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(12.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
             ) {
                 Text(
                     "Contactar con soporte",
-                    color = MaterialTheme.colorScheme.onSecondary,
+                    color = Color.White,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold
                 )
             }
-
-            Spacer(modifier = Modifier.height(16.dp))
-
         }
     }
 }

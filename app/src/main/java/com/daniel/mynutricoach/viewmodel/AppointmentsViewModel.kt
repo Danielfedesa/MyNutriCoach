@@ -8,19 +8,31 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class AppointmentsViewModel(private val repository: AppointmentsRepository = AppointmentsRepository()) : ViewModel() {
+class AppointmentsViewModel(
+    private val repository: AppointmentsRepository = AppointmentsRepository()
+) : ViewModel() {
 
-    private val _userName = MutableStateFlow<String?>(null)
-    val userName: StateFlow<String?> = _userName
+    private val _userName = MutableStateFlow<String>("Usuario")
+    val userName: StateFlow<String> = _userName
 
     private val _appointments = MutableStateFlow<List<Appointment>>(emptyList())
     val appointments: StateFlow<List<Appointment>> = _appointments
 
     init {
+        loadUserName()
+        loadAppointments()
+    }
+
+    private fun loadUserName() {
         viewModelScope.launch {
             _userName.value = repository.getUserName() ?: "Usuario"
-            _appointments.value = repository.getAppointments().sortedByDescending { it.timestamp.toDate().time }
-        }
         }
     }
 
+    private fun loadAppointments() {
+        viewModelScope.launch {
+            _appointments.value = repository.getAppointments()
+                .sortedByDescending { it.timestamp.toDate().time }
+        }
+    }
+}

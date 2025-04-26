@@ -1,30 +1,12 @@
 package com.daniel.mynutricoach.screens
 
-import android.os.Handler
-import android.os.Looper
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -37,21 +19,20 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.daniel.mynutricoach.R
+import com.daniel.mynutricoach.ui.components.buttons.CustomButton
 import com.daniel.mynutricoach.ui.components.inputs.CustomTextField
 import com.daniel.mynutricoach.viewmodel.LoginViewModel
 
-// Login Screen
 @Composable
-fun LoginComp(navController: NavHostController, loginViewModel: LoginViewModel = viewModel()) {
+fun LoginScreen(navController: NavHostController, loginViewModel: LoginViewModel = viewModel()) {
+    val context = LocalContext.current
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    val context = LocalContext.current
 
-    // Estados del ViewModel
     val isAuthenticated by loginViewModel.isAuthenticated.collectAsState()
     val errorMessage by loginViewModel.errorMessage.collectAsState()
 
-    // Verifica si hay una sesión activa al abrir la app
+    // Verifica si el usuario ya está autenticado
     LaunchedEffect(isAuthenticated) {
         if (isAuthenticated == true) {
             val destination = if (loginViewModel.userRole.value == "nutricionista") "NutriHome" else "Progress"
@@ -66,7 +47,9 @@ fun LoginComp(navController: NavHostController, loginViewModel: LoginViewModel =
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
-            modifier = Modifier.fillMaxWidth().weight(0.3f)
+            modifier = Modifier
+                .fillMaxWidth()
+                .weight(0.3f)
         ) {
             Image(
                 painter = painterResource(id = R.drawable.logo),
@@ -85,41 +68,39 @@ fun LoginComp(navController: NavHostController, loginViewModel: LoginViewModel =
             verticalArrangement = Arrangement.Top
         ) {
             Spacer(modifier = Modifier.height(20.dp))
+
             Text(
                 text = "Bienvenido",
                 color = Color.Black,
                 fontWeight = FontWeight.Bold,
                 fontSize = 28.sp,
-                modifier = Modifier.align(Alignment.Start).padding(bottom = 8.dp)
+                modifier = Modifier
+                    .align(Alignment.Start)
+                    .padding(bottom = 8.dp)
             )
+
             Spacer(modifier = Modifier.height(8.dp))
 
-            CustomTextField(value = email,
-                onValueChange = { email = it },
-                label = "Correo")
+            CustomTextField(value = email, onValueChange = { email = it }, label = "Correo")
+            Spacer(modifier = Modifier.height(16.dp))
+            CustomTextField(value = password, onValueChange = { password = it }, label = "Contraseña", isPassword = true)
 
-            Spacer(Modifier.height(16.dp))
-
-            CustomTextField(
-                value = password,
-                onValueChange = { password = it },
-                label = "Contraseña",
-                isPassword = true)
-
-            Spacer(Modifier.height(6.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
             Text(
                 text = "¿Olvidaste tu contraseña?",
                 color = Color.Blue,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.align(Alignment.Start).clickable {
-                    loginViewModel.resetPassword(email)
-                }
+                modifier = Modifier
+                    .align(Alignment.Start)
+                    .clickable { loginViewModel.resetPassword(email) }
             )
-            Spacer(Modifier.height(14.dp))
 
-            Button(
+            Spacer(modifier = Modifier.height(14.dp))
+
+            CustomButton(
+                text = "Iniciar sesión",
                 onClick = {
                     loginViewModel.signIn(email, password) { route ->
                         navController.navigate(route) {
@@ -127,13 +108,11 @@ fun LoginComp(navController: NavHostController, loginViewModel: LoginViewModel =
                         }
                     }
                 },
-                modifier = Modifier.fillMaxWidth().height(50.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF007BFF)),
-                shape = RoundedCornerShape(12.dp)
-            ) {
-                Text(text = "Iniciar sesión", fontSize = 18.sp, color = Color.White)
-            }
-            Spacer(Modifier.height(14.dp))
+                modifier = Modifier.fillMaxWidth(),
+                enabled = true
+            )
+
+            Spacer(modifier = Modifier.height(14.dp))
 
             Row {
                 Text(text = "¿No tienes una cuenta? ", fontSize = 16.sp, color = Color.DarkGray)
@@ -150,12 +129,9 @@ fun LoginComp(navController: NavHostController, loginViewModel: LoginViewModel =
         }
     }
 
-    // Mostrar el Toast en el hilo principal
     errorMessage?.let { message ->
         LaunchedEffect(message) {
-            Handler(Looper.getMainLooper()).post {
-                Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-            }
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show()
         }
     }
 }

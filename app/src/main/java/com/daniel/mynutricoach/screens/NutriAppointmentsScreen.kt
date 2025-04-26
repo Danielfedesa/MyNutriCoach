@@ -7,12 +7,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,21 +20,21 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.daniel.mynutricoach.R
 import com.daniel.mynutricoach.models.AppointmentState
-import com.daniel.mynutricoach.ui.components.buttons.CustomButton
 import com.daniel.mynutricoach.ui.components.cards.NutriAppointmentCard
 import com.daniel.mynutricoach.ui.components.buttons.NutriBottomNavBar
+import com.daniel.mynutricoach.ui.components.dialogues.CustomAlertDialog
 import com.daniel.mynutricoach.viewmodel.NutriAppointmentsViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun NutriAppointmentsComp(
+fun NutriAppointmentsScreen(
     navController: NavHostController,
     viewModel: NutriAppointmentsViewModel = viewModel()
 ) {
     val appointments by viewModel.appointments.collectAsState()
 
     var showFinalizeDialog by remember { mutableStateOf(false) }
-    var showCancelConfirmationDialog by remember { mutableStateOf(false) }
+    var showCancelDialog by remember { mutableStateOf(false) }
     var selectedAppointmentId by remember { mutableStateOf<String?>(null) }
     val sortedAppointments = appointments.sortedWith(compareBy({ it.fecha }, { it.hora }))
 
@@ -54,8 +49,7 @@ fun NutriAppointmentsComp(
                     painter = painterResource(id = R.drawable.banner),
                     contentDescription = "Banner",
                     contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .fillMaxSize()
+                    modifier = Modifier.fillMaxSize()
                 )
                 CenterAlignedTopAppBar(
                     title = {},
@@ -66,7 +60,6 @@ fun NutriAppointmentsComp(
         },
         bottomBar = { NutriBottomNavBar(navController, "NutriAppointments") }
     ) { paddingValues ->
-
         LazyColumn(
             modifier = Modifier
                 .padding(paddingValues)
@@ -81,121 +74,77 @@ fun NutriAppointmentsComp(
                     },
                     onCancel = {
                         selectedAppointmentId = cita.id
-                        showCancelConfirmationDialog = true
+                        showCancelDialog = true
                     }
                 )
             }
         }
+    }
 
-        // Mostrar mensaje de "Cita finalizada correctamente"
-        if (showFinalizeDialog) {
-            AlertDialog(
-                onDismissRequest = { showFinalizeDialog = false },
-                confirmButton = {
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        CustomButton(
-                            text = "Aceptar",
-                            onClick = {
-                                selectedAppointmentId?.let { id ->
-                                    viewModel.updateAppointmentStatus(
-                                        id,
-                                        AppointmentState.Finalizada
-                                    )
-                                }
-                                showFinalizeDialog = false
-                            },
-                            modifier = Modifier.width(220.dp)
-                        )
-                    }
-                },
-                title = {
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.CheckCircle,
-                            contentDescription = "Cita finalizada",
-                            tint = Color(0xFF4CAF50),
-                            modifier = Modifier.size(64.dp)
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                        Text(
-                            text = "Cita Finalizada",
-                            style = MaterialTheme.typography.titleLarge,
-                            textAlign = TextAlign.Center
-                        )
-                    }
-                },
-                text = {
-                    Text(
-                        text = "La cita ha finalizado correctamente.",
-                        fontSize = 18.sp,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth()
+    if (showFinalizeDialog) {
+        CustomAlertDialog(
+            title = {
+                Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
+                    Icon(
+                        imageVector = Icons.Default.CheckCircle,
+                        contentDescription = "Cita finalizada",
+                        tint = Color(0xFF4CAF50),
+                        modifier = Modifier.size(64.dp)
                     )
-                }
-            )
-        }
-
-        // Confirmar cancelación de cita
-        if (showCancelConfirmationDialog) {
-            AlertDialog(
-                onDismissRequest = { showCancelConfirmationDialog = false },
-                title = {
+                    Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        "Cancelar Cita",
-                        modifier = Modifier.fillMaxWidth(),
+                        text = "Cita Finalizada",
+                        style = MaterialTheme.typography.titleLarge,
                         textAlign = TextAlign.Center
                     )
-                },
-                text = {
-                    Text(
-                        "¿Estás seguro de que quieres cancelar esta cita?",
-                        fontSize = 18.sp,
-                        modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Center
-                    )
-                },
-                confirmButton = {
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        CustomButton(
-                            text = "Sí, cancelar",
-                            onClick = {
-                                selectedAppointmentId?.let { id ->
-                                    viewModel.updateAppointmentStatus(
-                                        id,
-                                        AppointmentState.Cancelada
-                                    )
-                                }
-                                showCancelConfirmationDialog = false
-                            },
-                            modifier = Modifier.width(220.dp)
-                        )
-                    }
-                },
-                dismissButton = {
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        CustomButton(
-                            text = "No",
-                            onClick = { showCancelConfirmationDialog = false },
-                            containerColor = Color.White,
-                            contentColor = Color.Black,
-                            modifier = Modifier.width(220.dp)
-                        )
-                    }
                 }
-            )
-        }
+            },
+            message = {
+                Text(
+                    text = "La cita ha finalizado correctamente.",
+                    fontSize = 18.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            },
+            confirmText = "Aceptar",
+            onConfirm = {
+                selectedAppointmentId?.let { id ->
+                    viewModel.updateAppointmentStatus(id, AppointmentState.Finalizada)
+                }
+                showFinalizeDialog = false
+            },
+            onDismiss = { showFinalizeDialog = false }
+        )
+    }
+
+    if (showCancelDialog) {
+        CustomAlertDialog(
+            title = {
+                Text(
+                    text = "Cancelar Cita",
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center
+                )
+            },
+            message = {
+                Text(
+                    text = "¿Estás seguro de que quieres cancelar esta cita?",
+                    fontSize = 18.sp,
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center
+                )
+            },
+            confirmText = "Sí, cancelar",
+            onConfirm = {
+                selectedAppointmentId?.let { id ->
+                    viewModel.updateAppointmentStatus(id, AppointmentState.Cancelada)
+                }
+                showCancelDialog = false
+            },
+            dismissText = "No",
+            onDismiss = { showCancelDialog = false }
+        )
     }
 }
 

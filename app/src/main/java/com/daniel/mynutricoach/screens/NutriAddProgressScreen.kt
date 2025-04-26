@@ -4,15 +4,12 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.daniel.mynutricoach.ui.components.buttons.CustomButton
@@ -23,7 +20,7 @@ import com.daniel.mynutricoach.viewmodel.ProgressViewModel
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddProgressComp(
+fun NutriAddProgressScreen(
     clienteId: String,
     navController: NavHostController,
     viewModel: ProgressViewModel = viewModel()
@@ -36,24 +33,14 @@ fun AddProgressComp(
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = {
-                    Text(
-                        "Añadir Progreso",
-                        style = MaterialTheme.typography.titleLarge
-                    )
-                },
+                title = { Text("Añadir Progreso", style = MaterialTheme.typography.titleLarge) },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Text(
-                            text = "<",
-                            color = Color.White,
-                            style = MaterialTheme.typography.titleLarge.copy(fontSize = 30.sp)
-                        )
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Atrás", tint = MaterialTheme.colorScheme.onPrimary)
                     }
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimary
+                    containerColor = MaterialTheme.colorScheme.primary
                 )
             )
         }
@@ -62,36 +49,17 @@ fun AddProgressComp(
             modifier = Modifier
                 .padding(padding)
                 .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            CustomTextField(
-                value = peso,
-                onValueChange = { peso = it },
-                label = "Peso (kg)",
-            )
-
-            CustomTextField(
-                value = masaMuscular,
-                onValueChange = { masaMuscular = it },
-                label = "Masa Muscular (%)"
-            )
-
-            CustomTextField(
-                value = grasa,
-                onValueChange = { grasa = it },
-                label = "Grasa Corporal (%)"
-            )
+            CustomTextField(value = peso, onValueChange = { peso = it }, label = "Peso (kg)")
+            CustomTextField(value = masaMuscular, onValueChange = { masaMuscular = it }, label = "Masa Muscular (%)")
+            CustomTextField(value = grasa, onValueChange = { grasa = it }, label = "Grasa Corporal (%)")
 
             Spacer(modifier = Modifier.height(12.dp))
 
             CustomButton(
                 text = "Guardar Progreso",
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-                    .fillMaxWidth(),
                 onClick = {
                     if (peso.isNotBlank() && masaMuscular.isNotBlank() && grasa.isNotBlank()) {
                         viewModel.addProgress(
@@ -104,6 +72,7 @@ fun AddProgressComp(
                         }
                     }
                 },
+                modifier = Modifier.fillMaxWidth()
             )
         }
     }

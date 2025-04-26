@@ -28,11 +28,12 @@ import com.daniel.mynutricoach.viewmodel.DietsViewModel
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun DietsComp(navController: NavHostController, dietsViewModel: DietsViewModel = viewModel()) {
+fun ClientDietsScreen(
+    navController: NavHostController,
+    dietsViewModel: DietsViewModel = viewModel()
+) {
     val userName by dietsViewModel.userName.collectAsState()
-
-    // Este estado se reinicia cada vez que se navega de nuevo a esta pantalla
-    var dayOffset by remember { mutableIntStateOf(0) }
+    var dayOffset by remember { mutableStateOf(0) }
 
     Scaffold(
         topBar = {
@@ -43,10 +44,9 @@ fun DietsComp(navController: NavHostController, dietsViewModel: DietsViewModel =
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.banner),
-                    contentDescription = "Banner",
+                    contentDescription = null,
                     contentScale = ContentScale.Crop,
-                    modifier = Modifier
-                        .fillMaxSize()
+                    modifier = Modifier.fillMaxSize()
                 )
                 CenterAlignedTopAppBar(
                     title = {},
@@ -56,21 +56,22 @@ fun DietsComp(navController: NavHostController, dietsViewModel: DietsViewModel =
             }
         },
         bottomBar = { BottomNavBar(navController, "Diets") }
-    ) { paddingValues ->
+    ) { padding ->
         Column(
             modifier = Modifier
-                .padding(paddingValues)
+                .padding(padding)
+                .padding(16.dp)
                 .fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Dieta de ${userName ?: "Usuario"}",
+                text = "Dieta de $userName",
                 fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(16.dp)
+                fontWeight = FontWeight.Bold
             )
 
-            // Botones de navegación por día
+            Spacer(modifier = Modifier.height(16.dp))
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -96,11 +97,9 @@ fun DietsComp(navController: NavHostController, dietsViewModel: DietsViewModel =
                 }
             }
 
-            // Mostrar las comidas del día
-            DayMeals(
-                dayOffset, dietsViewModel,
-                navController = navController
-            )
+            Spacer(modifier = Modifier.height(8.dp))
+
+            DayMeals(dayOffset, dietsViewModel, navController)
         }
     }
 }

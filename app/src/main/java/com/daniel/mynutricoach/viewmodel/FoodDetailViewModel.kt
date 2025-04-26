@@ -17,8 +17,13 @@ class FoodDetailViewModel(
 
     fun cargarNutrientes(alimentos: List<String>) {
         viewModelScope.launch {
-            val result = repository.getNutritionData(alimentos)
-            _nutrientes.value = result
+            runCatching {
+                repository.getNutritionData(alimentos)
+            }.onSuccess {
+                _nutrientes.value = it
+            }.onFailure {
+                _nutrientes.value = emptyList() // En caso de fallo, devolver lista vacía
+            }
         }
     }
 }

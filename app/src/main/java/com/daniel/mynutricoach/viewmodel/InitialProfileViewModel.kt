@@ -8,7 +8,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class InitialProfileViewModel(private val repository: UserRepository = UserRepository()) : ViewModel() {
+class InitialProfileViewModel(
+    private val repository: UserRepository = UserRepository()
+) : ViewModel() {
 
     private val _userData = MutableStateFlow(User())
     val userData: StateFlow<User> = _userData
@@ -22,26 +24,31 @@ class InitialProfileViewModel(private val repository: UserRepository = UserRepos
 
     private fun fetchUserData() {
         viewModelScope.launch {
-            val user = repository.getUserData()
-            user?.let {
+            repository.getUserData()?.let {
                 _userData.value = it
             }
         }
     }
 
-    fun saveUserData(nombre: String, apellidos: String, telefono: String, fechaNacimiento: String, sexo: String, estatura: Int, pesoObjetivo: Double) {
-        val user = _userData.value.copy(
-            nombre = nombre,
-            apellidos = apellidos,
-            telefono = telefono,
-            fechaNacimiento = fechaNacimiento,
-            sexo = sexo,
-            estatura = estatura,
-            pesoObjetivo = pesoObjetivo
+    fun saveUserData(
+        nombre: String,
+        apellidos: String,
+        telefono: String,
+        fechaNacimiento: String,
+        sexo: String,
+        estatura: Int,
+        pesoObjetivo: Double
+    ) = viewModelScope.launch {
+        _saveState.value = repository.saveUserData(
+            _userData.value.copy(
+                nombre = nombre,
+                apellidos = apellidos,
+                telefono = telefono,
+                fechaNacimiento = fechaNacimiento,
+                sexo = sexo,
+                estatura = estatura,
+                pesoObjetivo = pesoObjetivo
+            )
         )
-
-        viewModelScope.launch {
-            _saveState.value = repository.saveUserData(user)
-        }
     }
 }

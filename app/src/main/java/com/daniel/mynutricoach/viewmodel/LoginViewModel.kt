@@ -26,7 +26,7 @@ class LoginViewModel(
             checkSession() // Se ejecuta cuando el ViewModel se inicializa
         }
 
-        fun checkSession() {
+        private fun checkSession() {
             viewModelScope.launch {
                 val user = authRepository.getCurrentUser()
                 if (user != null) {

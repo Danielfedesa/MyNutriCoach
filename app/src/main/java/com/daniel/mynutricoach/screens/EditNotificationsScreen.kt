@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -29,40 +30,35 @@ import com.daniel.mynutricoach.viewmodel.ProfileViewModel
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EditNotificationsComp(navController: NavHostController, profileViewModel: ProfileViewModel = viewModel()) {
-
+fun EditNotificationsScreen(
+    navController: NavHostController,
+    profileViewModel: ProfileViewModel = viewModel()
+) {
     val userName by profileViewModel.userName.collectAsState()
 
     Scaffold(
         topBar = {
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(30.dp)
-            ) {
-                CenterAlignedTopAppBar(
-                    title = {},
-                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = Color.Transparent),
-                    modifier = Modifier.fillMaxSize()
+            CenterAlignedTopAppBar(
+                title = { Text("Notificaciones", color = Color.White) },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary
                 )
-            }
+            )
         },
         bottomBar = { BottomNavBar(navController, "Profile") }
-    ) { paddingValues ->
+    ) { padding ->
         Column(
             modifier = Modifier
-                .padding(paddingValues)
-                .fillMaxSize()
+                .padding(padding)
                 .padding(16.dp)
+                .fillMaxSize()
         ) {
             Text(
-                text = "Selecciona las notificaciones ${userName ?: "Usuario"}",
+                text = "Selecciona las notificaciones $userName",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Black,
-                modifier = Modifier.padding(16.dp)
+                color = Color.Black
             )
-
         }
     }
 }
