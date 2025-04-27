@@ -30,7 +30,6 @@ fun ClientAppointmentsScreen(
 ) {
     val userName by appointmentsViewModel.userName.collectAsState()
     val appointments by appointmentsViewModel.appointments.collectAsState()
-    val sortedAppointments = appointments.sortedWith(compareBy({ it.fecha }, { it.hora }))
 
     Scaffold(
         topBar = {
@@ -68,7 +67,7 @@ fun ClientAppointmentsScreen(
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
-            if (sortedAppointments.isEmpty()) {
+            if (appointments.isEmpty()) {
                 Text(
                     text = "No existe registro de citas",
                     fontSize = 18.sp,
@@ -77,7 +76,11 @@ fun ClientAppointmentsScreen(
                 )
             } else {
                 LazyColumn {
-                    items(sortedAppointments) { cita ->
+                    items(
+                        appointments
+                            .sortedWith(compareBy({ it.fecha }, { it.hora }))
+                            .reversed()
+                    ) { cita ->
                         AppointmentCard(cita)
                     }
                 }
@@ -85,5 +88,3 @@ fun ClientAppointmentsScreen(
         }
     }
 }
-
-

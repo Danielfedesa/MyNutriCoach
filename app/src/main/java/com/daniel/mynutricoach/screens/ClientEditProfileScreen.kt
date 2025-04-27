@@ -3,7 +3,6 @@ package com.daniel.mynutricoach.screens
 import android.os.Build
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -12,8 +11,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -29,9 +33,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.daniel.mynutricoach.ui.components.buttons.BottomNavBar
@@ -91,17 +93,27 @@ fun ClientEditProfileScreen(
 
     Scaffold(
         topBar = {
-            Box(
-                Modifier
-                    .fillMaxWidth()
-                    .height(30.dp)
-            ) {
-                CenterAlignedTopAppBar(
-                    title = {},
-                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(containerColor = Color.Transparent),
-                    modifier = Modifier.fillMaxSize()
+            CenterAlignedTopAppBar(
+                title = {
+                    Text(
+                        "Editar datos personales",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = Color.White
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Atrás",
+                            tint = Color.White
+                        )
+                    }
+                },
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary
                 )
-            }
+            )
         },
         bottomBar = { BottomNavBar(navController, "Profile") }
     ) { padding ->
@@ -113,14 +125,7 @@ fun ClientEditProfileScreen(
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                "Editar datos personales",
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(top = 16.dp)
-            )
-
-            Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.height(24.dp))
 
             CustomOutlinedTextField(nombre, { nombre = it }, "Nombre")
             Spacer(Modifier.height(16.dp))
@@ -154,6 +159,8 @@ fun ClientEditProfileScreen(
                 modifier = Modifier.fillMaxWidth(),
                 enabled = isButtonEnabled
             )
+
+            Spacer(Modifier.height(24.dp))
         }
     }
 }

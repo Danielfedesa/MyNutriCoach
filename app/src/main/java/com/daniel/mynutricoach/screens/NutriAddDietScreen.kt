@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -21,6 +22,7 @@ import com.daniel.mynutricoach.ui.components.inputs.CustomTextField
 import com.daniel.mynutricoach.ui.components.inputs.DropdownMenuSelector
 import com.daniel.mynutricoach.viewmodel.NutriDietViewModel
 import com.daniel.mynutricoach.ui.components.buttons.CustomButton
+import com.daniel.mynutricoach.ui.components.dialogues.SuccessDialog
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -36,15 +38,22 @@ fun NutriAddDietScreen(
     var alimento by remember { mutableStateOf("") }
     var diaActual by remember { mutableStateOf(diasSemana.first()) }
     var tipoActual by remember { mutableStateOf(tiposComida.first()) }
+    var showSuccessDialog by remember { mutableStateOf(false) }
 
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("Añadir Dieta", style = MaterialTheme.typography.titleLarge) },
+                title = {
+                    Text(
+                        "Añadir Dieta",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = Color.White
+                    )
+                },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
-                            imageVector = Icons.Filled.ArrowBack,
+                            Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = "Atrás",
                             tint = Color.White
                         )
@@ -116,13 +125,25 @@ fun NutriAddDietScreen(
                 text = "Guardar dieta",
                 onClick = {
                     viewModel.guardarDieta(clienteId) {
-                        navController.popBackStack()
+                        showSuccessDialog = true
                     }
                 },
                 containerColor = Color(0xFF4CAF50),
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
         }
+    }
+
+    if (showSuccessDialog) {
+        SuccessDialog(
+            title = "Dieta Guardada",
+            message = "La dieta se ha registrado correctamente.",
+            onDismiss = { showSuccessDialog = false },
+            onConfirm = {
+                showSuccessDialog = false
+                navController.popBackStack()
+            }
+        )
     }
 }
 

@@ -140,7 +140,7 @@ fun LineChart(values: List<Pair<Long, Float>>, unit: String, scrollState: Scroll
 
                 drawContext.canvas.nativeCanvas.apply {
                     drawText(
-                        "${y.roundToInt()} $unit",
+                        "${y.roundToInt()}",
                         xPos,
                         yPos - 20,
                         android.graphics.Paint().apply {

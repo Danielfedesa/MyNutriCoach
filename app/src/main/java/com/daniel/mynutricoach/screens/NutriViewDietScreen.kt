@@ -34,7 +34,13 @@ fun NutriViewDietScreen(
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("Dieta del Cliente", color = Color.White, fontSize = 20.sp) },
+                title = {
+                    Text(
+                        "Dieta del Cliente",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = Color.White
+                    )
+                },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(

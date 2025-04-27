@@ -21,6 +21,7 @@ import androidx.navigation.NavHostController
 import com.daniel.mynutricoach.ui.components.buttons.CustomButton
 import com.daniel.mynutricoach.ui.components.cards.DayCard
 import com.daniel.mynutricoach.ui.components.buttons.TimeSlotButton
+import com.daniel.mynutricoach.ui.components.dialogues.SuccessDialog
 import com.daniel.mynutricoach.viewmodel.NutriAppointmentsViewModel
 import java.time.LocalDate
 
@@ -42,10 +43,20 @@ fun NutriAddAppointmentScreen(
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("Añadir Cita", style = MaterialTheme.typography.titleLarge) },
+                title = {
+                    Text(
+                        "Añadir Cita",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = Color.White
+                    )
+                },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Atrás", tint = Color.White)
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Atrás",
+                            tint = Color.White
+                        )
                     }
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
@@ -89,7 +100,7 @@ fun NutriAddAppointmentScreen(
 
             FlowRow(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                horizontalArrangement = Arrangement.spacedBy(10.dp, Alignment.CenterHorizontally),
                 verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
                 horarios.forEach { hora ->
@@ -113,44 +124,13 @@ fun NutriAddAppointmentScreen(
             }
 
             if (showSuccessDialog) {
-                AlertDialog(
-                    onDismissRequest = { showSuccessDialog = false },
-                    title = {
-                        Column(
-                            horizontalAlignment = Alignment.CenterHorizontally,
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Icon(
-                                imageVector = Icons.Filled.CheckCircle,
-                                contentDescription = "Cita reservada",
-                                tint = Color(0xFF4CAF50),
-                                modifier = Modifier.size(64.dp)
-                            )
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Text(
-                                text = "Cita Reservada",
-                                textAlign = TextAlign.Center,
-                                style = MaterialTheme.typography.titleLarge
-                            )
-                        }
-                    },
-                    text = {
-                        Text(
-                            text = "La cita se ha reservado correctamente.",
-                            fontSize = 18.sp,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.fillMaxWidth()
-                        )
-                    },
-                    confirmButton = {
-                        CustomButton(
-                            text = "Aceptar",
-                            onClick = {
-                                showSuccessDialog = false
-                                navController.popBackStack()
-                            },
-                            modifier = Modifier.fillMaxWidth()
-                        )
+                SuccessDialog(
+                    title = "Cita Reservada",
+                    message = "La cita se ha reservado correctamente.",
+                    onDismiss = { showSuccessDialog = false },
+                    onConfirm = {
+                        showSuccessDialog = false
+                        navController.popBackStack()
                     }
                 )
             }

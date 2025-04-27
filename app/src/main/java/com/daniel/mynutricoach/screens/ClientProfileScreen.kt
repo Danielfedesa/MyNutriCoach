@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.daniel.mynutricoach.ui.components.buttons.BottomNavBar
+import com.daniel.mynutricoach.ui.components.dialogues.CloseSession
 import com.daniel.mynutricoach.ui.components.visuals.InfoBox
 import com.daniel.mynutricoach.ui.components.visuals.ProfileOption
 import com.daniel.mynutricoach.viewmodel.ProfileViewModel
@@ -39,23 +40,16 @@ fun ClientProfileScreen(
     val scrollState = rememberScrollState()
 
     if (showDialog) {
-        AlertDialog(
-            onDismissRequest = { showDialog = false },
-            title = { Text("¿Cerrar sesión?") },
-            text = { Text("¿Estás seguro de que quieres cerrar sesión?") },
-            confirmButton = {
-                TextButton(
-                    onClick = {
-                        showDialog = false
-                        profileViewModel.logout(navController)
-                    }
-                ) { Text("Cerrar sesión", color = Color.Red) }
+        CloseSession(
+            title = "Cerrar sesión",
+            message = "¿Estás seguro de que quieres cerrar sesión?",
+            onConfirm = {
+                showDialog = false
+                profileViewModel.logout(navController)
             },
-            dismissButton = {
-                TextButton(onClick = { showDialog = false }) {
-                    Text("Cancelar")
-                }
-            }
+            onDismiss = { showDialog = false },
+            confirmText = "Cerrar sesión",
+            dismissText = "Cancelar"
         )
     }
 

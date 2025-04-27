@@ -19,7 +19,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.daniel.mynutricoach.ui.components.buttons.BottomNavBar
 import com.daniel.mynutricoach.ui.components.visuals.CarouselComponent
-import com.daniel.mynutricoach.ui.components.visuals.ProgressSection
+import com.daniel.mynutricoach.ui.components.visuals.ProgressComponent
 import com.daniel.mynutricoach.viewmodel.ProgressViewModel
 
 
@@ -44,7 +44,7 @@ fun ClientProgressScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Hola, $userName 👋",
+                text = "Hola, $userName",
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
@@ -58,9 +58,9 @@ fun ClientProgressScreen(
                 val masas = progressHistory.map { it.timestamp to it.masaMuscular }
                 val grasas = progressHistory.map { it.timestamp to it.grasa }
 
-                ProgressSection("Peso actual", latest.peso, "kg", pesos)
-                ProgressSection("Masa muscular", latest.masaMuscular, "kg", masas)
-                ProgressSection("Porcentaje de grasa", latest.grasa, "%", grasas)
+                ProgressComponent("Peso actual", latest.peso, "kg", pesos)
+                ProgressComponent("Masa muscular", latest.masaMuscular, "kg", masas)
+                ProgressComponent("Porcentaje de grasa", latest.grasa, "%", grasas)
             } else {
                 Text(
                     text = "No hay historial de datos. Tu nutricionista aún no ha registrado tu progreso.",

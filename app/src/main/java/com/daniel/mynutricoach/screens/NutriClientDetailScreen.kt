@@ -5,6 +5,7 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -44,19 +45,24 @@ fun NutriClientDetailScreen(
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("Detalle del cliente", style = MaterialTheme.typography.titleLarge) },
+                title = {
+                    Text(
+                        "Detalle del cliente",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = Color.White
+                    )
+                },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
-                        Text(
-                            text = "<",
-                            color = Color.White,
-                            style = MaterialTheme.typography.titleLarge.copy(fontSize = 30.sp)
+                        Icon(
+                            Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Atrás",
+                            tint = Color.White
                         )
                     }
                 },
                 colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    titleContentColor = MaterialTheme.colorScheme.onPrimary
+                    containerColor = MaterialTheme.colorScheme.primary
                 )
             )
         },
@@ -90,17 +96,12 @@ fun NutriClientDetailScreen(
                 Text("Correo: ${clienteData.email}", fontSize = 18.sp)
                 Text("Teléfono: ${clienteData.telefono}", fontSize = 18.sp)
 
-                // Mostramos la edad calculada, en caso de que no haya fecha de nacimiento, mostramos "--"
                 val edad = if (clienteData.fechaNacimiento.isNotBlank()) {
                     obtenerEdad(clienteData.fechaNacimiento).toString()
                 } else {
                     "--"
                 }
-
-                Text(
-                    "Edad: $edad años",
-                    fontSize = 18.sp
-                )
+                Text("Edad: $edad años", fontSize = 18.sp)
 
                 Text("Peso objetivo: ${clienteData.pesoObjetivo ?: "--"} Kg", fontSize = 18.sp)
 
@@ -157,8 +158,9 @@ fun NutriClientDetailScreen(
             },
             confirmButton = {
                 Column(
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     DialogButton("Progreso") {
                         showDialog = false
@@ -181,4 +183,3 @@ fun NutriClientDetailScreen(
         )
     }
 }
-
