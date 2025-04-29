@@ -5,7 +5,7 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.daniel.mynutricoach.models.Appointment
-import com.daniel.mynutricoach.repository.NutriAppointmentsRepository
+import com.daniel.mynutricoach.repository.AppointmentsRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -15,7 +15,7 @@ import java.time.LocalDate
 
 @RequiresApi(Build.VERSION_CODES.O)
 class NutriHomeViewModel(
-    private val appointmentsRepository: NutriAppointmentsRepository = NutriAppointmentsRepository(),
+    private val appointmentsRepository: AppointmentsRepository = AppointmentsRepository(),
     private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 ) : ViewModel() {
 

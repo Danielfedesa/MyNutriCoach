@@ -8,8 +8,16 @@ import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun obtenerEdad(fechaNacimiento: String): Int {
-    val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
-    val nacimiento = LocalDate.parse(fechaNacimiento, formatter)
-    val hoy = LocalDate.now()
-    return Period.between(nacimiento, hoy).years
+    if (fechaNacimiento.isBlank()) {
+        return 0 // O cualquier valor que tenga sentido si no hay fecha
+    }
+
+    return try {
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        val nacimiento = LocalDate.parse(fechaNacimiento, formatter)
+        val hoy = LocalDate.now()
+        Period.between(nacimiento, hoy).years
+    } catch (e: Exception) {
+        0 // Si falla el parseo, devolvemos 0
+    }
 }

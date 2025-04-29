@@ -2,14 +2,12 @@ package com.daniel.mynutricoach.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.daniel.mynutricoach.repository.AuthRepository
 import com.daniel.mynutricoach.repository.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class LoginViewModel(
-    private val authRepository: AuthRepository = AuthRepository(),
     private val userRepository: UserRepository = UserRepository()
 ) : ViewModel() {
 
@@ -28,7 +26,7 @@ class LoginViewModel(
 
         private fun checkSession() {
             viewModelScope.launch {
-                val user = authRepository.getCurrentUser()
+                val user = userRepository.getCurrentUser()
                 if (user != null) {
                     val role = userRepository.getUserRole()
                     _isAuthenticated.value = true
@@ -46,7 +44,7 @@ class LoginViewModel(
         }
 
         viewModelScope.launch {
-            val result = authRepository.signIn(email, password)
+            val result = userRepository.signIn(email, password)
             result.onSuccess {
                 checkSession()
                 onNavigate(if (_userRole.value == "nutricionista") "Home" else "Progress")
@@ -63,7 +61,7 @@ class LoginViewModel(
         }
 
         viewModelScope.launch {
-            val result = authRepository.resetPassword(email)
+            val result = userRepository.resetPassword(email)
             result.onSuccess {
                 _errorMessage.value = "Se ha enviado un correo para restablecer tu contraseña"
             }.onFailure {

@@ -4,12 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.daniel.mynutricoach.models.Progress
 import com.daniel.mynutricoach.repository.ProgressRepository
+import com.daniel.mynutricoach.repository.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class ProgressViewModel(
-    private val repository: ProgressRepository = ProgressRepository()
+    private val progressRepository: ProgressRepository = ProgressRepository(),
+    private val userRepository: UserRepository = UserRepository()
 ) : ViewModel() {
 
     private val _progressHistory = MutableStateFlow<List<Progress>>(emptyList())
@@ -20,8 +22,8 @@ class ProgressViewModel(
 
     init {
         viewModelScope.launch {
-            _progressHistory.value = repository.getProgressHistory()
-            _userName.value = repository.getUserName()
+            _progressHistory.value = progressRepository.getProgressHistory()
+            _userName.value = userRepository.getUserName() ?: "Usuario"
         }
     }
 
@@ -40,7 +42,7 @@ class ProgressViewModel(
                     masaMuscular = masaMuscular,
                     grasa = grasa
                 )
-                repository.addProgress(clienteId, progress)
+                progressRepository.addProgress(clienteId, progress)
             }.onSuccess {
                 onSuccess()
             }

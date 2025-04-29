@@ -6,7 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.daniel.mynutricoach.models.Progress
 import com.daniel.mynutricoach.models.User
-import com.daniel.mynutricoach.repository.NutriClientRepository
+import com.daniel.mynutricoach.repository.ProgressRepository
+import com.daniel.mynutricoach.repository.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -16,7 +17,8 @@ import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 class NutriClientDetailViewModel(
-    private val repository: NutriClientRepository = NutriClientRepository()
+    private val userRepository: UserRepository = UserRepository(),
+    private val progressRepository: ProgressRepository = ProgressRepository()
 ) : ViewModel() {
 
     private val _cliente = MutableStateFlow<User?>(null)
@@ -40,8 +42,8 @@ class NutriClientDetailViewModel(
 
     fun loadCliente(clienteId: String) {
         viewModelScope.launch {
-            _cliente.value = repository.getClienteById(clienteId)
-            _progreso.value = repository.getProgresoCliente(clienteId)
+            _cliente.value = userRepository.getClienteById(clienteId)
+            _progreso.value = progressRepository.getProgresoCliente(clienteId)
         }
     }
 }

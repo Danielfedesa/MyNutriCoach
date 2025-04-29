@@ -11,9 +11,20 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.daniel.mynutricoach.screens.*
 
-
+/**
+ * Define la navegación principal de la aplicación.
+ *
+ * Esta función configura todas las rutas posibles utilizando `NavHost`, incluyendo las pantallas
+ * tanto para usuarios cliente como para nutricionistas. Cada pantalla está asociada a una ruta específica.
+ *
+ * - Utiliza [rememberNavController] para gestionar el estado de navegación.
+ * - Define rutas que pueden recibir argumentos como IDs de clientes o listas de alimentos codificadas.
+ * - Separa claramente las secciones de clientes y nutricionistas para facilitar el mantenimiento.
+ *
+ * @RequiresApi Se requiere Android O (API 26) debido al uso de funcionalidades basadas en fechas.
+ * @OptIn Marca que se usan APIs experimentales de Material3.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppNavigation() {
     // Recuerda el estado de la navegación cuando se recomponen los composables
@@ -146,15 +157,12 @@ fun AppNavigation() {
 
         // Pantalla NutriViewDiet con su ViewModel asociado
         composable(
-            route = "NutriViewDiet/{clienteId}",
+            route = "${AppScreens.NutriViewDiet.ruta}/{clienteId}",
             arguments = listOf(navArgument("clienteId") { type = NavType.StringType })
         ) { backStackEntry ->
             val clienteId = backStackEntry.arguments?.getString("clienteId") ?: ""
             NutriViewDietScreen(clienteId = clienteId, navController = navController)
         }
-
-
-
     }
 }
 

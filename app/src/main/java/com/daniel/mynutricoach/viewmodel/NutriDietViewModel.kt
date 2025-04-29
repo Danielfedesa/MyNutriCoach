@@ -3,13 +3,13 @@ package com.daniel.mynutricoach.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.daniel.mynutricoach.models.Meal
-import com.daniel.mynutricoach.repository.NutriDietRepository
+import com.daniel.mynutricoach.repository.DietsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class NutriDietViewModel(
-    private val repository: NutriDietRepository = NutriDietRepository()
+    private val repository: DietsRepository = DietsRepository()
 ) : ViewModel() {
 
     private val _dietaSemana = MutableStateFlow<Map<String, List<Meal>>>(emptyMap())

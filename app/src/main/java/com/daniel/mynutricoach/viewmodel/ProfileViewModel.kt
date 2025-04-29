@@ -5,7 +5,7 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavHostController
-import com.daniel.mynutricoach.repository.ProfileRepository
+import com.daniel.mynutricoach.repository.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -16,7 +16,7 @@ import java.util.Locale
 
 @RequiresApi(Build.VERSION_CODES.O)
 class ProfileViewModel(
-    private val repository: ProfileRepository = ProfileRepository()
+    private val repository: UserRepository = UserRepository()
 ) : ViewModel() {
 
     private val _userName = MutableStateFlow("")

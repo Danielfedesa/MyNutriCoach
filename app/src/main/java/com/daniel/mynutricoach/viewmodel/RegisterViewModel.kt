@@ -2,13 +2,13 @@ package com.daniel.mynutricoach.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.daniel.mynutricoach.repository.AuthRepository
+import com.daniel.mynutricoach.repository.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class RegisterViewModel(
-    private val repository: AuthRepository = AuthRepository()
+    private val repository: UserRepository = UserRepository()
 ) : ViewModel() {
 
     private val _registerState = MutableStateFlow<Result<String>?>(null)

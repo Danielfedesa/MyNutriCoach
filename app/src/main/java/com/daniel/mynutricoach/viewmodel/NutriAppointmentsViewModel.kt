@@ -4,13 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.daniel.mynutricoach.models.Appointment
 import com.daniel.mynutricoach.models.AppointmentState
-import com.daniel.mynutricoach.repository.NutriAppointmentsRepository
+import com.daniel.mynutricoach.repository.AppointmentsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class NutriAppointmentsViewModel(
-    private val repository: NutriAppointmentsRepository = NutriAppointmentsRepository()
+    private val repository: AppointmentsRepository = AppointmentsRepository()
 ) : ViewModel() {
 
     private val _appointments = MutableStateFlow<List<Appointment>>(emptyList())
