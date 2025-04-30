@@ -16,15 +16,25 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-// Función para mostrar una opción de perfil en la pantalla de perfil
-// Esta función recibe un título y una acción a realizar al hacer clic
-// Se usa en la pantalla ProfileScreen
+/**
+ * Componente reutilizable que representa una opción dentro del perfil del usuario.
+ *
+ * Se muestra como una fila con un título y una flecha indicativa a la derecha.
+ * Al hacer clic, ejecuta la acción proporcionada.
+ *
+ * Usado comúnmente en pantallas como `ProfileScreen` o `NutriProfileScreen`.
+ *
+ * @param title Texto que describe la opción (por ejemplo: "Notificaciones", "Idioma").
+ * @param onClick Acción que se ejecuta al hacer clic en la opción.
+ */
 @Composable
 fun ProfileOption(title: String, onClick: () -> Unit) {
-    Column(modifier = Modifier
-        .fillMaxWidth()
-        .clickable(onClick = onClick)
-        .padding(vertical = 12.dp, horizontal = 4.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .padding(vertical = 12.dp, horizontal = 4.dp)
+    ) {
 
         Row(
             modifier = Modifier

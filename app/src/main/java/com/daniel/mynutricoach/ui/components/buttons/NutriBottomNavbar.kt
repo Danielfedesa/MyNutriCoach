@@ -19,7 +19,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 
-
+/**
+ * Barra de navegación inferior específica para usuarios con rol de nutricionista.
+ *
+ * Proporciona acceso rápido a las secciones principales:
+ * - Inicio
+ * - Clientes
+ * - Citas
+ * - Perfil
+ *
+ * Resalta la pantalla actualmente activa.
+ *
+ * @param navController Controlador de navegación usado para gestionar el cambio de pantalla.
+ * @param currentScreen Nombre de la pantalla actual, usado para resaltar el ítem correspondiente.
+ */
 @Composable
 fun NutriBottomNavBar(navController: NavHostController, currentScreen: String) {
     NavigationBar(

@@ -7,24 +7,37 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import com.daniel.mynutricoach.ui.components.buttons.CustomButton
 import com.daniel.mynutricoach.ui.components.cards.DayCard
 import com.daniel.mynutricoach.ui.components.buttons.TimeSlotButton
 import com.daniel.mynutricoach.ui.components.dialogues.SuccessDialog
 import com.daniel.mynutricoach.viewmodel.NutriAppointmentsViewModel
 import java.time.LocalDate
 
+/**
+ * Pantalla utilizada por el nutricionista para añadir una nueva cita con un cliente específico.
+ *
+ * Permite:
+ * - Seleccionar una fecha disponible (solo días laborales dentro de los próximos 60 días).
+ * - Elegir una franja horaria libre.
+ * - Confirmar la cita con un cliente específico (nombre, apellido, ID).
+ * - Mostrar un diálogo de éxito tras la creación de la cita.
+ *
+ * El estado de las citas ya programadas se utiliza para bloquear franjas horarias ocupadas.
+ *
+ * @param clienteId ID único del cliente con quien se agenda la cita.
+ * @param clienteNombre Nombre del cliente.
+ * @param clienteApellido Apellido del cliente.
+ * @param navController Controlador de navegación para volver atrás tras confirmar.
+ * @param viewModel ViewModel que gestiona las citas y el estado de disponibilidad.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable

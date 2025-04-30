@@ -12,7 +12,17 @@ import kotlinx.coroutines.delay
 
 import androidx.compose.ui.layout.ContentScale
 
-
+/**
+ * Componente de carrusel que muestra una serie de imágenes de consejos saludables.
+ *
+ * Las imágenes se deslizan automáticamente cada 5 segundos, utilizando un `HorizontalPager`
+ * de Jetpack Compose con efecto de auto-scroll.
+ *
+ * Este carrusel está diseñado para usarse, por ejemplo, en la parte superior de la pantalla de progreso
+ * o como encabezado motivacional.
+ *
+ * Las imágenes se escalan con `ContentScale.Crop` y se ajustan a un alto de 200dp.
+ */
 @Composable
 fun CarouselComponent() {
     val images = listOf(

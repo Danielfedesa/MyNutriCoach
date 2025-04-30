@@ -7,7 +7,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,6 +21,20 @@ import androidx.navigation.NavController
 import com.daniel.mynutricoach.ui.components.forms.TextsApp
 import androidx.core.net.toUri
 
+/**
+ * Pantalla de ayuda y preguntas frecuentes para el usuario.
+ *
+ * Esta pantalla proporciona una descripción general de las preguntas frecuentes (FAQs)
+ * sobre el uso de la aplicación y permite contactar directamente con el soporte a través
+ * del correo electrónico.
+ *
+ * Características:
+ * - Muestra contenido de ayuda estático almacenado en [TextsApp.HELP].
+ * - Ofrece un botón para enviar un correo electrónico al soporte técnico.
+ * - Integra una barra superior con navegación hacia atrás.
+ *
+ * @param navController Controlador de navegación para volver a la pantalla anterior.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HelpScreen(navController: NavController) {

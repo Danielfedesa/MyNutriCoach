@@ -21,6 +21,14 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+/**
+ * Selector de sexo basado en botones de radio.
+ *
+ * Muestra las opciones "Masculino", "Femenino" y "Otro", permitiendo al usuario seleccionar una.
+ *
+ * @param selectedSexo Valor actual del sexo seleccionado (ej. "Masculino").
+ * @param onSexoSelected Función que se llama cuando se selecciona una nueva opción.
+ */
 @Composable
 fun SexoSelector(selectedSexo: String, onSexoSelected: (String) -> Unit) {
     val opcionesAbreviadas = listOf("Masc", "Feme", "Otro")
@@ -61,7 +69,14 @@ fun SexoSelector(selectedSexo: String, onSexoSelected: (String) -> Unit) {
     }
 }
 
-
+/**
+ * Campo de texto para ingresar una fecha de nacimiento con formato automático `DD/MM/AAAA`.
+ *
+ * Formatea el input conforme el usuario escribe, añadiendo automáticamente las barras.
+ *
+ * @param selectedDate Fecha actual seleccionada (formato `DD/MM/AAAA`).
+ * @param onDateSelected Callback que se ejecuta cuando la fecha está completa.
+ */
 @Composable
 fun FechaNacimientoTextField(selectedDate: String, onDateSelected: (String) -> Unit) {
     var fecha by remember(selectedDate) { mutableStateOf(selectedDate) }
@@ -80,7 +95,12 @@ fun FechaNacimientoTextField(selectedDate: String, onDateSelected: (String) -> U
     )
 }
 
-// Función para formatear la fecha en el TextField
+/**
+ * Formatea una cadena de texto para que tenga el formato `DD/MM/AAAA`.
+ *
+ * @param input Cadena de texto a formatear.
+ * @return Cadena formateada en `DD/MM/AAAA`.
+ */
 fun formatFecha(input: String): String {
     val digits = input.filter { it.isDigit() } // Extrae solo los números
     val builder = StringBuilder()
@@ -95,7 +115,14 @@ fun formatFecha(input: String): String {
     return builder.toString().take(10) // Limita la longitud máxima a `DD/MM/AAAA`
 }
 
-
+/**
+ * Campo de texto con estilo `OutlinedTextField`, esquinas redondeadas y teclado personalizado.
+ *
+ * @param value Valor actual del campo.
+ * @param onValueChange Callback que se ejecuta al cambiar el texto.
+ * @param label Etiqueta que describe el campo.
+ * @param keyboardType Tipo de teclado a mostrar (por defecto es [KeyboardType.Text]).
+ */
 @Composable
 fun CustomOutlinedTextField(
     value: String,

@@ -11,6 +11,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 
+/**
+ * Barra de navegación inferior para usuarios cliente.
+ *
+ * Muestra iconos y etiquetas que permiten navegar entre las secciones principales de la app:
+ * Progreso, Dieta, Citas y Perfil. Resalta el ítem correspondiente a la pantalla actual.
+ *
+ * @param navController Controlador de navegación usado para cambiar de pantalla.
+ * @param currentScreen Nombre de la pantalla actual para marcar el ítem como seleccionado.
+ */
 @Composable
 fun BottomNavBar(navController: NavHostController, currentScreen: String) {
     NavigationBar(

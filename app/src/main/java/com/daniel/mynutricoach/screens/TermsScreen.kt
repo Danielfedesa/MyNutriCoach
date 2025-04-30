@@ -17,6 +17,13 @@ import androidx.navigation.NavController
 import com.daniel.mynutricoach.ui.components.buttons.CustomButton
 import com.daniel.mynutricoach.ui.components.forms.TextsApp
 
+/**
+ * Pantalla que muestra los Términos y Condiciones de la aplicación.
+ *
+ * El usuario puede leer el contenido legal y volver atrás aceptando los términos.
+ *
+ * @param navController Controlador de navegación que permite volver a la pantalla anterior.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TermsScreen(navController: NavController) {

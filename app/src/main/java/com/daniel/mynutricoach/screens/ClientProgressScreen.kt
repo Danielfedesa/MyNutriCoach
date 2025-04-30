@@ -22,7 +22,26 @@ import com.daniel.mynutricoach.ui.components.visuals.CarouselComponent
 import com.daniel.mynutricoach.ui.components.visuals.ProgressComponent
 import com.daniel.mynutricoach.viewmodel.ProgressViewModel
 
-
+/**
+ * Pantalla de progreso del cliente.
+ *
+ * Muestra al usuario un resumen de su historial físico, incluyendo:
+ * - Peso actual
+ * - Masa muscular
+ * - Porcentaje de grasa corporal
+ *
+ * Cada uno de estos parámetros se representa en gráficos personalizados mediante [ProgressComponent].
+ * Además, se presenta un saludo personalizado con el nombre del usuario y un carrusel visual en la parte superior.
+ *
+ * Características:
+ * - Accede a los datos del usuario desde el [ProgressViewModel].
+ * - Implementa scroll vertical para visualizar componentes en pantallas pequeñas.
+ * - Si no hay progreso registrado, muestra un mensaje informativo.
+ * - Utiliza [BottomNavBar] para la navegación persistente y [CarouselComponent] como cabecera visual.
+ *
+ * @param navController Controlador de navegación usado para moverse entre pantallas.
+ * @param progressViewModel ViewModel que gestiona y proporciona el historial de progreso del usuario.
+ */
 @Composable
 fun ClientProgressScreen(
     navController: NavHostController,

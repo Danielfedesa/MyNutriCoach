@@ -18,6 +18,20 @@ import com.daniel.mynutricoach.ui.components.dialogues.SuccessDialog
 import com.daniel.mynutricoach.ui.components.inputs.CustomTextField
 import com.daniel.mynutricoach.viewmodel.ProgressViewModel
 
+/**
+ * Pantalla utilizada por el nutricionista para registrar el progreso físico de un cliente.
+ *
+ * Permite introducir y guardar tres métricas clave:
+ * - Peso (en kg)
+ * - Porcentaje de masa muscular
+ * - Porcentaje de grasa corporal
+ *
+ * El progreso registrado se asocia al cliente correspondiente y se almacena en Firestore mediante el [ProgressViewModel].
+ *
+ * @param clienteId ID único del cliente al que se le asigna el progreso.
+ * @param navController Controlador de navegación para gestionar el retroceso tras guardar.
+ * @param viewModel ViewModel responsable de gestionar la persistencia del progreso.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -64,8 +78,16 @@ fun NutriAddProgressScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             CustomTextField(value = peso, onValueChange = { peso = it }, label = "Peso (kg)")
-            CustomTextField(value = masaMuscular, onValueChange = { masaMuscular = it }, label = "Masa Muscular (%)")
-            CustomTextField(value = grasa, onValueChange = { grasa = it }, label = "Grasa Corporal (%)")
+            CustomTextField(
+                value = masaMuscular,
+                onValueChange = { masaMuscular = it },
+                label = "Masa Muscular (%)"
+            )
+            CustomTextField(
+                value = grasa,
+                onValueChange = { grasa = it },
+                label = "Grasa Corporal (%)"
+            )
 
             Spacer(modifier = Modifier.height(12.dp))
 

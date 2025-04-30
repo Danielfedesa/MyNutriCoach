@@ -24,9 +24,26 @@ import com.daniel.mynutricoach.ui.components.visuals.InfoBox
 import com.daniel.mynutricoach.ui.components.visuals.ProfileOption
 import com.daniel.mynutricoach.viewmodel.ProfileViewModel
 
-
+/**
+ * Pantalla de perfil del cliente.
+ *
+ * Esta pantalla muestra un resumen del perfil del usuario autenticado incluyendo su nombre,
+ * peso actual, peso objetivo y edad. También permite acceder a opciones de configuración como:
+ * - Edición de datos personales
+ * - Configuración de idioma y notificaciones
+ * - Consulta de términos, privacidad y ayuda
+ * - Cierre de sesión con confirmación
+ *
+ * Características:
+ * - Recupera datos en tiempo real desde el ViewModel mediante Flows.
+ * - Usa scroll vertical para acomodar contenido extenso.
+ * - Muestra un cuadro de diálogo de confirmación antes de cerrar sesión.
+ * - Utiliza componentes personalizados como [InfoBox], [ProfileOption] y [BottomNavBar].
+ *
+ * @param navController Controlador de navegación utilizado para gestionar el cambio entre pantallas.
+ * @param profileViewModel ViewModel responsable de obtener los datos del usuario y realizar acciones como logout.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ClientProfileScreen(
     navController: NavHostController,

@@ -18,6 +18,22 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.daniel.mynutricoach.viewmodel.ProfileViewModel
 
+/**
+ * Pantalla para seleccionar el idioma de la aplicación.
+ *
+ * Esta interfaz permite al usuario elegir entre Español e Inglés como idioma preferido.
+ * Aunque actualmente el cambio de idioma no modifica textos dinámicamente en toda la app,
+ * se notifica al usuario mediante un `Toast` que su elección ha sido registrada.
+ *
+ * Características:
+ * - Muestra un saludo personalizado con el nombre del usuario.
+ * - Usa botones para seleccionar visualmente el idioma deseado.
+ * - Resalta el botón del idioma seleccionado.
+ * - Implementa una barra superior con opción de retroceso.
+ *
+ * @param navController Controlador de navegación para volver a la pantalla anterior.
+ * @param profileViewModel ViewModel desde el que se obtiene el nombre del usuario autenticado.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

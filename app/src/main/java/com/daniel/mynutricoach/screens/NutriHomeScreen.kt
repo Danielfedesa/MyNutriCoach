@@ -28,6 +28,20 @@ import com.daniel.mynutricoach.ui.components.buttons.NutriBottomNavBar
 import com.daniel.mynutricoach.ui.components.cards.SectionTitle
 import com.daniel.mynutricoach.viewmodel.NutriHomeViewModel
 
+/**
+ * Pantalla principal del nutricionista que muestra un resumen general de la actividad reciente.
+ *
+ * Incluye:
+ * - Lista de citas del día actual.
+ * - Lista de citas programadas para la semana.
+ * - Total de clientes registrados.
+ *
+ * Esta pantalla sirve como "Home" para el nutricionista y permite una visualización rápida
+ * del estado actual de su agenda y clientela.
+ *
+ * @param navController Controlador de navegación para cambiar entre pantallas.
+ * @param homeViewModel ViewModel encargado de proporcionar los datos de citas y clientes.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

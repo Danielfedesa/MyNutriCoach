@@ -25,6 +25,19 @@ import com.daniel.mynutricoach.ui.components.buttons.NutriBottomNavBar
 import com.daniel.mynutricoach.ui.components.dialogues.CustomAlertDialog
 import com.daniel.mynutricoach.viewmodel.NutriAppointmentsViewModel
 
+/**
+ * Pantalla destinada al nutricionista para gestionar y visualizar las citas programadas con sus clientes.
+ *
+ * Permite:
+ * - Listar las citas ordenadas cronológicamente.
+ * - Finalizar una cita ya realizada.
+ * - Cancelar una cita futura.
+ *
+ * Las citas se obtienen desde el [NutriAppointmentsViewModel] y su estado se puede modificar mediante acciones directas en cada tarjeta.
+ *
+ * @param navController Controlador de navegación para manejar transiciones de pantalla.
+ * @param viewModel ViewModel encargado de la lógica de citas del nutricionista.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NutriAppointmentsScreen(
@@ -84,7 +97,10 @@ fun NutriAppointmentsScreen(
     if (showFinalizeDialog) {
         CustomAlertDialog(
             title = {
-                Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
                     Icon(
                         imageVector = Icons.Default.CheckCircle,
                         contentDescription = "Cita finalizada",

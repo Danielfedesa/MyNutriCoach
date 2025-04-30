@@ -27,6 +27,16 @@ import java.time.LocalDate
 import java.time.format.TextStyle
 import java.util.Locale
 
+/**
+ * Tarjeta que muestra información básica de una cita ([Appointment]).
+ *
+ * El color de fondo varía según el estado de la cita:
+ * - Azul claro para Programada
+ * - Verde claro para Finalizada
+ * - Rojo claro para Cancelada
+ *
+ * @param appointment Objeto de tipo [Appointment] con los datos de la cita.
+ */
 @Composable
 fun AppointmentCard(appointment: Appointment) {
     val backgroundColor = when (appointment.estado) {
@@ -54,6 +64,13 @@ fun AppointmentCard(appointment: Appointment) {
     }
 }
 
+/**
+ * Tarjeta que muestra los valores nutricionales de un alimento ([FoodInfo]).
+ *
+ * Incluye información sobre calorías, proteínas, carbohidratos y grasas por cada 100g.
+ *
+ * @param info Objeto [FoodInfo] con la información nutricional del alimento.
+ */
 @Composable
 fun NutrientCard(info: FoodInfo) {
     Card(
@@ -99,6 +116,16 @@ fun NutrientCard(info: FoodInfo) {
     }
 }
 
+/**
+ * Muestra las comidas del día seleccionado con sus respectivos alimentos.
+ *
+ * Las comidas se ordenan según el tipo (desayuno, comida, etc.).
+ * Al pulsar en una comida, se navega a la pantalla de detalles nutricionales.
+ *
+ * @param offset Diferencia de días desde hoy (0 = hoy, 1 = mañana...).
+ * @param dietsViewModel ViewModel que gestiona las comidas.
+ * @param navController Controlador de navegación para redirigir a la pantalla de detalles.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun DayMeals(offset: Int, dietsViewModel: DietsViewModel, navController: NavHostController) {
@@ -132,6 +159,14 @@ fun DayMeals(offset: Int, dietsViewModel: DietsViewModel, navController: NavHost
     }
 }
 
+/**
+ * Tarjeta que muestra el tipo de comida y los alimentos incluidos.
+ *
+ * Es interactiva y permite ejecutar una acción (por ejemplo, navegar a detalles).
+ *
+ * @param meal Objeto [Meal] que contiene el tipo y lista de alimentos.
+ * @param onClick Acción a ejecutar al pulsar sobre la tarjeta.
+ */
 @Composable
 fun MealCard(meal: Meal, onClick: () -> Unit) {
     Card(
@@ -158,6 +193,12 @@ fun MealCard(meal: Meal, onClick: () -> Unit) {
     }
 }
 
+/**
+ * Devuelve el nombre del día de la semana correspondiente a un offset desde hoy.
+ *
+ * @param dayOffset Número de días a sumar/restar desde la fecha actual.
+ * @return Nombre del día de la semana en español con la primera letra en mayúscula.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 fun getDayName(dayOffset: Int): String {
     val date = LocalDate.now().plusDays(dayOffset.toLong())

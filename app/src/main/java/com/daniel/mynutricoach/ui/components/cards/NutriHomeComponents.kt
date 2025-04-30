@@ -18,20 +18,40 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-// Función para crear el título de cada sección
+/**
+ * Muestra un título de sección con un icono a la izquierda.
+ *
+ * Usado típicamente para dividir bloques de contenido en una interfaz de usuario.
+ *
+ * @param title Texto que se mostrará como título.
+ * @param icon Icono que acompaña al título.
+ */
 @Composable
 fun SectionTitle(title: String, icon: androidx.compose.ui.graphics.vector.ImageVector) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(vertical = 8.dp)
     ) {
-        Icon(imageVector = icon, contentDescription = title, tint = MaterialTheme.colorScheme.primary)
+        Icon(
+            imageVector = icon,
+            contentDescription = title,
+            tint = MaterialTheme.colorScheme.primary
+        )
         Spacer(modifier = Modifier.width(8.dp))
         Text(text = title, style = MaterialTheme.typography.titleLarge)
     }
 }
 
-// Composable para mostrar una tarjeta simple de cita
+/**
+ * Tarjeta simple utilizada para mostrar información básica de una cita.
+ *
+ * Puede incluir el nombre del cliente, la fecha y la hora de la cita.
+ * Se adapta a distintos contextos mostrando sólo lo necesario.
+ *
+ * @param cliente Nombre completo del cliente (opcional).
+ * @param fecha Fecha de la cita en formato de texto (opcional).
+ * @param hora Hora de la cita (requerido).
+ */
 @Composable
 fun AppointmentSimpleCard(cliente: String? = null, fecha: String? = null, hora: String) {
     Card(

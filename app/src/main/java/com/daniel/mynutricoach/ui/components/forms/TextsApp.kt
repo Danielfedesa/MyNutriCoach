@@ -1,5 +1,6 @@
 package com.daniel.mynutricoach.ui.components.forms
 
+
 object TextsApp {
 
     const val PRIVACY = """

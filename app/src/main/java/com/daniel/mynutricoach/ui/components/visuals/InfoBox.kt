@@ -12,7 +12,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-// Función para mostrar parametros de peso, objetivo y edad en PriofileScreen
+/**
+ * Componente visual que muestra un dato clave en formato de caja con título y valor.
+ *
+ * Utilizado en pantallas como `ProfileScreen` para mostrar información como peso actual,
+ * objetivo o edad del usuario.
+ *
+ * @param titulo Etiqueta descriptiva del dato (por ejemplo: "Edad", "Peso actual").
+ * @param valor Valor que se quiere mostrar (por ejemplo: "72 Kg", "30 años").
+ */
 @Composable
 fun InfoBox(titulo: String, valor: String) {
     Column(

@@ -22,6 +22,20 @@ import com.daniel.mynutricoach.ui.components.cards.AppointmentCard
 import com.daniel.mynutricoach.ui.components.buttons.BottomNavBar
 import com.daniel.mynutricoach.viewmodel.AppointmentsViewModel
 
+/**
+ * Pantalla de citas del cliente.
+ *
+ * Muestra un listado de todas las citas programadas por el cliente autenticado, ordenadas por fecha y hora.
+ * Utiliza un [AppointmentsViewModel] para recuperar el nombre del usuario y sus citas desde Firebase.
+ *
+ * Componentes destacados:
+ * - [Scaffold] con barra superior (banner) e inferior (navegación).
+ * - Lista de citas con [LazyColumn] y tarjetas personalizadas ([AppointmentCard]).
+ * - Mensaje informativo si no existen citas registradas.
+ *
+ * @param navController Controlador de navegación para gestionar los cambios de pantalla.
+ * @param appointmentsViewModel ViewModel que gestiona el estado y datos relacionados con las citas del cliente.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ClientAppointmentsScreen(

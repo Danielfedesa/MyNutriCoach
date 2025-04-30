@@ -20,8 +20,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
-// Componente para el selector de menú desplegable
-// de la pantalla de añadir dieta del nutricionista
+/**
+ * Selector desplegable reutilizable con estilo personalizado.
+ *
+ * Muestra una lista de opciones en un `ExposedDropdownMenuBox` y permite seleccionar una.
+ * El valor seleccionado se muestra en un `OutlinedTextField` de solo lectura.
+ *
+ * @param label Etiqueta del campo desplegable.
+ * @param opciones Lista de opciones a mostrar en el menú.
+ * @param seleccionado Opción actualmente seleccionada.
+ * @param onSeleccionar Callback que se ejecuta al seleccionar una nueva opción.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DropdownMenuSelector(

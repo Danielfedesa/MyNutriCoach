@@ -27,6 +27,15 @@ import java.util.Locale
 import kotlin.math.roundToInt
 import androidx.core.graphics.toColorInt
 
+/**
+ * Componente de tarjeta que contiene una gráfica de líneas animada para mostrar datos de progreso.
+ *
+ * Este componente se utiliza para representar visualmente datos de progreso del usuario, como peso,
+ * masa muscular o porcentaje de grasa, usando un gráfico lineal con animación de trazo y scroll horizontal.
+ *
+ * @param values Lista de pares (timestamp, valor) representando el histórico.
+ * @param unit Unidad del eje Y, por ejemplo: "kg" o "%".
+ */
 @Composable
 fun GraphComponent(values: List<Pair<Long, Float>>, unit: String) {
     val cardColor = Color(0xFFE3F2FD) // Fondo azul clarito
@@ -56,6 +65,15 @@ fun GraphComponent(values: List<Pair<Long, Float>>, unit: String) {
     }
 }
 
+/**
+ * Dibuja una gráfica de líneas animada con etiquetas, ejes y puntos.
+ *
+ * La animación avanza en 5 segundos y está sincronizada con el scroll horizontal.
+ *
+ * @param values Lista de pares (timestamp, valor) con los datos a graficar.
+ * @param unit Unidad de medida del eje Y.
+ * @param scrollState ScrollState compartido con el contenedor externo para auto-scroll.
+ */
 @Composable
 fun LineChart(values: List<Pair<Long, Float>>, unit: String, scrollState: ScrollState) {
     val maxValue = (values.maxOfOrNull { it.second } ?: 1f) + 5

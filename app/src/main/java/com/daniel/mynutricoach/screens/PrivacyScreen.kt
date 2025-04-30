@@ -17,6 +17,17 @@ import androidx.navigation.NavController
 import com.daniel.mynutricoach.ui.components.buttons.CustomButton
 import com.daniel.mynutricoach.ui.components.forms.TextsApp
 
+/**
+ * Pantalla que muestra la Política de Privacidad de la aplicación.
+ *
+ * Esta pantalla presenta un texto informativo sobre cómo se manejan los datos del usuario.
+ * Incluye:
+ * - Un botón superior de navegación para volver atrás.
+ * - El contenido legal proporcionado desde [TextsApp.PRIVACY].
+ * - Un botón inferior para aceptar y cerrar la pantalla.
+ *
+ * @param navController Controlador de navegación utilizado para regresar a la pantalla anterior.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PrivacyScreen(navController: NavController) {

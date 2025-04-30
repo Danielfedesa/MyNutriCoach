@@ -24,6 +24,18 @@ import com.daniel.mynutricoach.ui.components.forms.FechaNacimientoTextField
 import com.daniel.mynutricoach.ui.components.forms.SexoSelector
 import com.daniel.mynutricoach.viewmodel.InitialProfileViewModel
 
+/**
+ * Pantalla de edición del perfil para el nutricionista.
+ *
+ * Permite al usuario modificar sus datos personales: nombre, apellidos, teléfono, fecha de nacimiento,
+ * sexo, estatura y peso objetivo. Los datos se cargan al iniciarse la pantalla y se muestran en
+ * campos editables. Al guardar, se actualizan en Firebase y se redirige de vuelta al perfil.
+ *
+ * El formulario incluye validación de campos antes de permitir el envío.
+ *
+ * @param navController Controlador de navegación para moverse entre pantallas.
+ * @param initialProfileViewModel ViewModel encargado de manejar los datos de usuario.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

@@ -19,6 +19,18 @@ import com.daniel.mynutricoach.ui.components.buttons.NutriBottomNavBar
 import com.daniel.mynutricoach.ui.components.inputs.SearchBarComp
 import com.daniel.mynutricoach.viewmodel.NutriClientsViewModel
 
+/**
+ * Pantalla utilizada por el nutricionista para visualizar la lista de todos los clientes registrados.
+ *
+ * Permite buscar clientes por nombre, apellidos o correo electrónico mediante una barra de búsqueda.
+ * Cada cliente se presenta en una tarjeta ([ClienteCard]) y se puede acceder a su perfil detallado.
+ *
+ * Esta pantalla obtiene los datos desde [NutriClientsViewModel] y ofrece navegación hacia:
+ * - [NutriClientDetailScreen] al seleccionar un cliente.
+ *
+ * @param navController Controlador de navegación para dirigir a pantallas de detalle.
+ * @param clientesViewModel ViewModel que gestiona la obtención y filtrado de clientes.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NutriClientsScreen(

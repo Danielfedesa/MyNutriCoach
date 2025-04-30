@@ -12,7 +12,16 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-// Button para seleccionar un horario de cita en la pantalla de NutriAppointments
+/**
+ * Botón utilizado para seleccionar un horario disponible para una cita.
+ *
+ * Este componente se usa en la pantalla de añadir citas por parte del nutricionista.
+ * El botón estará desactivado si el horario ya está reservado.
+ *
+ * @param time Texto que representa el horario (formato "HH:mm").
+ * @param isTaken Booleano que indica si el horario ya está ocupado.
+ * @param onClick Acción a ejecutar al pulsar el botón (solo si está habilitado).
+ */
 @Composable
 fun TimeSlotButton(time: String, isTaken: Boolean, onClick: () -> Unit) {
     Button(

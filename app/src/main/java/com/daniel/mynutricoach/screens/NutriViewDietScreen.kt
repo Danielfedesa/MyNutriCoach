@@ -11,11 +11,22 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.daniel.mynutricoach.viewmodel.NutriDietViewModel
 
+/**
+ * Pantalla utilizada por el nutricionista para visualizar la dieta asignada a un cliente.
+ *
+ * Esta pantalla muestra:
+ * - Una lista de los días de la semana.
+ * - Dentro de cada día, los tipos de comida (Desayuno, Almuerzo, etc.) junto a los alimentos correspondientes.
+ * - Un mensaje si el cliente no tiene dieta asignada.
+ *
+ * @param clienteId ID único del cliente cuya dieta se desea visualizar.
+ * @param navController Controlador de navegación para gestionar la navegación entre pantallas.
+ * @param nutriDietViewModel ViewModel que maneja la lógica de obtención y gestión de dietas.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NutriViewDietScreen(
@@ -24,7 +35,8 @@ fun NutriViewDietScreen(
     nutriDietViewModel: NutriDietViewModel = viewModel()
 ) {
     val dietaSemana by nutriDietViewModel.dietaSemana.collectAsState()
-    val diasSemana = listOf("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo")
+    val diasSemana =
+        listOf("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo")
     val tiposComida = listOf("Desayuno", "Almuerzo", "Comida", "Merienda", "Cena")
 
     LaunchedEffect(clienteId) {
@@ -83,7 +95,8 @@ fun NutriViewDietScreen(
                     )
 
                     tiposComida.forEach { tipo ->
-                        val alimentos = dietaSemana[dia]?.find { it.tipo == tipo }?.alimentos ?: emptyList()
+                        val alimentos =
+                            dietaSemana[dia]?.find { it.tipo == tipo }?.alimentos ?: emptyList()
                         if (alimentos.isNotEmpty()) {
                             Text(
                                 text = "$tipo: ${alimentos.joinToString(", ")}",

@@ -23,8 +23,19 @@ import com.daniel.mynutricoach.ui.components.dialogues.CloseSession
 import com.daniel.mynutricoach.ui.components.visuals.ProfileOption
 import com.daniel.mynutricoach.viewmodel.ProfileViewModel
 
+/**
+ * Pantalla de perfil para el usuario con rol de nutricionista.
+ *
+ * Muestra:
+ * - Nombre del usuario.
+ * - Acceso a opciones de configuración personal como datos, notificaciones e idioma.
+ * - Enlaces a secciones legales (privacidad y términos).
+ * - Botón para cerrar sesión con confirmación.
+ *
+ * @param navController Controlador de navegación para redirigir entre pantallas.
+ * @param profileViewModel ViewModel que maneja los datos del perfil y la lógica de logout.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NutriProfileScreen(
     navController: NavHostController,

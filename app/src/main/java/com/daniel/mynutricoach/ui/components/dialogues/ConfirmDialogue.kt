@@ -15,7 +15,19 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.daniel.mynutricoach.ui.components.buttons.CustomButton
 
-// Diálogo de confirmación
+/**
+ * Diálogo visual de éxito con icono y mensaje personalizado.
+ *
+ * Este componente se muestra para confirmar que una acción se ha realizado correctamente,
+ * como guardar datos o completar un proceso. Incluye un icono de éxito, título,
+ * mensaje descriptivo y un botón para cerrar el diálogo.
+ *
+ * @param title Título del diálogo, usualmente algo como "Éxito" o "Operación completada".
+ * @param message Texto descriptivo que informa al usuario del resultado exitoso.
+ * @param onDismiss Acción que se ejecuta si se cierra el diálogo tocando fuera de él.
+ * @param onConfirm Acción que se ejecuta al pulsar el botón de confirmación.
+ * @param confirmText Texto del botón de confirmación. Por defecto: "Aceptar".
+ */
 @Composable
 fun SuccessDialog(
     title: String,

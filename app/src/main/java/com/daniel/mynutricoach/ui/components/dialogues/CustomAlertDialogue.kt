@@ -7,6 +7,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.daniel.mynutricoach.ui.components.buttons.CustomButton
 
+/**
+ * Diálogo de alerta personalizado reutilizable con botones confirmación y cancelación.
+ *
+ * Permite personalizar el título, mensaje y acciones, y mostrar opcionalmente
+ * un botón de cancelación con texto personalizado.
+ *
+ * @param title Composable que representa el título del diálogo.
+ * @param message Composable que representa el contenido del mensaje del diálogo.
+ * @param confirmText Texto a mostrar en el botón de confirmación.
+ * @param onConfirm Acción que se ejecuta al pulsar el botón de confirmación.
+ * @param onDismiss Acción que se ejecuta al cerrar el diálogo (ya sea cancelación o toque fuera).
+ * @param dismissText Texto opcional para mostrar un botón de cancelación. Si es null, no se muestra.
+ */
 @Composable
 fun CustomAlertDialog(
     title: @Composable () -> Unit,

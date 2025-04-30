@@ -16,6 +16,15 @@ import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 
+/**
+ * Barra de búsqueda reutilizable para filtrar contenido por texto.
+ *
+ * Muestra un campo de texto con un ícono de búsqueda y acciones de teclado configuradas
+ * para ocultar el teclado al presionar el botón de búsqueda (IME).
+ *
+ * @param query Texto actual del campo de búsqueda.
+ * @param onQueryChange Callback que se ejecuta cuando el texto del campo cambia.
+ */
 @Composable
 fun SearchBarComp(query: String, onQueryChange: (String) -> Unit) {
     val focusManager = LocalFocusManager.current

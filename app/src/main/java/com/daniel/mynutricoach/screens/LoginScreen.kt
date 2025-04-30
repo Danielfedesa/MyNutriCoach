@@ -4,7 +4,6 @@ import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -23,6 +22,22 @@ import com.daniel.mynutricoach.ui.components.buttons.CustomButton
 import com.daniel.mynutricoach.ui.components.inputs.CustomTextField
 import com.daniel.mynutricoach.viewmodel.LoginViewModel
 
+/**
+ * Pantalla de inicio de sesión para los usuarios de la aplicación.
+ *
+ * Permite al usuario autenticarse mediante correo electrónico y contraseña.
+ * Si el inicio de sesión es exitoso, redirige a la pantalla correspondiente según el rol:
+ * - Clientes: a la pantalla principal de progreso.
+ * - Nutricionistas: a la pantalla principal del nutricionista.
+ *
+ * También incluye:
+ * - Validación de credenciales.
+ * - Recuperación de contraseña.
+ * - Navegación a la pantalla de registro.
+ *
+ * @param navController Controlador de navegación para cambiar entre pantallas.
+ * @param loginViewModel ViewModel que gestiona el proceso de autenticación.
+ */
 @Composable
 fun LoginScreen(navController: NavHostController, loginViewModel: LoginViewModel = viewModel()) {
     val context = LocalContext.current
@@ -35,7 +50,8 @@ fun LoginScreen(navController: NavHostController, loginViewModel: LoginViewModel
     // Verifica si el usuario ya está autenticado
     LaunchedEffect(isAuthenticated) {
         if (isAuthenticated == true) {
-            val destination = if (loginViewModel.userRole.value == "nutricionista") "NutriHome" else "Progress"
+            val destination =
+                if (loginViewModel.userRole.value == "nutricionista") "NutriHome" else "Progress"
             navController.navigate(destination) {
                 popUpTo("Login") { inclusive = true }
             }
@@ -83,7 +99,12 @@ fun LoginScreen(navController: NavHostController, loginViewModel: LoginViewModel
 
             CustomTextField(value = email, onValueChange = { email = it }, label = "Correo")
             Spacer(modifier = Modifier.height(16.dp))
-            CustomTextField(value = password, onValueChange = { password = it }, label = "Contraseña", isPassword = true)
+            CustomTextField(
+                value = password,
+                onValueChange = { password = it },
+                label = "Contraseña",
+                isPassword = true
+            )
 
             Spacer(modifier = Modifier.height(8.dp))
 

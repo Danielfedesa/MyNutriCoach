@@ -19,6 +19,25 @@ import com.daniel.mynutricoach.ui.components.buttons.BottomNavBar
 import com.daniel.mynutricoach.ui.components.cards.NutrientCard
 import com.daniel.mynutricoach.viewmodel.FoodDetailViewModel
 
+/**
+ * Pantalla de detalle nutricional de alimentos seleccionados.
+ *
+ * Esta pantalla muestra la información nutricional obtenida de la API de Nutritionix
+ * para una lista de alimentos seleccionados. Los valores mostrados están estandarizados
+ * por cada 100g de alimento. Está pensada para que el cliente visualice el aporte nutricional
+ * de su dieta.
+ *
+ * Comportamiento destacado:
+ * - Carga automática de los nutrientes al entrar en pantalla mediante [LaunchedEffect].
+ * - Presentación de tarjetas individuales por alimento usando [NutrientCard].
+ * - Indicador de carga mientras se obtienen los datos desde la API.
+ * - Botón de navegación para volver atrás y barra inferior con "Diets" seleccionada.
+ *
+ * @param navController Controlador de navegación utilizado para gestionar la navegación.
+ * @param foodDetailViewModel ViewModel encargado de obtener los nutrientes desde la API.
+ * @param tipo Tipo de comida (por ejemplo: desayuno, comida, cena) que se está visualizando.
+ * @param alimentos Lista de nombres de alimentos para los cuales se mostrarán los nutrientes.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

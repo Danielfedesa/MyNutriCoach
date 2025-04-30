@@ -18,6 +18,20 @@ import com.daniel.mynutricoach.ui.components.forms.FechaNacimientoTextField
 import com.daniel.mynutricoach.ui.components.forms.SexoSelector
 import com.daniel.mynutricoach.viewmodel.InitialProfileViewModel
 
+/**
+ * Pantalla de configuración inicial del perfil del usuario.
+ *
+ * Esta pantalla permite al usuario rellenar sus datos personales al registrarse por primera vez,
+ * incluyendo nombre, apellidos, teléfono, fecha de nacimiento, sexo, estatura y peso objetivo.
+ *
+ * Características:
+ * - Se valida que todos los campos estén correctamente rellenados antes de permitir continuar.
+ * - Los datos se guardan en Firestore mediante el [InitialProfileViewModel].
+ * - Una vez guardados, se redirige automáticamente a la pantalla principal del cliente (Progress).
+ *
+ * @param navController Controlador de navegación para gestionar transiciones de pantalla.
+ * @param initialProfileViewModel ViewModel que maneja la lógica de guardado y validación del perfil.
+ */
 @Composable
 fun InitialProfileScreen(
     navController: NavHostController,

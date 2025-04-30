@@ -25,6 +25,22 @@ import com.daniel.mynutricoach.ui.components.cards.DayMeals
 import com.daniel.mynutricoach.ui.components.cards.getDayName
 import com.daniel.mynutricoach.viewmodel.DietsViewModel
 
+/**
+ * Pantalla de visualización de la dieta semanal del cliente.
+ *
+ * Permite al usuario navegar entre los días de la semana y consultar la dieta asignada para cada día.
+ * Utiliza un [DietsViewModel] para recuperar el nombre del usuario y la dieta desde Firestore.
+ *
+ * Componentes clave:
+ * - Barra superior con banner.
+ * - Navegación entre días usando botones de flecha.
+ * - Muestra el nombre del día actual mediante [getDayName].
+ * - Componente [DayMeals] que lista las comidas correspondientes al día actual.
+ * - Barra inferior de navegación con la sección activa marcada como "Diets".
+ *
+ * @param navController Controlador de navegación de Jetpack Compose.
+ * @param dietsViewModel ViewModel que gestiona el estado de la dieta y el nombre del usuario.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable

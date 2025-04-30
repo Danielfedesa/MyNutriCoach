@@ -25,6 +25,20 @@ import com.daniel.mynutricoach.ui.components.visuals.GraphComponent
 import com.daniel.mynutricoach.utils.obtenerEdad
 import com.daniel.mynutricoach.viewmodel.NutriClientDetailViewModel
 
+/**
+ * Pantalla de detalle para el nutricionista que permite visualizar información completa de un cliente.
+ *
+ * Muestra datos personales del cliente, objetivos, peso actual (si hay historial) y permite:
+ * - Ver el historial gráfico de peso.
+ * - Acceder a la dieta del cliente.
+ * - Añadir nuevas entradas: progreso, dieta o cita mediante un botón flotante.
+ *
+ * La lógica de carga de datos está gestionada por [NutriClientDetailViewModel].
+ *
+ * @param clienteId ID del cliente a consultar.
+ * @param navController Controlador de navegación.
+ * @param nutriClientDetailViewModel ViewModel responsable de recuperar la información del cliente.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -92,7 +106,11 @@ fun NutriClientDetailScreen(
                     .fillMaxSize(),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
-                Text("${clienteData.nombre} ${clienteData.apellidos}", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                Text(
+                    "${clienteData.nombre} ${clienteData.apellidos}",
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold
+                )
                 Text("Correo: ${clienteData.email}", fontSize = 18.sp)
                 Text("Teléfono: ${clienteData.telefono}", fontSize = 18.sp)
 
@@ -174,7 +192,11 @@ fun NutriClientDetailScreen(
                         showDialog = false
                         cliente?.let {
                             navController.navigate(
-                                "NutriAddAppointment/${it.userId}/${Uri.encode(it.nombre)}/${Uri.encode(it.apellidos)}"
+                                "NutriAddAppointment/${it.userId}/${Uri.encode(it.nombre)}/${
+                                    Uri.encode(
+                                        it.apellidos
+                                    )
+                                }"
                             )
                         }
                     }

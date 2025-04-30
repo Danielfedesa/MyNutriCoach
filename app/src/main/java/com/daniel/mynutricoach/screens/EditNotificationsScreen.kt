@@ -2,11 +2,8 @@ package com.daniel.mynutricoach.screens
 
 import android.os.Build
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
@@ -31,6 +28,21 @@ import androidx.navigation.NavHostController
 import com.daniel.mynutricoach.ui.components.buttons.BottomNavBar
 import com.daniel.mynutricoach.viewmodel.ProfileViewModel
 
+/**
+ * Pantalla para gestionar las preferencias de notificaciones del usuario.
+ *
+ * Actualmente, esta pantalla sirve como interfaz base y muestra el nombre del usuario
+ * junto con un encabezado. La funcionalidad de edición de notificaciones aún no está implementada,
+ * pero la estructura está preparada para incorporar interruptores o listas de opciones en el futuro.
+ *
+ * Características:
+ * - Muestra un saludo personalizado con el nombre del usuario.
+ * - Incluye barra superior con botón de retroceso.
+ * - Usa la barra de navegación inferior contextualizada con la pestaña "Profile".
+ *
+ * @param navController Controlador de navegación que permite volver a la pantalla anterior.
+ * @param profileViewModel ViewModel que proporciona el nombre del usuario autenticado.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

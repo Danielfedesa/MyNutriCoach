@@ -36,14 +36,18 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.daniel.mynutricoach.models.Appointment
 import com.daniel.mynutricoach.models.User
-import com.daniel.mynutricoach.ui.components.buttons.CustomButton
 import java.time.LocalDate
 import java.time.format.TextStyle
 import java.util.Locale
 
-// Función para mostrar cada cliente en una tarjeta
-// Recibe un objeto User y una función onClick
-// Se usa en la pantalla NutriClientsScreen
+/**
+ * Muestra una tarjeta con la información básica de un cliente.
+ *
+ * Incluye nombre completo e email. Al hacer clic, ejecuta la acción proporcionada.
+ *
+ * @param cliente Objeto [User] con los datos del cliente.
+ * @param onClick Acción a ejecutar al pulsar sobre la tarjeta.
+ */
 @Composable
 fun ClienteCard(cliente: User, onClick: () -> Unit) {
     Card(
@@ -64,7 +68,8 @@ fun ClienteCard(cliente: User, onClick: () -> Unit) {
             )
             Spacer(modifier = Modifier.width(12.dp))
             Column {
-                Text(text = "${cliente.nombre} ${cliente.apellidos}",
+                Text(
+                    text = "${cliente.nombre} ${cliente.apellidos}",
                     fontWeight = FontWeight.Bold,
                     fontSize = MaterialTheme.typography.titleLarge.fontSize
                 )
@@ -74,7 +79,15 @@ fun ClienteCard(cliente: User, onClick: () -> Unit) {
     }
 }
 
-// Tarjeta que se muestra en la pantalla de citas del nutricionista
+/**
+ * Tarjeta utilizada en la pantalla de citas del nutricionista.
+ *
+ * Muestra los datos de la cita con botones para finalizar o cancelar la misma.
+ *
+ * @param appointment Cita actual representada por un objeto [Appointment].
+ * @param onFinalize Acción a ejecutar al pulsar el botón de finalizar.
+ * @param onCancel Acción a ejecutar al pulsar el botón de cancelar.
+ */
 @Composable
 fun NutriAppointmentCard(
     appointment: Appointment,
@@ -92,7 +105,7 @@ fun NutriAppointmentCard(
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
-                text =  "${appointment.clienteNombre} ${appointment.clienteApellido}",
+                text = "${appointment.clienteNombre} ${appointment.clienteApellido}",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -165,14 +178,20 @@ fun NutriAppointmentCard(
     }
 }
 
-// Función para mostrar cada tarjeta de día
-// Recibe un objeto LocalDate y un booleano isSelected
-// Muestra el nombre del día, el número del día y el mes
-// Se usa en la pantalla NutriAddAppointmentScreen
+/**
+ * Muestra una tarjeta visual para seleccionar un día en el calendario.
+ *
+ * Se utiliza principalmente para seleccionar fechas en el registro de citas.
+ *
+ * @param day Día a representar ([LocalDate]).
+ * @param isSelected Indica si el día está seleccionado.
+ * @param onClick Acción a ejecutar al pulsar la tarjeta.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun DayCard(day: LocalDate, isSelected: Boolean, onClick: () -> Unit) {
-    val backgroundColor = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant
+    val backgroundColor =
+        if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant
     val textColor = if (isSelected) Color.White else MaterialTheme.colorScheme.onSurface
 
     Card(

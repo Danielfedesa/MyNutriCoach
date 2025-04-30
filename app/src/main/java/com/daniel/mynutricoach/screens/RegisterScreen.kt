@@ -21,6 +21,15 @@ import com.daniel.mynutricoach.ui.components.inputs.CustomTextField
 import com.daniel.mynutricoach.ui.components.buttons.CustomButton
 import com.daniel.mynutricoach.viewmodel.RegisterViewModel
 
+/**
+ * Pantalla de registro de usuario.
+ *
+ * Permite al usuario introducir un correo, una contraseña y aceptar los términos y condiciones.
+ * Tras el registro exitoso, se navega automáticamente a la pantalla de configuración inicial del perfil.
+ *
+ * @param navController Controlador de navegación para cambiar de pantalla.
+ * @param registerViewModel ViewModel que maneja la lógica del registro.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RegisterScreen(

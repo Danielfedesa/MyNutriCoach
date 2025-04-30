@@ -1,13 +1,10 @@
 package com.daniel.mynutricoach.screens
 
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -24,6 +21,21 @@ import com.daniel.mynutricoach.viewmodel.NutriDietViewModel
 import com.daniel.mynutricoach.ui.components.buttons.CustomButton
 import com.daniel.mynutricoach.ui.components.dialogues.SuccessDialog
 
+/**
+ * Pantalla para nutricionistas que permite crear y asignar una dieta personalizada a un cliente.
+ *
+ * Funcionalidades:
+ * - Seleccionar día de la semana y tipo de comida (desayuno, comida, cena, etc.).
+ * - Introducir alimentos personalizados para cada tipo de comida.
+ * - Visualizar un resumen editable de la dieta semanal actual.
+ * - Guardar la dieta en Firestore, asociada al cliente correspondiente.
+ *
+ * Esta pantalla hace uso del `NutriDietViewModel` para gestionar el estado y persistencia de los datos.
+ *
+ * @param clienteId ID único del cliente al que se le asignará la dieta.
+ * @param viewModel ViewModel que gestiona la dieta semanal y sus actualizaciones.
+ * @param navController Controlador de navegación para gestionar la navegación de retorno.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NutriAddDietScreen(
@@ -31,7 +43,8 @@ fun NutriAddDietScreen(
     viewModel: NutriDietViewModel = viewModel(),
     navController: NavHostController
 ) {
-    val diasSemana = listOf("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo")
+    val diasSemana =
+        listOf("Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo")
     val tiposComida = listOf("Desayuno", "Almuerzo", "Comida", "Merienda", "Cena")
     val dietaSemana by viewModel.dietaSemana.collectAsState()
 
@@ -86,7 +99,9 @@ fun NutriAddDietScreen(
                 text = "Añadir alimento",
                 onClick = {
                     if (alimento.isNotBlank()) {
-                        val nuevosAlimentos = (dietaSemana[diaActual]?.find { it.tipo == tipoActual }?.alimentos ?: emptyList()).toMutableList()
+                        val nuevosAlimentos =
+                            (dietaSemana[diaActual]?.find { it.tipo == tipoActual }?.alimentos
+                                ?: emptyList()).toMutableList()
                         nuevosAlimentos.add(alimento)
                         viewModel.actualizarComida(diaActual, tipoActual, nuevosAlimentos)
                         alimento = ""
@@ -107,7 +122,8 @@ fun NutriAddDietScreen(
                     Text(dia, fontWeight = FontWeight.Bold)
 
                     tiposComida.forEach { tipo ->
-                        val alimentos = dietaSemana[dia]?.find { it.tipo == tipo }?.alimentos ?: emptyList()
+                        val alimentos =
+                            dietaSemana[dia]?.find { it.tipo == tipo }?.alimentos ?: emptyList()
                         if (alimentos.isNotEmpty()) {
                             Column(modifier = Modifier.padding(start = 16.dp)) {
                                 Text("$tipo:", fontWeight = FontWeight.SemiBold)

@@ -12,6 +12,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+/**
+ * Botón personalizado reutilizable con estilo predeterminado para la aplicación.
+ *
+ * Permite establecer el texto, acción al pulsar, colores y estado de habilitación.
+ *
+ * @param text Texto que se muestra en el botón.
+ * @param onClick Acción que se ejecuta cuando el botón es pulsado.
+ * @param modifier [Modifier] para aplicar estilos externos (como padding o alignment).
+ * @param enabled Indica si el botón está habilitado o no.
+ * @param containerColor Color de fondo del botón (por defecto, color primario del tema).
+ * @param contentColor Color del texto dentro del botón (por defecto, color sobre primario).
+ */
 @Composable
 fun CustomButton(
     text: String,
