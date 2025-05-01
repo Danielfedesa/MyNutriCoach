@@ -14,14 +14,26 @@ import java.time.LocalDate
 import java.time.format.TextStyle
 import java.util.Locale
 
+/**
+ * ViewModel que gestiona los datos de la dieta semanal del usuario.
+ *
+ * Se encarga de:
+ * - Obtener el nombre del usuario.
+ * - Cargar la dieta semanal desde Firebase.
+ * - Exponer las comidas por día mediante `getMealsForDay`.
+ *
+ * @param application Contexto de la aplicación, necesario para `AndroidViewModel`.
+ */
 @RequiresApi(Build.VERSION_CODES.O)
 class DietsViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository = DietsRepository()
 
+    /** Nombre del usuario actual */
     private val _userName = MutableStateFlow("Usuario")
     val userName: StateFlow<String> = _userName
 
+    /** Mapa de comidas por día de la semana (ej. "Lunes" -> Lista de comidas) */
     private val _meals = MutableStateFlow<Map<String, List<Meal>>>(emptyMap())
     val meals: StateFlow<Map<String, List<Meal>>> = _meals
 
@@ -29,6 +41,10 @@ class DietsViewModel(application: Application) : AndroidViewModel(application) {
         loadDiet()
     }
 
+    /**
+     * Carga la dieta semanal y el nombre del usuario desde el repositorio.
+     * En caso de fallo, muestra un mensaje de error y deja el mapa vacío.
+     */
     private fun loadDiet() {
         viewModelScope.launch {
             runCatching {
@@ -44,6 +60,12 @@ class DietsViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    /**
+     * Devuelve un flujo con la lista de comidas para un día concreto, determinado por el offset desde hoy.
+     *
+     * @param offset Número de días desde hoy (0 = hoy, 1 = mañana, etc.)
+     * @return [StateFlow] que contiene la lista de comidas del día especificado.
+     */
     fun getMealsForDay(offset: Int): StateFlow<List<Meal>> {
         val day = LocalDate.now().plusDays(offset.toLong())
             .dayOfWeek.getDisplayName(TextStyle.FULL, Locale("es", "ES"))
