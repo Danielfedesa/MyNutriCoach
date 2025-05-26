@@ -23,7 +23,7 @@ private val LightColorScheme = lightColorScheme(
 
 @Composable
 fun MyNutriCoachTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
+    darkTheme: Boolean = false, // Si quiero tema oscuro cambio false por isSystemInDarkTheme()
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
     content: @Composable () -> Unit
